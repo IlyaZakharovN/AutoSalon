@@ -38,8 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'django.contrib.postgres',
     'rest_framework',
     # 'rest_framework_simplejwt', # add later
+
+    'employees',
 ]
 
 MIDDLEWARE = [
@@ -129,6 +132,9 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+# custom user model:
+AUTH_USER_MODEL = 'employees.UserAccount'
 
 
 # django rest framework + simple jwt:
