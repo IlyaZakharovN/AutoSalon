@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     # 'rest_framework_simplejwt', # add later
 
     'employees',
-    'cars'
+    'carmodels',
+    'cars',
 
 ]
 

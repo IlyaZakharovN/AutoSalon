@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Ucheba\8_Semestr\Diploma\AutoSalon\env"
+VIRTUAL_ENV="C:\Ucheba\8_Semestr\Diploma\AutoSalon_repo\AutoSalon\env"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
