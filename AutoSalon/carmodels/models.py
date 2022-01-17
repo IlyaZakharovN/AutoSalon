@@ -39,11 +39,12 @@ class CarModel(models.Model):
         AWD = 'ПОЛНЫЙ'
         UNKNOWN = 'Неизвестно'
 
+    # Add Foreign Keys later
     brand = models.CharField(max_length=255) # , null=False, blank=False
     model = models.CharField(max_length=255)
     year = models.PositiveSmallIntegerField()
-    body = models.CharField(max_length=30, choices=BodyType.choises, default=BodyType.SEDAN)
-    engine_volume = models.DecimalField(decimal_places=2)
+    body = models.CharField(max_length=30, choices=BodyType.choices, default=BodyType.SEDAN)
+    engine_volume = models.DecimalField(max_digits=3, decimal_places=2)
     engine_power = models.PositiveSmallIntegerField()
     fuel_type = models.CharField(max_length=30, choices=FuelType.choices, default=FuelType.PETROL)
     transmission_type = models.CharField(max_length=30, choices=TransmissionType.choices, default=TransmissionType.AUTOMATIC)
