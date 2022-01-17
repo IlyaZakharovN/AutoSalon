@@ -8,7 +8,7 @@ class UserAccountManager(BaseUserManager): # class for creating users
         if not email:
             raise ValueError('Users must have an email.')
 
-        # email = self.normalize_email(email)
+        email = self.normalize_email(email)
         
         user = self.model(
             email=email,
@@ -67,7 +67,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     objects = UserAccountManager()
 
     USERNAME_FIELD = 'email'
-    REQUIERED_FIELDS = ['name']
+    REQUIRED_FIELDS = ['name']
 
     def __str__(self): 
         return f'{self.email}, {self.name}'
