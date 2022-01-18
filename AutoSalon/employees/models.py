@@ -4,7 +4,7 @@ from django.db import models
 # Create your models here.
 
 class UserAccountManager(BaseUserManager): # class for creating users
-    def create_user(self, email, name, password=None):
+    def create_user(self, email, name, password):
         if not email:
             raise ValueError('Users must have an email.')
 
@@ -19,7 +19,7 @@ class UserAccountManager(BaseUserManager): # class for creating users
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, name, password=None):
+    def create_superuser(self, email, name, password):
         user = self.create_user(email, name, password)
         user.is_superuser = True
         user.is_staff = True
@@ -27,25 +27,25 @@ class UserAccountManager(BaseUserManager): # class for creating users
         return user
 
     # methods for creating user roles:
-    def create_sales_director(self, email, name, password=None):
+    def create_sales_director(self, email, name, password):
         user = self.create_user(email, name, password)
         user.is_sales_director = True
         user.save(using=self._db)
         return user
 
-    def create_sales_manager(self, email, name, password=None):
+    def create_sales_manager(self, email, name, password):
         user = self.create_user(email, name, password)
         user.is_sales_manager = True
         user.save(using=self._db)
         return user
 
-    def create_puchase_manager(self, email, name, password=None):
+    def create_puchase_manager(self, email, name, password):
         user = self.create_user(email, name, password)
         user.is_puchase_manager = True
         user.save(using=self._db)
         return user
 
-    def create_tech_inspector(self, email, name, password=None):
+    def create_tech_inspector(self, email, name, password):
         user = self.create_user(email, name, password)
         user.is_tech_inspector = True
         user.save(using=self._db)

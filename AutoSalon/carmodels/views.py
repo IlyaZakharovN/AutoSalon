@@ -1,9 +1,5 @@
-from django.http import response
-from django.shortcuts import render
-from rest_framework import status
 from rest_framework.permissions import BasePermission, AllowAny, DjangoModelPermissionsOrAnonReadOnly
-from rest_framework.response import Response
-from rest_framework.viewsets import ViewSet, ModelViewSet
+from rest_framework.viewsets import ModelViewSet
 
 from .models import CarModel
 from .serializers import CarModelSerializer

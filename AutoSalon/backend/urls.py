@@ -27,7 +27,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/user/', include('employees.urls')), # user
     path('carmodels/', include('carmodels.urls', namespace='carmodel_api')),
-
+    path('cars/', include('cars.urls', namespace='car_api')),
 
     path('api-auth/', include('rest_framework.urls')) # django-rest-framework
 ]

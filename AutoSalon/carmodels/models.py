@@ -36,7 +36,7 @@ class CarModel(models.Model):
     class DriveUnitType(models.TextChoices):
         FWD = 'Передний'
         RWD = 'Задний'
-        AWD = 'ПОЛНЫЙ'
+        AWD = 'Полный'
         UNKNOWN = 'Неизвестно'
 
     # Add Foreign Keys later
@@ -56,4 +56,4 @@ class CarModel(models.Model):
     model_descr = models.TextField(default='Подробное описание модели не найдено.')
 
     def __str__(self):
-        return f'{self.brand} {self.model} {self.year}, {self.fuel_type} {self.engine_volume} л., {self.engine_power} л.с. в комплектации {self.package_name}'
+        return f'{self.id} - {self.brand} {self.model} {self.year}, {self.fuel_type} {self.engine_volume} л., {self.engine_power} л.с. в комплектации {self.package_name}'
