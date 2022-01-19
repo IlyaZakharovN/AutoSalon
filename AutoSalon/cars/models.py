@@ -1,3 +1,4 @@
+from django.core.validators import MaxValueValidator
 from django.db import models
 
 from carmodels.models import CarModel
@@ -11,7 +12,7 @@ class Car(models.Model):
         TESTDRIVE = 'Для тест-драйва'
         UNKNOWN = 'Неизвестно'
 
-    VIN = models.PositiveBigIntegerField(primary_key=True, editable=True, default=11111111111111111)
+    VIN = models.PositiveBigIntegerField(primary_key=True, editable=True, default=11111111111111111, validators=[MaxValueValidator(99999999999999999)])
     model_id = models.ForeignKey(CarModel, on_delete=models.SET_DEFAULT, default=0)
     purpose = models.CharField(max_length=50, choices=PurposeType.choices, default=PurposeType.FOR_SALE)
 
