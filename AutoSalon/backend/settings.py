@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'employees',
     'carmodels',
     'cars',
+    'stock'
 
 ]
 
