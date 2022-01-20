@@ -8,15 +8,6 @@ from employees.models import UserAccount
 
 # Create your models here.
 
-def validate_length(value):
-    an_integer = value
-    a_string = str(an_integer)
-    length = len(a_string)
-    if length > 17:
-        raise ValidationError(
-            f'%{value} is above 17 digits'
-        )
-
 class TestDrive(models.Model):
     VIN = models.ForeignKey(Car, on_delete=models.SET_DEFAULT, default=00000000000000000)
     date_time = models.DateTimeField()
@@ -29,3 +20,6 @@ class TestDrive(models.Model):
             models.UniqueConstraint(fields=['VIN', 'date_time'], name='unique_VIN_datetime'),
             models.CheckConstraint(check=models.Q(date_time__gt=datetime.now()), name='datetime_gt_now'),
         ]
+    
+    def __str__(self):
+        return f'{self.date_time}, {self.VIN} - {self.seller}'

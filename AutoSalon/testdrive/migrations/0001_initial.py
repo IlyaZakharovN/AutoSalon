@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
                 ('date_time', models.DateTimeField(auto_now_add=True)),
                 ('client_name', models.CharField(max_length=255)),
                 ('client_phone', models.CharField(max_length=12, validators=[django.core.validators.RegexValidator(regex='^\\+?1?\\d{11,11}$')])),
-                ('VIN', models.ForeignKey(default=0, on_delete=django.db.models.deletion.SET_DEFAULT, to='cars.car', validators=[testdrive.models.validate_length])),
+                ('VIN', models.ForeignKey(default=0, on_delete=django.db.models.deletion.SET_DEFAULT, to='cars.car')),
                 ('seller', models.ForeignKey(default=0, on_delete=django.db.models.deletion.SET_DEFAULT, to=settings.AUTH_USER_MODEL)),
             ],
         ),

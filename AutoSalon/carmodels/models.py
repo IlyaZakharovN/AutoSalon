@@ -39,7 +39,6 @@ class CarModel(models.Model):
         AWD = 'Полный'
         UNKNOWN = 'Неизвестно'
 
-    # Add Foreign Keys later
     brand = models.CharField(max_length=255) # , null=False, blank=False
     model = models.CharField(max_length=255)
     year = models.PositiveSmallIntegerField()

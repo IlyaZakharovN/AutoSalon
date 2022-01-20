@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'cars',
     'stock',
     'testdrive',
+    'add_option',
+    'sale',
 
 ]
 

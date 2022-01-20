@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework.permissions import BasePermission
 from rest_framework.viewsets import ModelViewSet
 
-from .models import TestDrive
-from .serializers import TestDriveSerializer
+from .models import Sale
+from .serializers import PurchaseTypeSerializer, SaleSerializer
 
 # Create your views here.
 
@@ -24,9 +24,9 @@ class IsAuthenticatedPermission(BasePermission):
         else: 
             return True
 
-class TestDriveViewSet(ModelViewSet):
-    queryset = TestDrive.objects.all()
-    serializer_class = TestDriveSerializer
+class SaleViewSet(ModelViewSet):
+    queryset = Sale.objects.all()
+    serializer_class = SaleSerializer
 
     def get_permissions(self):
         self.permission_classes = [CustomPermission, IsAuthenticatedPermission]

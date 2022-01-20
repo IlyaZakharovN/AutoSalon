@@ -30,6 +30,8 @@ urlpatterns = [
     path('cars/', include('cars.urls', namespace='car_api')),
     path('stock/', include('stock.urls', namespace='stock_api')),
     path('testdrives/', include('testdrive.urls', namespace='testdrive_api')),
+    path('addoptions/', include('add_option.urls', namespace='addoption_api')),
+    path('sales/', include('sale.urls', namespace='sale_api')),
 
     path('api-auth/', include('rest_framework.urls')) # django-rest-framework
 ]
