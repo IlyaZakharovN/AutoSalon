@@ -8,26 +8,16 @@ from .serializers import PurchaseTypeSerializer, SaleSerializer
 # Create your views here.
 
 class CustomPermission(BasePermission):
-    def has_obj_permission(self, request, view):
-        if request.user:
-            if (request.user.is_superuser or 
-                request.user.is_sales_director or 
-                request.user.is_sales_manager):
-                return True
-            else: 
-                return False
-
-class IsAuthenticatedPermission(BasePermission):
     def has_permission(self, request, view):
-        if not request.user.is_authenticated:
-            return False
-        else: 
-            return True
+        if view.action in ['list', 'retrieve']:
+            return request.user.is_authenticated
+        elif view.action in ['create', 'update', 'partial_update', 'destroy']:
+            return (request.user.is_authenticated and 
+                (request.user.is_superuser or 
+                request.user.is_sales_director or 
+                request.user.is_sales_manager))
 
 class SaleViewSet(ModelViewSet):
     queryset = Sale.objects.all()
     serializer_class = SaleSerializer
-
-    def get_permissions(self):
-        self.permission_classes = [CustomPermission, IsAuthenticatedPermission]
-        return super(self.__class__, self).get_permissions()
+    permission_classes = (CustomPermission,)

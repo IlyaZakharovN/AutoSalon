@@ -26,17 +26,10 @@ class CarModelsViewSet(ModelViewSet):
     serializer_class = CarModelSerializer
 
     def get_permissions(self):
-        if self.action == 'list' or self.action == 'retrieve':
+        if self.action in ['list', 'retrieve']:
             self.permission_classes = [AllowAny]
 
         if self.action in ['create', 'update', 'partial_update', 'destroy']:
             self.permission_classes = [IsAuthenticatedPermission, CustomPermission]
             
         return super(self.__class__, self).get_permissions()
-
-    # def list(self, request):
-    #     serializer = CarModelSerializer(self.queryset, many=True)
-    #     return response(serializer.data)
-
-    # def get_queryset(self):
-    #     return CarModel.objects.all()

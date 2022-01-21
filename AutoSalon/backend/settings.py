@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'testdrive',
     'add_option',
     'sale',
+    'tech_inspection',
 
 ]
 
