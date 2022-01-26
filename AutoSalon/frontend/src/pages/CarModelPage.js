@@ -2,10 +2,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import CarModelDataService from "../services/CarModelService";
-import { retriveCarModels } from "../slices/carModelsSlice";
-import "bootstrap/dist/css/bootstrap.min.css";
-
 import { SingleCarModel } from "../components/SingleCarModel";
 import { fetchCarModel, singleCarModelSelector } from "../slices/singleCarModelSlice";
 

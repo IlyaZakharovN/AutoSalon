@@ -4,10 +4,14 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import carModelReducer from "./slices/carModelsSlice";
 import singleCarModeleReducer from "./slices/singleCarModelSlice";
+import userReducer from "./slices/userSlice";
+// import authReducer from "./slices/userSlice"
 
 const reducer = {
     carModels: carModelReducer,
     singleCarModel: singleCarModeleReducer,
+    user: userReducer,
+    // auth: authReducer
 }
 
 const store = configureStore({

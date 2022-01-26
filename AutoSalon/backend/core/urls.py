@@ -21,11 +21,14 @@ from rest_framework_simplejwt.views import (
 )
 
 urlpatterns = [
-    # path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    # path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    # simple jwt
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
     path('admin/', admin.site.urls),
-    path('auth/user/', include('employees.urls')), # user
+
+    # path('auth/user/', include('employees.urls')), # user
+    path('me/', include('employees.urls', namespace='user_api')), # user
     path('carmodels/', include('carmodels.urls', namespace='carmodel_api')),
     path('cars/', include('cars.urls', namespace='car_api')),
     path('stock/', include('stock.urls', namespace='stock_api')),
@@ -34,5 +37,5 @@ urlpatterns = [
     path('sales/', include('sale.urls', namespace='sale_api')),
     path('techinspections/', include('tech_inspection.urls', namespace='tech_inspection_api')),
 
-    path('api-auth/', include('rest_framework.urls')) # django-rest-framework
+    path('api-auth/', include('rest_framework.urls')) # django-rest-framework, not used because of simplejwt
 ]

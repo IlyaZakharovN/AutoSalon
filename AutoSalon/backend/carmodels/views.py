@@ -1,10 +1,14 @@
-from rest_framework.permissions import BasePermission, AllowAny, DjangoModelPermissionsOrAnonReadOnly
+from rest_framework.permissions import BasePermission, AllowAny, DjangoModelPermissionsOrAnonReadOnly, SAFE_METHODS
 from rest_framework.viewsets import ModelViewSet
 
 from .models import CarModel
 from .serializers import CarModelSerializer
 
 # Create your views here.
+
+# class ReadOnly(BasePermission):
+#     def has_permission(self, request, view):
+#         return request.method in SAFE_METHODS
 
 class CustomPermission(BasePermission):
     def has_obj_permission(self, request, view):
