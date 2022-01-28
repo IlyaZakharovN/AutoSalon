@@ -8,6 +8,10 @@ export default function Logout() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    // const defaultNavbar = () => {
+
+    // };
+
     useEffect(() => {
         localStorage.removeItem('is_superuser');
         localStorage.removeItem('is_sales_director');
@@ -18,8 +22,9 @@ export default function Logout() {
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
         httpCommon.defaults.headers['Authorization'] = null;
-        navigate('/');
-        
+        navigate('/login');
+        window.location.reload();
+
         console.log("access_token after logout - ", localStorage.getItem('access_token'));
 
         console.log('is_superuser - ', localStorage.getItem('is_superuser'));

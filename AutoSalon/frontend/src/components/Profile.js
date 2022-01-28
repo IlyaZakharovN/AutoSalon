@@ -25,7 +25,7 @@ const User = () => {
                     <p>is_superuser - {is_superuser ? 'true' : 'false'}</p>
                     <p>is_sales_director - {is_sales_director ? 'true' : 'false'}</p>
                     <p>is_sales_manager - {is_sales_manager ? 'true' : 'false'}</p>
-                    <p>is_puchase_manager - {is_superuser ? 'true' : 'false'}</p>
+                    <p>is_puchase_manager - {is_puchase_manager ? 'true' : 'false'}</p>
                     <p>is_tech_inspector - {is_tech_inspector ? 'true' : 'false'}</p>
                 </div>
         );

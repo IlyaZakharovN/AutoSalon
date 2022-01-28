@@ -31,22 +31,22 @@ export default function SignIn() {
 		});
 	};
 
-    const getUserDetails = () => {
-        httpCommon
-            .get(`me/`, {
-                Authorization: localStorage.getItem('access_token'),
-            }).then((res)=> {
-                console.log(res);
-                localStorage.setItem('is_superuser', res.data.is_superuser);
-                localStorage.setItem('is_sales_director', res.data.is_sales_director);
-                localStorage.setItem('is_sales_manager', res.data.is_sales_manager);
-                localStorage.setItem('is_tech_inspector', res.data.is_tech_inspector);
-                console.log('is_superuser - ', localStorage.getItem('is_superuser'));
-                console.log('is_sales_director - ', localStorage.getItem('is_sales_director'));
-                console.log('is_sales_manager - ', localStorage.getItem('is_sales_manager'));
-                console.log('is_tech_inspector - ', localStorage.getItem('is_tech_inspector'));
-            })
-    };
+    // const getUserDetails = () => {
+    //     httpCommon
+    //         .get(`me/`, {
+    //             Authorization: localStorage.getItem('access_token'),
+    //         }).then((res)=> {
+    //             console.log(res);
+    //             localStorage.setItem('is_superuser', res.data.is_superuser);
+    //             localStorage.setItem('is_sales_director', res.data.is_sales_director);
+    //             localStorage.setItem('is_sales_manager', res.data.is_sales_manager);
+    //             localStorage.setItem('is_tech_inspector', res.data.is_tech_inspector);
+    //             console.log('is_superuser - ', localStorage.getItem('is_superuser'));
+    //             console.log('is_sales_director - ', localStorage.getItem('is_sales_director'));
+    //             console.log('is_sales_manager - ', localStorage.getItem('is_sales_manager'));
+    //             console.log('is_tech_inspector - ', localStorage.getItem('is_tech_inspector'));
+    //         })
+    // };
 
     const userLogin = () => {
         httpCommon
@@ -68,6 +68,7 @@ export default function SignIn() {
 		e.preventDefault();
 		console.log(formData);
         dispatch(userLogin);
+        // window.location.reload();
 	};
 
     return (

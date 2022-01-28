@@ -1,38 +1,64 @@
 // The Store brings Actions and Reducers together and hold the Application state
 
+import { combineReducers } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
+import {
+    persistStore,
+    persistReducer,
+    FLUSH,
+    REHYDRATE,
+    PAUSE,
+    PERSIST,
+    PURGE,
+    REGISTER,
+  } from 'redux-persist'
+import storage from "redux-persist/lib/storage";
 
 import carModelReducer from "./slices/carModelsSlice";
 import singleCarModeleReducer from "./slices/singleCarModelSlice";
 import userReducer from "./slices/userSlice";
-// import authReducer from "./slices/userSlice"
 
-const reducer = {
+const reducer = combineReducers({
     carModels: carModelReducer,
     singleCarModel: singleCarModeleReducer,
     user: userReducer,
-    // auth: authReducer
-}
+})
+
+// redux persist:
+const persistConfig = {
+    key: 'root',
+    storage
+};
+
+const persistedReducer = persistReducer(persistConfig, reducer);
 
 const store = configureStore({
-    reducer: reducer,
+    reducer: persistedReducer,
+    middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
     devTools: true,
-})
+});
 
 export default store;
 
-// import { createStore, applyMiddleware } from "redux";
-// import { composeWithDevTools } from 'redux-devtools-extension';
-// import thunk from "redux-thunk";
-// import rootReducer from "./reducers";
+// export default () => {
+//     let store = configureStore({
+//         reducer: persistedReducer,
+//         devTools: true,
+//     })
 
-// const initialState = {};
-// const middleware = [thunk]; 
+//     let persistor = persistStore(store)
+//     return { store, persistor }
+// }
 
-// const store = createStore(
-//     rootReducer,
-//     initialState,
-//     composeWithDevTools(applyMiddleware(...middleware))
-// );
+// const store = configureStore({
+//     reducer: reducer,
+//     devTools: true,
+// })
 
 // export default store;
+

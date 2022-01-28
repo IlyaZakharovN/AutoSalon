@@ -2,13 +2,16 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import { SingleCarModel } from "../components/SingleCarModel";
+import SingleCarModel from "../components/singleCarModel/SingleCarModel";
+import SingleCarModelCrud from "../components/singleCarModel/crud";
 import { fetchCarModel, singleCarModelSelector } from "../slices/singleCarModelSlice";
+import { userSelector, retriveUserData } from "../slices/userSlice";
 
 const CarModel = (props) => {
     const dispatch = useDispatch();
     const params = useParams();
     const { singleCarModel, loading: singleCarModelLoading, hasErrors: singleCarModelHasErrors } = useSelector(singleCarModelSelector);
+    const { isAuthenticated, is_superuser, is_sales_director, is_puchase_manager } = useSelector(userSelector);
 
     useEffect(() => {
         const id = params.id;
@@ -16,14 +19,21 @@ const CarModel = (props) => {
     }, [dispatch])
 
     const renderSingleCarModel = () => {
-        if (singleCarModelLoading) return <p>Loading the post...</p>
-        if (singleCarModelHasErrors) return <p>Unable to display the post.</p>
+        if (singleCarModelLoading) return <p>Каталог загружается...</p>
+        if (singleCarModelHasErrors) return <p>Невозможно отобразить каталог.</p>
+        // console.log('currentCarModel.id - ', singleCarModel.id)
         return <SingleCarModel singleCarModel={singleCarModel} />
     };
 
     return (
         <section>
             {renderSingleCarModel()}
+
+            { isAuthenticated && (is_superuser || is_sales_director || is_puchase_manager) &&
+            <div>
+                <br/>
+                {SingleCarModelCrud()}
+            </div> }
         </section>
     );
 };

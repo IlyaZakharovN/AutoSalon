@@ -41,10 +41,20 @@ const userSlice = createSlice({
             state.loading = true
         },
         getUserSuccess: (state, { payload }) => {
-            state.user = payload
+            // state.user = payload
             state.isAuthenticated = true
             state.loading = false
             state.hasErrors = false
+            // console.log(payload);
+            // state.loading = false;
+            // state.hasErrors = false;
+            // state.name = payload.name;
+            // state.email = payload.email;
+            // state.is_superuser = payload.is_superuser;
+            // state.is_sales_director = payload.is_sales_director;
+            // state.is_sales_manager = payload.is_sales_manager;
+            // state.is_puchase_manager = payload.is_puchase_manager;
+            // state.is_tech_inspector = payload.is_tech_inspector;
         },
         getUserFailure: state => {
             state.loading = false
@@ -52,19 +62,19 @@ const userSlice = createSlice({
         },
     },
     extraReducers: {
-        [retriveUserData.fulfilled]: (state, { payload }) => { // pre:(state, action)
+        [retriveUserData.fulfilled]: (state, action) => { // pre:(state, action) |||||| (state, { payload })
             // return {...action.payload};
-            // console.log(payload);
+            console.log(action.payload);
             state.isAuthenticated = true;
             state.loading = false;
             state.hasErrors = false;
-            state.name = payload.name;
-            state.email = payload.email;
-            state.is_superuser = payload.is_superuser;
-            state.is_sales_director = payload.is_sales_director;
-            state.is_sales_manager = payload.is_sales_manager;
-            state.is_puchase_manager = payload.is_puchase_manager;
-            state.is_tech_inspector = payload.is_tech_inspector;
+            state.name = action.payload.name;
+            state.email = action.payload.email;
+            state.is_superuser = action.payload.is_superuser;
+            state.is_sales_director = action.payload.is_sales_director;
+            state.is_sales_manager = action.payload.is_sales_manager;
+            state.is_puchase_manager = action.payload.is_puchase_manager;
+            state.is_tech_inspector = action.payload.is_tech_inspector;
 
             localStorage.setItem('isAuthenticated', state.isAuthenticated);
             localStorage.setItem('is_superuser', state.is_superuser);
@@ -78,6 +88,7 @@ const userSlice = createSlice({
             console.log('is_sales_manager - ', localStorage.getItem('is_sales_manager'));
             console.log('is_puchase_manager - ', localStorage.getItem('is_puchase_manager'));
             console.log('is_tech_inspector - ', localStorage.getItem('is_tech_inspector'));
+            // return {...action.payload};
         },
     },
 });

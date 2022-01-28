@@ -12,7 +12,9 @@ class CustomPermission(BasePermission):
         if request.user:
             if (request.user.is_superuser or 
                 request.user.is_sales_director or 
-                request.user.is_sales_manager):
+                request.user.is_sales_manager or 
+                request.user.is_puchase_manager or 
+                request.user.is_tech_inspector):
                 return True
             else: 
                 return False
