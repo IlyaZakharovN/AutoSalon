@@ -39,6 +39,7 @@ const partialUpdate = (id, data) => {
 export const updateSingleCarModel = createAsyncThunk(
     "singleCarModel/partial-update",
     async ({ id, data }) => {
+        console.log('Initial data - ', data);
         const res = await partialUpdate(id, data);
         console.log('Updated data - ', res.data);
         return res.data;

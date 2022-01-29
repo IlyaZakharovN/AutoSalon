@@ -8,6 +8,7 @@ import Logout from './pages/Logout';
 import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import Profile from './pages/user/ProfilePage';
+// import { UserLogout } from './slices/userSlice';
 // import CarModelsPage from './pages/CarModelsPage';
 
 function App() {

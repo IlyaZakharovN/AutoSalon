@@ -1,8 +1,8 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { Navigate, useNavigate } from "react-router-dom";
 
 import httpCommon from "../http-common"; // axios instance
-// import {fetchUserData, login, signOut} from '../utils/authThunk';
 
 // const initialState = [];
 const initialState = {
@@ -30,6 +30,30 @@ export const retriveUserData = createAsyncThunk(
         const res = await userData();
         console.log(res.data);
         return res.data;
+    }
+);
+
+export const UserLogout = createAsyncThunk(
+    "user/logout",
+    async () => {
+        const navigate = useNavigate();
+
+        const logout = () => {
+            localStorage.removeItem('is_superuser');
+            localStorage.removeItem('is_sales_director');
+            localStorage.removeItem('is_sales_manager');
+            localStorage.removeItem('is_puchase_manager');
+            localStorage.removeItem('is_tech_inspector');
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('refresh_token');
+        };
+        
+        await logout();
+        // try {
+        // } catch (e) {
+        //     console.log(e);
+        // }
+        navigate('/login');
     }
 );
 
@@ -89,6 +113,17 @@ const userSlice = createSlice({
             console.log('is_puchase_manager - ', localStorage.getItem('is_puchase_manager'));
             console.log('is_tech_inspector - ', localStorage.getItem('is_tech_inspector'));
             // return {...action.payload};
+        },
+        [UserLogout.fulfilled]: (state, action) => {
+            state.name = null;
+            state.email = null;
+            state.isAuthenticated = null;
+            state.is_superuser = null;
+            state.is_sales_director = null;
+            state.is_sales_manager = null;
+            state.is_puchase_manager = null;
+            state.is_tech_inspector = null;
+            // return initialState;
         },
     },
 });

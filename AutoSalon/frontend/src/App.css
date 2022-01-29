@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+.form-control, .form-select {
+  max-width: 800px;
+  align-items: center;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+}

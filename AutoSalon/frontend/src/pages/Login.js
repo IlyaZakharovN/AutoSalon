@@ -48,20 +48,20 @@ export default function SignIn() {
     //         })
     // };
 
-    const userLogin = () => {
+    const userLogin = () => { // add 'user not found'
         httpCommon
-        .post(`api/token/`, {
-            email: formData.email,
-            password: formData.password,
-        })
-        .then((res) => {
-            localStorage.setItem('access_token', res.data.access);
-            localStorage.setItem('refresh_token', res.data.refresh);
-            httpCommon.defaults.headers['Authorization'] =
-                'JWT ' + localStorage.getItem('access_token');
-            console.log(res.data);
-            navigate('/profile');
-        })
+            .post(`api/token/`, {
+                email: formData.email,
+                password: formData.password,
+            })
+            .then((res) => {
+                localStorage.setItem('access_token', res.data.access);
+                localStorage.setItem('refresh_token', res.data.refresh);
+                httpCommon.defaults.headers['Authorization'] =
+                    'JWT ' + localStorage.getItem('access_token');
+                console.log(res.data);
+                navigate('/profile');
+            })
     };
 
     const handleSubmit = (e) => {
