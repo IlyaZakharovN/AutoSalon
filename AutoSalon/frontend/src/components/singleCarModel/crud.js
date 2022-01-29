@@ -22,7 +22,7 @@ const SingleCarModelCrud = () => {
         drive_unit: singleCarModel.drive_unit,
         package_name: singleCarModel.package_name,
         package_descr: singleCarModel.package_descr,
-        price: singleCarModel.price,
+        base_price: singleCarModel.base_price,
         // main_photo: singleCarModel.main_photo,
         model_descr: singleCarModel.model_descr,
         // multiple images
@@ -52,8 +52,18 @@ const SingleCarModelCrud = () => {
     const validateForm = () => {
         let errors = {};
 
-        if (!/^\d{1,9}(\.\d{0,2})$/.test(initialSingleCarModelState.price)) {
-            errors.price = "Цена должна находиться в пределах 1 - 999999999.99 рублей."
+        // Price field:
+        if (!initialSingleCarModelState.base_price) {
+            errors.base_price = "Необходимо указать цену."
+        } else if (!/^\d{1,9}(\,\d{0,2})$/.test(initialSingleCarModelState.base_price)) {
+            errors.base_price = "Цена должна находиться в пределах 1 - 999999999,99 рублей."
+        }
+
+        // Year field:
+        if (!initialSingleCarModelState.year) {
+            errors.year = "Необходимо указать год выпуска."
+        } else if ((initialSingleCarModelState.year > (new Date().getFullYear() + 2))) {
+            errors.year = "Год выпуска не может превышать текущий более чем на два."
         }
 
         setFormErrors(errors);
@@ -64,6 +74,7 @@ const SingleCarModelCrud = () => {
             return false;
         }
     };
+    /// End Form Validation ///
 
     const updateContent = (event) => {
         const data = {
@@ -73,12 +84,18 @@ const SingleCarModelCrud = () => {
         };
 
         // if (event) event.preventDefault();
-        // console.log('currentCarModel.id - ', singleCarModel.id);
-        // console.log('currentCarModel.brand - ', currentCarModel.brand);
-        // console.log('currentCarModel.model - ', currentCarModel.model);
-        // console.log('currentCarModel.body - ', currentCarModel.body);
-        
-        dispatch(updateSingleCarModel({ id: singleCarModel.id, data: currentCarModel }))
+
+        if (validateForm(initialSingleCarModelState)) {
+            setShowMessage(true);
+            event.preventDefault();
+        } else {
+            setShowMessage(false);
+            // console.log('currentCarModel.id - ', singleCarModel.id);
+            // console.log('currentCarModel.brand - ', currentCarModel.brand);
+            // console.log('currentCarModel.model - ', currentCarModel.model);
+            // console.log('currentCarModel.body - ', currentCarModel.body);
+            
+            dispatch(updateSingleCarModel({ id: singleCarModel.id, data: currentCarModel }))
             .unwrap()
             .then(response => {
                 console.log('response - ', response);
@@ -86,6 +103,7 @@ const SingleCarModelCrud = () => {
             .catch(e => {
                 console.log(e);
             });
+        }
     };
 
     return (
@@ -130,36 +148,43 @@ const SingleCarModelCrud = () => {
                         onChange={handleInputChange}
                     />
                 </Form.Group>
-                <Form.Group className='mb-3'>   {/* add validation */}
-                    <Form.Label className='mb-1' htmlFor="price">Цена (руб.)</Form.Label>
-                    <Form.Text><br/>Цена должна находиться в пределах 1 - 999999999.99 рублей.</Form.Text>
+                <Form.Group className='mb-3'>
+                    <Form.Label className='mb-1' htmlFor="base_price">Базовая цена (руб.)</Form.Label>
+                    <Form.Text><br/>Цена должна находиться в пределах 1 - 999999999,99 рублей.</Form.Text>
                     <Form.Control
-                        // controlId="validationCustom01"
                         size="md"
                         required
                         type="number"
                         step="0.01"
-                        max="99999999999"
-                        id="price"
-                        name="price"
-                        value={currentCarModel.price}
+                        min={0}
+                        max={999999999.99}
+                        id="base_price"
+                        name="base_price"
+                        value={currentCarModel.base_price}
                         onChange={handleInputChange}
+                        // pattern="^\d{1,9}(\,\d{0,2})$"
                     />
-                    {formErrors.price && (
-                        <p className="text-danger">{formErrors.price}</p>
-                    )}
+                    {/* {formErrors.base_price && (
+                        <p className="text-danger">{formErrors.base_price}</p>
+                    )} */}
                 </Form.Group>
-                <Form.Group className='mb-3'> {/* add validation */}
+                <Form.Group className='mb-3'>
                     <Form.Label className='mb-1' htmlFor="year">Год</Form.Label>
                     <Form.Control
                         size="md"
                         required
-                        type="text"
+                        type="number"
+                        step="1"
+                        max={(new Date().getFullYear() + 2)}
+                        min={0}
                         id="year"
                         name="year"
                         value={currentCarModel.year}
                         onChange={handleInputChange}
                     />
+                    {/* {formErrors.year && (
+                        <p className="text-danger">{formErrors.year}</p>
+                    )} */}
                 </Form.Group>
                 <Form.Group className='mb-3'>  
                     <Form.Label className='mb-1' htmlFor="body">Кузов</Form.Label>
@@ -187,24 +212,27 @@ const SingleCarModelCrud = () => {
                         <option value="Неизвестно">Неизвестно</option>
                     </Form.Select>
                 </Form.Group>
-                <Form.Group className='mb-3'> {/* add validation */}
+                <Form.Group className='mb-3'>
                     <Form.Label className='mb-1' htmlFor="engine_volume">Объем двигателя</Form.Label>
                     <Form.Control
                         size="md"
                         required
-                        type="text"
+                        type="number"
+                        step="0.01"
+                        min={0}
                         id="engine_volume"
                         name="engine_volume"
                         value={currentCarModel.engine_volume}
                         onChange={handleInputChange}
                     />
                 </Form.Group>
-                <Form.Group className='mb-3'>  {/* add validation */}
+                <Form.Group className='mb-3'>
                     <Form.Label className='mb-1' htmlFor="engine_power">Мощность двигателя</Form.Label>
                     <Form.Control
                         size="md"
                         required
-                        type="text"
+                        type="number"
+                        min={0}
                         id="engine_power"
                         name="engine_power"
                         value={currentCarModel.engine_power}

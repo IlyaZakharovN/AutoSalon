@@ -64,7 +64,7 @@ const CarModelsList = () => {
                                 </Link>
                             </Card.Title>
                             <Card.Text>{carModel.model_descr}</Card.Text>
-                            <Card.Subtitle>{carModel.price} руб.</Card.Subtitle>
+                            <Card.Subtitle>От {carModel.base_price} руб.</Card.Subtitle>
                         </Card>
                         </Col>
                     ))}

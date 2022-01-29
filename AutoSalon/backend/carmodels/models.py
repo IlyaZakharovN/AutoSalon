@@ -50,10 +50,10 @@ class CarModel(models.Model):
     drive_unit = models.CharField(max_length=30, choices=DriveUnitType.choices, default=DriveUnitType.FWD)
     package_name = models.CharField(max_length=255)
     package_descr = models.TextField(default='Подробное описание комплектации не найдено.')
-    price = models.DecimalField(max_digits=11, decimal_places=2)
+    base_price = models.DecimalField(max_digits=11, decimal_places=2)
     main_photo = models.ImageField(upload_to='car_models/')
     # add multiple images later
     model_descr = models.TextField(default='Подробное описание модели не найдено.')
 
     def __str__(self):
-        return f'{self.id} - {self.brand} {self.model} {self.year}, {self.fuel_type} {self.engine_volume} л., {self.engine_power} л.с. в комплектации {self.package_name} - {self.price} руб.'
+        return f'{self.id} - {self.brand} {self.model} {self.year}, {self.fuel_type} {self.engine_volume} л., {self.engine_power} л.с. в комплектации {self.package_name} - от {self.base_price} руб.'

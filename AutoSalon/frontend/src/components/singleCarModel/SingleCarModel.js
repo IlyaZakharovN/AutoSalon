@@ -18,7 +18,7 @@ const SingleCarModel = ({ singleCarModel }) => {
                 <h2>{singleCarModel.brand + " " + singleCarModel.model + " " + singleCarModel.year}</h2>
                 <img src={singleCarModel.main_photo}/>
                 <p>{singleCarModel.model_descr}</p>
-                <p>Цена - {singleCarModel.price} руб.</p>
+                <p>Цена - от {singleCarModel.base_price} руб.</p>
                 <p>Год выпуска - {singleCarModel.year}</p>
                 <p>Кузов - {singleCarModel.body}</p>
                 <p>Объем двигателя - {singleCarModel.engine_volume} л.</p>
