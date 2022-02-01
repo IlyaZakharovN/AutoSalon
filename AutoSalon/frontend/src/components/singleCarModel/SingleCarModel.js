@@ -1,9 +1,9 @@
 import React, { Fragment } from "react";
 import { Breadcrumb } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 // import SingleCarModelUpdate from "./crud";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { userSelector, retriveUserData } from "../../slices/userSlice";
 
 const SingleCarModel = ({ singleCarModel }) => {
@@ -28,7 +28,6 @@ const SingleCarModel = ({ singleCarModel }) => {
                 <p>Привод - {singleCarModel.drive_unit}</p>
                 <p>Комплектация - {singleCarModel.package_name}</p>
                 <p>Спецификация комплектации:<br />{singleCarModel.package_descr}</p>
-                {/* <p>{singleCarModel.package_descr}</p> */}
             </div>
         </Fragment>
     );

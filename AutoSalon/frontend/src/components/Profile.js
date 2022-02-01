@@ -21,7 +21,6 @@ const User = () => {
                 <div>
                     <h4>{name}</h4>
                     <p>{email}</p>
-                    {/* {? is_superuser === true && <p>is_superuser - true</p> : <p>is_superuser - false</p>} */}
                     <p>is_superuser - {is_superuser ? 'true' : 'false'}</p>
                     <p>is_sales_director - {is_sales_director ? 'true' : 'false'}</p>
                     <p>is_sales_manager - {is_sales_manager ? 'true' : 'false'}</p>

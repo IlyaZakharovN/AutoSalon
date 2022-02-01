@@ -19,11 +19,16 @@ const CarModel = (props) => {
     }, [dispatch])
 
     const renderSingleCarModel = () => {
-        if (singleCarModelLoading) return <p>Каталог загружается...</p>
-        if (singleCarModelHasErrors) return <p>Невозможно отобразить каталог.</p>
-        // console.log('currentCarModel.id - ', singleCarModel.id)
+        if (singleCarModelLoading) return <p>Данные загружаются...</p>
+        if (singleCarModelHasErrors) return <p>Невозможно отобразить данные.</p>
         return <SingleCarModel singleCarModel={singleCarModel} />
     };
+
+    const renderUpdateForm = () => {
+        if (singleCarModelLoading) return <p>Ожидание загрузки данных...</p>
+        if (singleCarModelHasErrors) return <p>Невозможно загрузить форму обновления.</p>
+        return <SingleCarModelCrud singleCarModel={singleCarModel} />
+    }
 
     return (
         <section>
@@ -32,7 +37,8 @@ const CarModel = (props) => {
             { isAuthenticated && (is_superuser || is_sales_director || is_puchase_manager) &&
             <div>
                 <br/>
-                {SingleCarModelCrud()}
+                {/* {SingleCarModelCrud()} */}
+                {renderUpdateForm()}
             </div> }
         </section>
     );

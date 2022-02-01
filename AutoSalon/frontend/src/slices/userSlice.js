@@ -2,7 +2,7 @@ import axios from "axios";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { Navigate, useNavigate } from "react-router-dom";
 
-import httpCommon from "../http-common"; // axios instance
+import { axiosDefault } from "../http-common"; // axios instance
 
 // const initialState = [];
 const initialState = {
@@ -21,7 +21,7 @@ const initialState = {
 };
 
 const userData = () => {
-    return httpCommon.get("/me");
+    return axiosDefault.get("/me");
 };
 
 export const retriveUserData = createAsyncThunk(

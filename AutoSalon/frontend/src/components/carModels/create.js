@@ -1,112 +1,156 @@
-import React, { Fragment, useState, useEffect, useCallback } from "react";
+import React, { Fragment, useState } from "react";
 import { Form, FormControl } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { unwrapResult } from '@reduxjs/toolkit'
 
-import { fetchCarModel, updateSingleCarModel, singleCarModelSelector } from "../../slices/singleCarModelSlice";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { createCarModel, carModelAdded } from "../../slices/carModelsSlice";
 
-const SingleCarModelCrud = ({ singleCarModel }) => {
-    // const { singleCarModel, loading: singleCarModelLoading, hasErrors: singleCarModelHasErrors } = useSelector(singleCarModelSelector);
-    
-    const initialSingleCarModelState = {
-        // id: singleCarModel.id,
-        brand: singleCarModel.brand,
-        model: singleCarModel.model,
-        year: singleCarModel.year,
-        body: singleCarModel.body,
-        engine_volume: singleCarModel.engine_volume,
-        engine_power: singleCarModel.engine_power,
-        fuel_type: singleCarModel.fuel_type,
-        transmission_type: singleCarModel.transmission_type,
-        drive_unit: singleCarModel.drive_unit,
-        package_name: singleCarModel.package_name,
-        package_descr: singleCarModel.package_descr,
-        base_price: singleCarModel.base_price,
-        main_photo: singleCarModel.main_photo,
-        model_descr: singleCarModel.model_descr,
-        // multiple images
-    };
+const CreateCarModel = () => {
+    const initialCarModelState = Object.freeze({
+        // id: null,
+        brand: "",
+        model: "",
+        year: null,
+        body: null,
+        engine_volume: null,
+        engine_power: null,
+        fuel_type: null,
+        transmission_type: null,
+        drive_unit: null,
+        package_name: "",
+        package_descr: "",
+        base_price: null,
+        // main_photo: "",
+        model_descr: "",
+    });
 
-    const [currentCarModel, setCurrentCarModel] = useState(initialSingleCarModelState);
-    const [message, setMessage] = useState("");
+    const [carModel, setCarmodel] = useState(initialCarModelState);
+    const [carModelImage, setCarModelImage] = useState(null);
     const dispatch = useDispatch();
-    const params = useParams();
-    const navigate = useNavigate();
-
-    let patchData = new FormData();
 
     const handleInputChange = event => {
-        const {name, value} = event.target;
-        console.log("handleChange -> " + name + ":" + value);
-        // setCurrentCarModel({ ...currentCarModel, [name]: value});
-        patchData.append(`${name}`, value);
-        console.log(JSON.stringify(patchData));
-        // console.log(patchData);
+        // const { name, value } = event.target;
+        console.log(event.target.name, " - ", event.target.value);
+        // setCarmodel({ ...carModel, [event.target.name]: event.target.value });
+
+        if ([event.target.name] == 'main_photo') {
+            setCarModelImage({
+                image: event.target.files,
+            });
+            // setCarmodel({
+            //     main_photo: event.target.files,
+            // });
+            console.log(event.target.files);
+        } else {
+            setCarmodel({ ...carModel, [event.target.name]: event.target.value });
+        }
     };
 
-    ///// Update single car model /////
-    /// Form Validation ///
-    // const [showMessage, setShowMessage] = useState(false);
-    // const [formErrors, setFormErrors] = useState({});
-
-    // const validateForm = () => {
-    //     let errors = {};
-
-    //     // Price field:
-    //     if (!initialSingleCarModelState.base_price) {
-    //         errors.base_price = "Необходимо указать цену."
-    //     } else if (!/^\d{1,9}(\,\d{0,2})$/.test(initialSingleCarModelState.base_price)) {
-    //         errors.base_price = "Цена должна находиться в пределах 1 - 999999999,99 рублей."
-    //     }
-
-    //     // Year field:
-    //     if (!initialSingleCarModelState.year) {
-    //         errors.year = "Необходимо указать год выпуска."
-    //     } else if ((initialSingleCarModelState.year > (new Date().getFullYear() + 2))) {
-    //         errors.year = "Год выпуска не может превышать текущий более чем на два."
-    //     }
-
-    //     setFormErrors(errors);
-
-    //     if (Object.keys(errors).length === 0) {
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // };
-    /// End Form Validation ///
-
-    const id = params.id
-
-    const updateContent = (event) => { // add notification/popups on success and on failure 
+    const saveCarModel = (event) => {
+        console.log(JSON.stringify(carModel))
+        console.log(carModel);
+        // console.log(carModelImage);
         // event.preventDefault();
-        // console.log(currentCarModel);
-        // const data = {
-        //     id: singleCarModel.id,
-        //     brand: singleCarModel.brand,
-        //     model: singleCarModel.model,
-        // };
 
-        // console.log('currentCarModel.id - ', singleCarModel.id);
-        // console.log('currentCarModel.brand - ', currentCarModel.brand);
-        // console.log('currentCarModel.model - ', currentCarModel.model);
-        // console.log('currentCarModel.body - ', currentCarModel.body);
-        
-        dispatch(updateSingleCarModel({ id: singleCarModel.id, data: patchData }))
-        .unwrap()
-        .then(response => {
-            console.log('response - ', response);
-        })
-        // .then(dispatch(fetchCarModel(id)))
-        .catch(e => {
-            console.log(e);
-        });
+        let newCarModelData = new FormData();
+        newCarModelData.append('brand', carModel.brand);
+        newCarModelData.append('model', carModel.model);
+        newCarModelData.append('year', carModel.year);
+        newCarModelData.append('body', carModel.body);
+        newCarModelData.append('engine_volume', carModel.engine_volume);
+        newCarModelData.append('engine_power', carModel.engine_power);
+        newCarModelData.append('fuel_type', carModel.fuel_type);
+        newCarModelData.append('transmission_type', carModel.transmission_type);
+        newCarModelData.append('drive_unit', carModel.drive_unit);
+        newCarModelData.append('package_name', carModel.package_name);
+        newCarModelData.append('package_descr', carModel.package_descr);
+        newCarModelData.append('base_price', carModel.base_price);
+        newCarModelData.append('main_photo', carModelImage.image[0]);
+        newCarModelData.append('model_descr', carModel.model_descr);
+
+        // const {
+        //     brand, 
+        //     model,
+        //     year,
+        //     body,
+        //     engine_volume, 
+        //     engine_power, 
+        //     fuel_type, 
+        //     transmission_type,
+        //     drive_unit,
+        //     package_name, 
+        //     package_descr,
+        //     base_price,
+        //     main_photo,
+        //     model_descr
+        // } = carModel;
+
+        dispatch(createCarModel(
+            newCarModelData
+        //     {
+        //     brand, 
+        //     model,
+        //     year,
+        //     body,
+        //     engine_volume, 
+        //     engine_power, 
+        //     fuel_type, 
+        //     transmission_type,
+        //     drive_unit,
+        //     package_name, 
+        //     package_descr,
+        //     base_price,
+        //     main_photo,
+        //     model_descr
+        // }
+        ))
+        // // dispatch(carModelAdded({
+        // //     brand, 
+        // //     model,
+        // //     year,
+        // //     body,
+        // //     engine_volume, 
+        // //     engine_power, 
+        // //     fuel_type, 
+        // //     transmission_type,
+        // //     drive_unit,
+        // //     package_name, 
+        // //     package_descr,
+        // //     base_price,
+        // //     main_photo,
+        // //     model_descr
+        // // }))
+            .then(unwrapResult)
+            .then(data => {
+                console.log(data);
+                setCarmodel({
+                    id: data.id,
+                    brand: data.brand, 
+                    model: data.model,
+                    year: data.year,
+                    body: data.body,
+                    engine_volume: data.engine_volume, 
+                    engine_power: data.engine_power, 
+                    fuel_type: data.fuel_type, 
+                    transmission_type: data.transmission_type,
+                    drive_unit: data.drive_unit,
+                    package_name: data.package_name, 
+                    package_descr: data.package_descr,
+                    base_price: data.base_price,
+                    main_photo: data.main_photo,
+                    model_descr: data.model_descr
+                });
+            })
+            .catch(e => {
+                console.log(e);
+            });
+        // event.preventDefault();
+        // window.location.reload();
     };
 
     return (
         <Fragment>
-            <h4>Изменить модель автомобиля</h4>
+            <h4>Добавить модель автомобиля</h4>
             <Form>
                 <Form.Group className='mb-3'>
                     <Form.Label className='mb-1' htmlFor="brand">Производитель</Form.Label>
@@ -116,7 +160,7 @@ const SingleCarModelCrud = ({ singleCarModel }) => {
                         type="text"
                         id="brand"
                         name="brand"
-                        defaultValue={singleCarModel.brand}
+                        value={carModel.brand}
                         onChange={handleInputChange}    
                     />
                 </Form.Group>
@@ -128,7 +172,7 @@ const SingleCarModelCrud = ({ singleCarModel }) => {
                         type="text"
                         id="model"
                         name="model"
-                        defaultValue={singleCarModel.model}
+                        value={carModel.model}
                         onChange={handleInputChange}
                     />
                 </Form.Group>
@@ -142,7 +186,8 @@ const SingleCarModelCrud = ({ singleCarModel }) => {
                         type="text"
                         id="model_descr"
                         name="model_descr"
-                        defaultValue={singleCarModel.model_descr}
+                        // defaultValue="Подробное описание модели не найдено."
+                        value={carModel.model_descr}
                         onChange={handleInputChange}
                     />
                 </Form.Group>
@@ -158,13 +203,10 @@ const SingleCarModelCrud = ({ singleCarModel }) => {
                         max={999999999.99}
                         id="base_price"
                         name="base_price"
-                        defaultValue={singleCarModel.base_price}
+                        value={carModel.base_price}
                         onChange={handleInputChange}
                         // pattern="^\d{1,9}(\,\d{0,2})$"
                     />
-                    {/* {formErrors.base_price && (
-                        <p className="text-danger">{formErrors.base_price}</p>
-                    )} */}
                 </Form.Group>
                 <Form.Group className='mb-3'>
                     <Form.Label className='mb-1' htmlFor="year">Год</Form.Label>
@@ -177,12 +219,9 @@ const SingleCarModelCrud = ({ singleCarModel }) => {
                         min={0}
                         id="year"
                         name="year"
-                        defaultValue={singleCarModel.year}
+                        value={carModel.year}
                         onChange={handleInputChange}
                     />
-                    {/* {formErrors.year && (
-                        <p className="text-danger">{formErrors.year}</p>
-                    )} */}
                 </Form.Group>
                 <Form.Group className='mb-3'>  
                     <Form.Label className='mb-1' htmlFor="body">Кузов</Form.Label>
@@ -191,7 +230,7 @@ const SingleCarModelCrud = ({ singleCarModel }) => {
                         required
                         id="body"
                         name="body"
-                        defaultValue={singleCarModel.body}
+                        value={carModel.body}
                         onChange={handleInputChange}
                     > {/* Get options from query?.. */}
                         {/* Options match django choices?.. */}
@@ -202,6 +241,7 @@ const SingleCarModelCrud = ({ singleCarModel }) => {
                         <option value="Внедорожник 3 дв.">Внедорожник 3 дв.</option>
                         <option value="Внедорожник 5 дв.">Внедорожник 5 дв.</option>
                         <option value="Универсал">Универсал</option>
+                        <option value="Купе">Купе</option>
                         <option value="Минивэн">Минивэн</option>
                         <option value="Пикап">Пикап</option>
                         <option value="Лимузин">Лимузин</option>
@@ -220,7 +260,7 @@ const SingleCarModelCrud = ({ singleCarModel }) => {
                         min={0}
                         id="engine_volume"
                         name="engine_volume"
-                        defaultValue={singleCarModel.engine_volume}
+                        value={carModel.engine_volume}
                         onChange={handleInputChange}
                     />
                 </Form.Group>
@@ -233,7 +273,7 @@ const SingleCarModelCrud = ({ singleCarModel }) => {
                         min={0}
                         id="engine_power"
                         name="engine_power"
-                        defaultValue={singleCarModel.engine_power}
+                        value={carModel.engine_power}
                         onChange={handleInputChange}
                     />
                 </Form.Group>
@@ -244,7 +284,7 @@ const SingleCarModelCrud = ({ singleCarModel }) => {
                         required
                         id="fuel_type"
                         name="fuel_type"
-                        defaultValue={singleCarModel.fuel_type}
+                        value={carModel.fuel_type}
                         onChange={handleInputChange}
                     >
                         <option value="Бензин">Бензин</option>
@@ -261,7 +301,7 @@ const SingleCarModelCrud = ({ singleCarModel }) => {
                         required
                         id="transmission_type"
                         name="transmission_type"
-                        defaultValue={singleCarModel.transmission_type}
+                        value={carModel.transmission_type}
                         onChange={handleInputChange}
                     >
                         <option value="Автоматическая">Автоматическая</option>
@@ -278,7 +318,7 @@ const SingleCarModelCrud = ({ singleCarModel }) => {
                         required
                         id="drive_unit"
                         name="drive_unit"
-                        defaultValue={singleCarModel.drive_unit}
+                        value={carModel.drive_unit}
                         onChange={handleInputChange}
                     >
                         <option value="Передний">Передний</option>
@@ -295,7 +335,7 @@ const SingleCarModelCrud = ({ singleCarModel }) => {
                         type="text"
                         id="package_name"
                         name="package_name"
-                        defaultValue={singleCarModel.package_name}
+                        value={carModel.package_name}
                         onChange={handleInputChange}
                     />
                 </Form.Group>
@@ -309,7 +349,8 @@ const SingleCarModelCrud = ({ singleCarModel }) => {
                         type="text"
                         id="package_descr"
                         name="package_descr"
-                        defaultValue={singleCarModel.package_descr}
+                        value={carModel.package_descr}
+                        // defaultValue="Подробное описание комплектации не найдено."
                         onChange={handleInputChange}
                     />
                 </Form.Group>
@@ -318,10 +359,12 @@ const SingleCarModelCrud = ({ singleCarModel }) => {
                     <Form.Control
                         className="form-control"
                         size="md"
-                        accept="image/*"
                         type="file"
+                        accept="image/*"
+                        required
                         id="main_photo"
                         name="main_photo"
+                        value={carModel.main_photo}
                         onChange={handleInputChange}
                     />
                 </Form.Group>
@@ -330,25 +373,14 @@ const SingleCarModelCrud = ({ singleCarModel }) => {
                     <button 
                         type="submit" 
                         className="btn btn-primary btn-block"
-                        onClick={updateContent}
+                        onClick={saveCarModel}
                     >
-                        Внести изменения
+                        Добавить в каталог
                     </button>
                 </div>
-                {/* <div>
-                    <br/>
-                    <button 
-                        type="submit" 
-                        className="btn btn-secondary btn-block"
-                        // onClick={handleSubmit}
-                    >
-                        Удалить модель
-                    </button>
-                </div> */}
             </Form>
         </Fragment>
-        // </div>
     );
 };
 
-export default SingleCarModelCrud;
+export default CreateCarModel;

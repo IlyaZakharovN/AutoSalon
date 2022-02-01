@@ -212,6 +212,28 @@ SIMPLE_JWT = {
 
 # corsheaders:
 CORS_ORIGIN_ALLOW_ALL = False
+# CORS_ALLOW_HEADERS = (
+#     'x-requested-with',
+#     # 'content-type',
+#     'accept',
+#     'origin',
+#     'authorization',
+#     'x-csrftoken',
+#     'token',
+#     'x-device-id',
+#     'x-device-type',
+#     'x-push-id',
+#     'dataserviceversion',
+#     'maxdataserviceversion'
+# )
+# CORS_ALLOW_METHODS = (
+#         'GET',
+#         'POST',
+#         'PUT',
+#         'PATCH',
+#         'DELETE',
+#         'OPTIONS'
+# )
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
 )

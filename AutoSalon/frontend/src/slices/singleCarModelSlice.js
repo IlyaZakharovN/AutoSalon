@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-import httpCommon from "../http-common";
+import { axiosDefault } from "../http-common";
 
 export const initialState = {
     singleCarModel: {},
@@ -8,6 +8,7 @@ export const initialState = {
     hasErrors: false,
 }
 ///// Create single car model /////
+// maybe transfer it later
 
 ///// Get single car model /////
 export function fetchCarModel(id) {
@@ -33,7 +34,7 @@ export function fetchCarModel(id) {
 
 ///// Update single car model /////
 const partialUpdate = (id, data) => {
-    return httpCommon.patch(`/carmodels/${id}/`, data);
+    return axiosDefault.patch(`/carmodels/${id}/`, data);
 };
 
 export const updateSingleCarModel = createAsyncThunk(

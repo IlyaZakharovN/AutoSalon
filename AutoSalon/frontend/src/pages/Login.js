@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-import httpCommon from '../http-common';
+import { axiosDefault } from '../http-common';
 import { retriveUserData } from '../slices/userSlice';
 
 export default function SignIn() {
@@ -12,7 +12,7 @@ export default function SignIn() {
     const initialFormData = Object.freeze({
 		email: '',
         name: '',
-		// password: '',
+		password: '',
         // is_superuser: null,
         // is_active: null,
         // is_staff: null,
@@ -49,7 +49,7 @@ export default function SignIn() {
     // };
 
     const userLogin = () => { // add 'user not found'
-        httpCommon
+        axiosDefault
             .post(`api/token/`, {
                 email: formData.email,
                 password: formData.password,
@@ -57,7 +57,7 @@ export default function SignIn() {
             .then((res) => {
                 localStorage.setItem('access_token', res.data.access);
                 localStorage.setItem('refresh_token', res.data.refresh);
-                httpCommon.defaults.headers['Authorization'] =
+                axiosDefault.defaults.headers['Authorization'] =
                     'JWT ' + localStorage.getItem('access_token');
                 console.log(res.data);
                 navigate('/profile');
