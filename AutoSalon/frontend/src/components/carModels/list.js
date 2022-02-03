@@ -7,34 +7,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { retriveCarModels } from "../../slices/carModelsSlice";
 import { carModelsSelector } from "../../slices/carModelsSlice";
 
+// Add Card styles...
 const CarModels = ({ carModels }) => {
     const [currentCarModel, setCurrentCarModel] = useState(null);
-    // const carModels = useSelector(state => state.carModels);
-    // const carModels = useSelector(carModelsSelector);
-    const dispatch = useDispatch();
     console.log(carModels);
 
-    // get CarModels:
-    // const initFetch = useCallback(() => {
-    //     dispatch(retriveCarModels());
-    //     console.log(carModels);
-    // }, [dispatch])
-
-    // useEffect(() => {
-    //     initFetch()
-    // }, [initFetch])
-
-    // useEffect(() => {
-    //     dispatch(retriveCarModels())
-    // }, [dispatch])
-
-    // console.log(Array.isArray(carModels));
     return (
         <Fragment>
-            {/* <div className="list row">
-            </div> */}
             <h4>Модели автомобилей</h4>
-                {/* (carModels && []).map... */}
             <Row>
                 {carModels && carModels.map((carModel, index) =>(
                     <Col sm key={carModel.id}>

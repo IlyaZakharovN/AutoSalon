@@ -2,8 +2,10 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
+import { retriveCarModels } from "../slices/carModelsSlice";
+import SingleCarModelDelete from "../components/singleCarModel/delete";
 import SingleCarModel from "../components/singleCarModel/SingleCarModel";
-import SingleCarModelCrud from "../components/singleCarModel/crud";
+import SingleCarModelUpdate from "../components/singleCarModel/patchOrUpdate";
 import { fetchCarModel, singleCarModelSelector } from "../slices/singleCarModelSlice";
 import { userSelector, retriveUserData } from "../slices/userSlice";
 
@@ -13,22 +15,42 @@ const CarModel = (props) => {
     const { singleCarModel, loading: singleCarModelLoading, hasErrors: singleCarModelHasErrors } = useSelector(singleCarModelSelector);
     const { isAuthenticated, is_superuser, is_sales_director, is_puchase_manager } = useSelector(userSelector);
 
+    // const singleCarModel = useSelector(state => state.singleCarModel);
+
     useEffect(() => {
         const id = params.id;
         dispatch(fetchCarModel(id));
     }, [dispatch])
 
+    // get CarModels:
+    // const initFetch = useCallback(() => {
+    //     dispatch(retriveCarModels());
+    // }, [dispatch])
+
+    // useEffect(() => {
+    //     initFetch()
+    // }, [initFetch])
+    // end get Carmodels
+
     const renderSingleCarModel = () => {
-        if (singleCarModelLoading) return <p>Данные загружаются...</p>
-        if (singleCarModelHasErrors) return <p>Невозможно отобразить данные.</p>
-        return <SingleCarModel singleCarModel={singleCarModel} />
+        // await dispatch(initFetch()).then(    
+            if (singleCarModelLoading) return <p>Данные загружаются...</p>
+            if (singleCarModelHasErrors) return <p>Невозможно отобразить данные.</p>
+            return <SingleCarModel singleCarModel={singleCarModel} />
+        // )
     };
 
     const renderUpdateForm = () => {
         if (singleCarModelLoading) return <p>Ожидание загрузки данных...</p>
         if (singleCarModelHasErrors) return <p>Невозможно загрузить форму обновления.</p>
-        return <SingleCarModelCrud singleCarModel={singleCarModel} />
-    }
+        return <SingleCarModelUpdate singleCarModel={singleCarModel} />
+    };
+
+    const renderDeleteFeature = () => {
+        if (singleCarModelLoading) return <p>Ожидание загрузки данных...</p>
+        if (singleCarModelHasErrors) return <p>Невозможно загрузить функцию удаления.</p>
+        return <SingleCarModelDelete singleCarModel={singleCarModel} />
+    };
 
     return (
         <section>
@@ -37,9 +59,14 @@ const CarModel = (props) => {
             { isAuthenticated && (is_superuser || is_sales_director || is_puchase_manager) &&
             <div>
                 <br/>
-                {/* {SingleCarModelCrud()} */}
                 {renderUpdateForm()}
             </div> }
+
+            { isAuthenticated && (is_superuser || is_sales_director) &&
+                <div className="mt-5"> 
+                    {renderDeleteFeature()}
+                </div>
+            }
         </section>
     );
 };

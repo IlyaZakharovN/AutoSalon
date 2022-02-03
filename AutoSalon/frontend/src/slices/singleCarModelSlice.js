@@ -11,7 +11,7 @@ export const initialState = {
 // maybe transfer it later
 
 ///// Get single car model /////
-export function fetchCarModel(id) {
+export function fetchCarModel(id) { // remade as axios later
     return async dispatch => {
         dispatch(getCarModel());
 
@@ -48,7 +48,19 @@ export const updateSingleCarModel = createAsyncThunk(
 );
 
 ///// Delete single car model /////
+const deleteSCM = id => {
+    return axiosDefault.delete(`/carmodels/${id}/`);
+};
 
+export const deleteSingleCarModel = createAsyncThunk(
+    "singleCarModel/delete-single",
+    async ({ id }) => {
+        const res = await deleteSCM(id);
+        return { id };
+    }
+)
+
+///// The Slice Itself /////
 const singleCarModelSlice = createSlice({ // a slice automatically generates reducers, action types, action creators
     name: 'singleCarModel',
     initialState,
@@ -74,6 +86,10 @@ const singleCarModelSlice = createSlice({ // a slice automatically generates red
                 ...action.payload,
             };
         },
+        // [deleteSingleCarModel.fulfilled]: (state,action) => {
+        //     let index = state.findIndex(({ id }) => id === action.payload.id);
+        //     state.splice(index, 1);
+        // },
     },
 });
 

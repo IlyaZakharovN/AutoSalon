@@ -19,28 +19,28 @@ import singleCarModeleReducer from "./slices/singleCarModelSlice";
 import userReducer from "./slices/userSlice";
 
 const reducer = combineReducers({
-    carModels: carModelReducer,
-    singleCarModel: singleCarModeleReducer,
-    user: userReducer,
+  carModels: carModelReducer,
+  singleCarModel: singleCarModeleReducer,
+  user: userReducer,
 })
 
 // redux persist:
 const persistConfig = {
-    key: 'root',
-    storage
+  key: 'root',
+  storage
 };
 
 const persistedReducer = persistReducer(persistConfig, reducer);
 
 const store = configureStore({
-    reducer: persistedReducer,
-    middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    }),
-    devTools: true,
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+  getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    },
+  }),
+  devTools: true,
 });
 
 export default store;

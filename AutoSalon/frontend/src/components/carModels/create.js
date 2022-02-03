@@ -3,8 +3,10 @@ import { Form, FormControl } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { unwrapResult } from '@reduxjs/toolkit'
 
-import { createCarModel, carModelAdded } from "../../slices/carModelsSlice";
+import { createCarModel, carModelAdd } from "../../slices/carModelsSlice";
+import { retriveCarModels } from "../../slices/carModelsSlice";
 
+// Add notifications on creation, wrong data input...
 const CreateCarModel = () => {
     const initialCarModelState = Object.freeze({
         // id: null,
@@ -29,28 +31,22 @@ const CreateCarModel = () => {
     const dispatch = useDispatch();
 
     const handleInputChange = event => {
-        // const { name, value } = event.target;
         console.log(event.target.name, " - ", event.target.value);
-        // setCarmodel({ ...carModel, [event.target.name]: event.target.value });
 
         if ([event.target.name] == 'main_photo') {
             setCarModelImage({
                 image: event.target.files,
             });
-            // setCarmodel({
-            //     main_photo: event.target.files,
-            // });
             console.log(event.target.files);
         } else {
             setCarmodel({ ...carModel, [event.target.name]: event.target.value });
         }
     };
 
-    const saveCarModel = (event) => {
+    const saveCarModel = async (event) => {
         console.log(JSON.stringify(carModel))
         console.log(carModel);
-        // console.log(carModelImage);
-        // event.preventDefault();
+        event.preventDefault();
 
         let newCarModelData = new FormData();
         newCarModelData.append('brand', carModel.brand);
@@ -85,42 +81,9 @@ const CreateCarModel = () => {
         //     model_descr
         // } = carModel;
 
-        dispatch(createCarModel(
-            newCarModelData
-        //     {
-        //     brand, 
-        //     model,
-        //     year,
-        //     body,
-        //     engine_volume, 
-        //     engine_power, 
-        //     fuel_type, 
-        //     transmission_type,
-        //     drive_unit,
-        //     package_name, 
-        //     package_descr,
-        //     base_price,
-        //     main_photo,
-        //     model_descr
-        // }
-        ))
-        // // dispatch(carModelAdded({
-        // //     brand, 
-        // //     model,
-        // //     year,
-        // //     body,
-        // //     engine_volume, 
-        // //     engine_power, 
-        // //     fuel_type, 
-        // //     transmission_type,
-        // //     drive_unit,
-        // //     package_name, 
-        // //     package_descr,
-        // //     base_price,
-        // //     main_photo,
-        // //     model_descr
-        // // }))
-            .then(unwrapResult)
+        await dispatch(createCarModel(newCarModelData))
+            // .then(unwrapResult)
+            .unwrap()
             .then(data => {
                 console.log(data);
                 setCarmodel({
@@ -141,11 +104,12 @@ const CreateCarModel = () => {
                     model_descr: data.model_descr
                 });
             })
+            // .then(dispatch(retriveCarModels()))
             .catch(e => {
                 console.log(e);
             });
-        // event.preventDefault();
-        // window.location.reload();
+        window.location.reload();
+        dispatch(retriveCarModels());
     };
 
     return (
@@ -234,6 +198,7 @@ const CreateCarModel = () => {
                         onChange={handleInputChange}
                     > {/* Get options from query?.. */}
                         {/* Options match django choices?.. */}
+                        <option key='blankChoice' hidden value />
                         <option value="Седан">Седан</option>
                         <option value="Хэтчбек 3 дв.">Хэтчбек 3 дв.</option>
                         <option value="Хэтчбек 5 дв.">Хэтчбек 5 дв.</option>
@@ -287,6 +252,7 @@ const CreateCarModel = () => {
                         value={carModel.fuel_type}
                         onChange={handleInputChange}
                     >
+                        <option key='blankChoice' hidden value />
                         <option value="Бензин">Бензин</option>
                         <option value="Дизель">Дизель</option>
                         <option value="Гибрид">Гибрид</option>
@@ -304,6 +270,7 @@ const CreateCarModel = () => {
                         value={carModel.transmission_type}
                         onChange={handleInputChange}
                     >
+                        <option key='blankChoice' hidden value />
                         <option value="Автоматическая">Автоматическая</option>
                         <option value="Робот">Робот</option>
                         <option value="Вариатор">Вариатор</option>
@@ -321,6 +288,7 @@ const CreateCarModel = () => {
                         value={carModel.drive_unit}
                         onChange={handleInputChange}
                     >
+                        <option key='blankChoice' hidden value />
                         <option value="Передний">Передний</option>
                         <option value="Задний">Задний</option>
                         <option value="Полный">Полный</option>
@@ -350,7 +318,6 @@ const CreateCarModel = () => {
                         id="package_descr"
                         name="package_descr"
                         value={carModel.package_descr}
-                        // defaultValue="Подробное описание комплектации не найдено."
                         onChange={handleInputChange}
                     />
                 </Form.Group>

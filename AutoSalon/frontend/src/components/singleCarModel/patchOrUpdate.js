@@ -1,12 +1,13 @@
-import React, { Fragment, useState, useEffect, useCallback } from "react";
-import { Form, FormControl } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import React, { Fragment, useState } from "react";
+import { Form} from "react-bootstrap";
+import { useDispatch} from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
-
-import { fetchCarModel, updateSingleCarModel, singleCarModelSelector } from "../../slices/singleCarModelSlice";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const SingleCarModelCrud = ({ singleCarModel }) => {
+import { updateSingleCarModel } from "../../slices/singleCarModelSlice";
+
+// add notification
+const SingleCarModelUpdate = ({ singleCarModel }) => {
     // const { singleCarModel, loading: singleCarModelLoading, hasErrors: singleCarModelHasErrors } = useSelector(singleCarModelSelector);
     
     const initialSingleCarModelState = {
@@ -28,11 +29,9 @@ const SingleCarModelCrud = ({ singleCarModel }) => {
         // multiple images
     };
 
-    const [currentCarModel, setCurrentCarModel] = useState(initialSingleCarModelState);
-    const [message, setMessage] = useState("");
+    // const [currentCarModel, setCurrentCarModel] = useState(initialSingleCarModelState);
+    // const [message, setMessage] = useState("");
     const dispatch = useDispatch();
-    const params = useParams();
-    const navigate = useNavigate();
 
     let patchData = new FormData();
 
@@ -77,28 +76,14 @@ const SingleCarModelCrud = ({ singleCarModel }) => {
     // };
     /// End Form Validation ///
 
-    const id = params.id
-
     const updateContent = (event) => { // add notification/popups on success and on failure 
         // event.preventDefault();
-        // console.log(currentCarModel);
-        // const data = {
-        //     id: singleCarModel.id,
-        //     brand: singleCarModel.brand,
-        //     model: singleCarModel.model,
-        // };
-
-        // console.log('currentCarModel.id - ', singleCarModel.id);
-        // console.log('currentCarModel.brand - ', currentCarModel.brand);
-        // console.log('currentCarModel.model - ', currentCarModel.model);
-        // console.log('currentCarModel.body - ', currentCarModel.body);
         
         dispatch(updateSingleCarModel({ id: singleCarModel.id, data: patchData }))
         .unwrap()
         .then(response => {
             console.log('response - ', response);
         })
-        // .then(dispatch(fetchCarModel(id)))
         .catch(e => {
             console.log(e);
         });
@@ -335,20 +320,10 @@ const SingleCarModelCrud = ({ singleCarModel }) => {
                         Внести изменения
                     </button>
                 </div>
-                {/* <div>
-                    <br/>
-                    <button 
-                        type="submit" 
-                        className="btn btn-secondary btn-block"
-                        // onClick={handleSubmit}
-                    >
-                        Удалить модель
-                    </button>
-                </div> */}
             </Form>
         </Fragment>
         // </div>
     );
 };
 
-export default SingleCarModelCrud;
+export default SingleCarModelUpdate;
