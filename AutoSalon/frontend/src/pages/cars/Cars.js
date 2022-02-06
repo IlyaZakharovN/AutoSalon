@@ -40,12 +40,15 @@ const Cars = () => {
     // }
     // const c = useFetchCars();
 
+    const carModels = useSelector(state => state.carModels);
     const renderCarList = () => {
         // fetchCars();
         // fetchCars();
         // console.log(cars);
         // const c = await dispatch(retriveCars());
         // console.log(c);
+    
+        
         return <CarList cars={cars}/>;
     };
 
