@@ -1,3 +1,4 @@
+from django.core.validators import RegexValidator
 from django.db import models
 
 from cars.models import Car
@@ -20,10 +21,20 @@ class ArrivalType(models.Model):
         return f'{self.arrival_type_id} - {self.name}'
 
 class Stock(models.Model):
-    VIN = models.ForeignKey(Car, on_delete=models.SET_DEFAULT, default=00000000000000000)
+    VIN = models.ForeignKey(
+        Car, 
+        on_delete=models.SET_DEFAULT, 
+        default='A0000000000000000',
+        validators=[RegexValidator('^(([(A-Z)*(\d)*]){17}|([(\d)*(A-Z)*]){17})$', 'VIN должен состоять из 17 заглавных букв и цифр.')]
+    )
     arrival_type_id = models.ForeignKey(ArrivalType, on_delete=models.SET_DEFAULT, default=1)
     purchase_value = models.DecimalField(max_digits=11, decimal_places=2)
     millage = models.PositiveIntegerField()
 
     def __str__(self):
         return f'{self.VIN}, {self.arrival_type_id}, {self.purchase_value} руб., {self.millage} км'
+
+    # class Meta:
+    #     constraints = [
+    #         models.CheckConstraint(check=models.Q(VIN__length=17), name="VIN_stock_length")
+    #     ]

@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate  } from 'react-router-dom';
 
-import axiosDefault from '../http-common';
-import { UserLogout } from '../slices/userSlice';
+import axiosDefault from '../../http-common';
+import { UserLogout } from '../../slices/userSlice';
 
 
 const Logout = () => {

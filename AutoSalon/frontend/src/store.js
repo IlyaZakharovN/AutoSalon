@@ -17,11 +17,13 @@ import storage from "redux-persist/lib/storage";
 import carModelReducer from "./slices/carModelsSlice";
 import singleCarModeleReducer from "./slices/singleCarModelSlice";
 import userReducer from "./slices/userSlice";
+import carReducer from "./slices/carSlice";
 
 const reducer = combineReducers({
   carModels: carModelReducer,
   singleCarModel: singleCarModeleReducer,
   user: userReducer,
+  car: carReducer,
 })
 
 // redux persist:

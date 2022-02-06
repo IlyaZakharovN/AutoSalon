@@ -2,8 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-import { axiosDefault } from '../http-common';
-import { retriveUserData } from '../slices/userSlice';
+import { axiosDefault } from '../../http-common';
+import { retriveUserData } from '../../slices/userSlice';
 
 export default function SignIn() {
     const navigate = useNavigate();

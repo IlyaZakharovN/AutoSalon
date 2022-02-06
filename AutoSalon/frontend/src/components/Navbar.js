@@ -35,7 +35,7 @@ const Navbar = () => {
         <Fragment>
             <Link className="nav-link" to="/carmodels/">Каталог</Link>
             <Link className="nav-link" to="/">Тест-драйв</Link>
-            <Link className="nav-link" to="/">Автомобили в наличии</Link>
+            <Link className="nav-link" to="/cars/">Автомобили в наличии</Link>
             <Link className="nav-link" to="/">Доп. опции</Link>
             <Link className="nav-link" to="/">Продажи</Link>
             <Link className="nav-link" to="/">Тех. экспертиза</Link>
@@ -48,7 +48,7 @@ const Navbar = () => {
         <Fragment>
             <Link className="nav-link" to="/carmodels/">Каталог</Link>
             <Link className="nav-link" to="/">Тест-драйв</Link>
-            <Link className="nav-link" to="/">Автомобили в наличии</Link>
+            <Link className="nav-link" to="/cars/">Автомобили в наличии</Link>
             <Link className="nav-link" to="/">Доп. опции</Link>
             <Link className="nav-link" to="/">Продажи</Link>
             <Link className="nav-link" to="/">Тех. экспертиза</Link>

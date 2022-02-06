@@ -3,12 +3,11 @@ import { Card, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Children } from "react";
 
-import { retriveCarModels, carModelsSelector } from "../slices/carModelsSlice";
-import { userSelector, retriveUserData } from "../slices/userSlice";
-import CreateCarModel from "../components/carModels/create";
-import CarModels from "../components/carModels/list";
+import { retriveCarModels, carModelsSelector } from "../../slices/carModelsSlice";
+import { userSelector, retriveUserData } from "../../slices/userSlice";
+import CreateCarModel from "../../components/carModels/create";
+import CarModels from "../../components/carModels/list";
 
 // Add availability
 const CarModelsList = () => {

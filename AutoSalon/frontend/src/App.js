@@ -1,12 +1,13 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import './App.css';
-import CarModel from './pages/CarModelPage';
-import CarModelsList from './pages/CarModelsListPage';
+import Cars from './pages/cars/Cars';
+import CarModel from './pages/carModels/CarModelPage';
+import CarModelsList from './pages/carModels/CarModelsListPage';
 import Home from './pages/Home';
-import Logout from './pages/Logout';
+import Logout from './pages/auth/Logout';
 import Navbar from './components/Navbar';
-import Login from './pages/Login';
+import Login from './pages/auth/Login';
 import Profile from './pages/user/ProfilePage';
 // import { UserLogout } from './slices/userSlice';
 // import CarModelsPage from './pages/CarModelsPage';
@@ -18,6 +19,8 @@ function App() {
                 <Navbar/>
                 <Routes>
                     <Route exact path="/" element={<Home/>} />
+                    <Route exact path="/cars" element={<Cars/>} />
+                    {/* <Route exact path="/cars/:id" element={<Car/>} /> */}
                     <Route exact path="/carmodels" element={<CarModelsList/>} />
                     <Route path="/carmodels/:id" element={<CarModel/>} />
                     <Route path="/login" element={<Login/>} />

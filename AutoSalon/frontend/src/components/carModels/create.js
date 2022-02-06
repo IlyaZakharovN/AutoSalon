@@ -3,8 +3,7 @@ import { Form, FormControl } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { unwrapResult } from '@reduxjs/toolkit'
 
-import { createCarModel, carModelAdd } from "../../slices/carModelsSlice";
-import { retriveCarModels } from "../../slices/carModelsSlice";
+import { createCarModel, carModelAdd, retriveCarModels } from "../../slices/carModelsSlice";
 
 // Add notifications on creation, wrong data input...
 const CreateCarModel = () => {
@@ -44,7 +43,7 @@ const CreateCarModel = () => {
     };
 
     const saveCarModel = async (event) => {
-        console.log(JSON.stringify(carModel))
+        console.log(JSON.stringify(carModel));
         console.log(carModel);
         event.preventDefault();
 

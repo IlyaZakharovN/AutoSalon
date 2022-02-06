@@ -4,12 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import { retriveCarModels } from "../../slices/carModelsSlice";
-import { carModelsSelector } from "../../slices/carModelsSlice";
+// import { retriveCarModels } from "../../slices/carModelsSlice";
+// import { carModelsSelector } from "../../slices/carModelsSlice";
 
 // Add Card styles...
 const CarModels = ({ carModels }) => {
-    const [currentCarModel, setCurrentCarModel] = useState(null);
+    // const [currentCarModel, setCurrentCarModel] = useState(null);
     console.log(carModels);
 
     return (
@@ -23,7 +23,7 @@ const CarModels = ({ carModels }) => {
                             <Card.Title>
                                 <Link 
                                     to={"/carmodels/" + carModel.id}
-                                    className=""
+                                    className="" 
                                 >
                                 {carModel.brand + " " + carModel.model + " " + carModel.year + " в комплектации " + carModel.package_name}
                                 </Link>

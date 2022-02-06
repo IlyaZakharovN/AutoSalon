@@ -2,7 +2,6 @@
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
-// import { isRejectedWithValue } from "@reduxjs/toolkit";
 
 import { axiosMultipart, axiosDefault } from "../http-common"; // axios instance
 
@@ -13,16 +12,22 @@ const initialState = {
     hasErrors: false,
 };
 
-///// Create a car model /////
-// const createCM = data => {
-//     return axiosMultipart.post("/carmodels/", data)
-//         .then(res => {
-//             console.log(res.request.status);
-//             console.log(res);
-//         })
-//         .catch(err => console.log(err));
-// };
+///// Get all car models /////
+export const retriveCarModels = createAsyncThunk(
+    "carModels/retrieve",
+    async (_, { rejectWithValue }) => {
+        try {
+            const res = await axiosDefault.get("/carmodels/");
+            console.log(res.data);
+            return res.data;
+        } catch (err) {
+            console.log(err);
+            return rejectWithValue(err.response.data);
+        }
+    }
+);
 
+///// Create a car model /////
 export const createCarModel = createAsyncThunk(
     "carModels/create",
     async (data, { rejectWithValue }) => {
@@ -33,30 +38,6 @@ export const createCarModel = createAsyncThunk(
         } catch (err) {
             console.log(err);
             return rejectWithValue(err.response.data);
-        }
-    }
-);
-
-///// Get all car models /////
-// const getAllCarModels = () => {
-//     return axiosDefault.get("/carmodels/");
-// };
-
-// const dispatch = useDispatch();
-export const retriveCarModels = createAsyncThunk(
-    "carModels/retrieve",
-    async (_, { rejectWithValue }) => {
-        // useDispatch(getCarModels())
-        try {
-            const res = await axiosDefault.get("/carmodels/");
-            console.log(res.data);
-            return res.data;
-            // useDispatch(getCarModelsSuccess(res.data));
-            // return {carModels: res.data};
-        } catch (err) {
-            console.log(err);
-            return rejectWithValue(err.response.data);
-            // useDispatch(getCarModelsFailure());
         }
     }
 );
@@ -109,7 +90,7 @@ const carModelSlice = createSlice({
         [retriveCarModels.rejected]: (state, action) => {
             return {
                 ...initialState
-              }
+            }
         },
     },
 });

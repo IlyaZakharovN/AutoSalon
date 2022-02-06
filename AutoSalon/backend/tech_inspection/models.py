@@ -1,3 +1,4 @@
+from django.core.validators import RegexValidator
 from django.db import models
 
 from cars.models import Car
@@ -13,10 +14,21 @@ class TechInspection(models.Model):
         limit_choices_to=(models.Q(is_sales_director=True) | models.Q(is_tech_inspector=True) | models.Q(is_superuser=True))
         )
 
-    VIN = models.ForeignKey(Car, on_delete=models.SET_DEFAULT, default=00000000000000000)
+    VIN = models.ForeignKey(
+        Car, 
+        on_delete=models.SET_DEFAULT, 
+        default='A0000000000000000',
+        validators=[RegexValidator('^(([(A-Z)*(\d)*]){17}|([(\d)*(A-Z)*]){17})$', 'VIN должен состоять из 17 заглавных букв и цифр.')]
+    )
+    
     conclusion = models.TextField(default='Заключение не предоставлено.')
     start_date = models.DateField()
     end_date = models.DateField(null=True)
     
     def __str__(self):
         return f'{self.VIN}, {self.start_date} - {self.end_date}, {self.inspector}'
+
+    # class Meta:
+    #     constraints = [
+    #         models.CheckConstraint(check=models.Q(VIN__length=17), name="VIN_ti_length")
+    #     ]

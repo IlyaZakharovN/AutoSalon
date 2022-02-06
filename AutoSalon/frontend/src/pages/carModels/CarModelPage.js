@@ -2,12 +2,12 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import { retriveCarModels } from "../slices/carModelsSlice";
-import SingleCarModelDelete from "../components/singleCarModel/delete";
-import SingleCarModel from "../components/singleCarModel/SingleCarModel";
-import SingleCarModelUpdate from "../components/singleCarModel/patchOrUpdate";
-import { fetchCarModel, singleCarModelSelector } from "../slices/singleCarModelSlice";
-import { userSelector, retriveUserData } from "../slices/userSlice";
+import { retriveCarModels } from "../../slices/carModelsSlice";
+import SingleCarModelDelete from "../../components/singleCarModel/delete";
+import SingleCarModel from "../../components/singleCarModel/SingleCarModel";
+import SingleCarModelUpdate from "../../components/singleCarModel/patchOrUpdate";
+import { fetchCarModel, singleCarModelSelector } from "../../slices/singleCarModelSlice";
+import { userSelector, retriveUserData } from "../../slices/userSlice";
 
 const CarModel = (props) => {
     const dispatch = useDispatch();
