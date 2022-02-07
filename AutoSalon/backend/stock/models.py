@@ -29,12 +29,12 @@ class Stock(models.Model):
         validators=[RegexValidator('^(([(A-Z)*(\d)*]){17}|([(\d)*(A-Z)*]){17})$', 'VIN должен состоять из 17 заглавных букв и цифр.')]
     )
     arrival_type_id = models.ForeignKey(ArrivalType, on_delete=models.SET_DEFAULT, default=1)
-    arrival_date = models.DateField(null=True)
+    arrival_date = models.DateField()
     purchase_value = models.DecimalField(max_digits=11, decimal_places=2)
     millage = models.PositiveIntegerField()
 
     def __str__(self):
-        return f'{self.VIN}, {self.arrival_type_id}, {self.purchase_value} руб., {self.millage} км'
+        return f'{self.VIN}, - {self.arrival_date}, {self.arrival_type_id}, {self.purchase_value} руб., {self.millage} км'
 
     # class Meta:
     #     constraints = [

@@ -27,6 +27,21 @@ export const retriveCarModels = createAsyncThunk(
     }
 );
 
+///// Retrive a car model by id /////
+export const fetchCarModel = createAsyncThunk(
+    "carModels/fetchCarModel",
+    async (id, { rejectWithValue }) => {
+        try {
+            const res = await axiosDefault.get(`/carmodels/${id}/`);
+            console.log(res.data);
+            return res.data;
+        } catch (err) {
+            console.log(err);
+            return rejectWithValue(err.response.data);
+        }
+    }
+);
+
 ///// Create a car model /////
 export const createCarModel = createAsyncThunk(
     "carModels/create",
@@ -82,6 +97,7 @@ const carModelSlice = createSlice({
             // }
             return { ...state };
         },
+        
         [retriveCarModels.fulfilled]: (state, action) => {
             // state.carModels = action.payload.carModels;
             return [...action.payload];
@@ -91,6 +107,13 @@ const carModelSlice = createSlice({
             return {
                 ...initialState
             }
+        },
+
+        [fetchCarModel.fulfilled]: (state, action) => {
+            return {...action.payload};
+        },
+        [fetchCarModel.rejected]: (state, action) => {
+            return { ...initialState };
         },
     },
 });

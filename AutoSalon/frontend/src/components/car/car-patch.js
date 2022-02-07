@@ -7,7 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import { updateCar } from "../../slices/carSlice";
 
-const CarUpdate = () => {
+const CarUpdate = ({ car }) => {
     const initialCarState = {
         VIN: car.VIN,
         model_id: car.model_id,

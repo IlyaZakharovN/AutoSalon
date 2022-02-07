@@ -36,6 +36,7 @@ class Sale(models.Model):
 
     date = models.DateField()
     purchase_type_id = models.ForeignKey(PurchaseType, on_delete=models.SET_DEFAULT, default=0)
+    sale_price = models.DecimalField(max_digits=11, decimal_places=2)
 
     customer_passport = models.CharField(
         max_length=10,
@@ -45,6 +46,7 @@ class Sale(models.Model):
     ])
 
     add_option_id = models.ManyToManyField(AddOption, default=0)
+    note = models.TextField(default='Примечание продажи не указано.', blank=True, null=True)
 
     def __str__(self):
         return f'{self.VIN - self.date, self.seller}'

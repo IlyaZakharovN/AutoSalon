@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import './App.css';
+import CarPage from './pages/cars/Car';
 import Cars from './pages/cars/Cars';
 import CarModel from './pages/carModels/CarModelPage';
 import CarModelsList from './pages/carModels/CarModelsListPage';
@@ -20,7 +21,7 @@ function App() {
                 <Routes>
                     <Route exact path="/" element={<Home/>} />
                     <Route exact path="/cars" element={<Cars/>} />
-                    {/* <Route exact path="/cars/:id" element={<Car/>} /> */}
+                    <Route exact path="/car/:vin" element={<CarPage/>} />
                     <Route exact path="/carmodels" element={<CarModelsList/>} />
                     <Route path="/carmodels/:id" element={<CarModel/>} />
                     <Route path="/login" element={<Login/>} />

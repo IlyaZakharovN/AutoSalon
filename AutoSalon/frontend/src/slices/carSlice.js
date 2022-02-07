@@ -24,6 +24,21 @@ export const retriveCars = createAsyncThunk(
     }
 );
 
+///// Retrive a car by VIN /////
+export const fetchCar = createAsyncThunk(
+    "cars/fetchCar",
+    async (vin, { rejectWithValue }) => {
+        try {
+            const res = await axiosDefault.get(`/cars/${vin}/`);
+            console.log(res.data);
+            return res.data;
+        } catch (err) {
+            console.log(err);
+            return rejectWithValue(err.response.data);
+        }
+    }
+);
+
 ///// Add car /////
 export const createCar = createAsyncThunk(
     "car/create",
@@ -50,12 +65,21 @@ export const updateCar = createAsyncThunk(
     }
 );
 
+///// Delete car /////
+
 
 const carSlice = createSlice({
     name: "car",
     initialState,
     reducers: {},
     extraReducers: {
+        [fetchCar.fulfilled]: (state, action) => {
+            return {...action.payload};
+        },
+        [fetchCar.rejected]: (state, action) => {
+            return { ...initialState };
+        },
+
         [retriveCars.fulfilled]: (state, action) => {
             return [...action.payload];
         },

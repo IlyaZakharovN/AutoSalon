@@ -14,6 +14,10 @@ export const CreateCar = ({ carModels }) => {
         price: null,
         purpose: null,
         note: "",
+        arrival_type_id: null,
+        arrival_date: null,
+        purchase_value: null, 
+        millage: null
     });
     
     const { register, handleSubmit, formState: { errors } } = useForm({reValidateMode: 'onChange',}); 

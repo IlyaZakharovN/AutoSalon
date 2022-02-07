@@ -14,16 +14,18 @@ import {
   } from 'redux-persist'
 import storage from "redux-persist/lib/storage";
 
+import carReducer from "./slices/carSlice";
 import carModelReducer from "./slices/carModelsSlice";
 import singleCarModeleReducer from "./slices/singleCarModelSlice";
-import userReducer, { userIsLoggedOut } from "./slices/userSlice";
-import carReducer from "./slices/carSlice";
+import stockReducer from "./slices/stockSlice";
+import userReducer from "./slices/userSlice";
 
 const appReducer = combineReducers({
   carModels: carModelReducer,
   singleCarModel: singleCarModeleReducer,
   user: userReducer,
   car: carReducer,
+  stock: stockReducer,
 });
 
 const rootReducer = (state, action) => {
