@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-export const CarList = ({ cars }) => {
+export const CarList = ({ cars, carModels }) => {
     console.log(cars);
-    const carModels = useSelector(state => state.carModels);
+    // const carModels = useSelector(state => state.carModels);
     // let result = Object.values(carModels, cars).filter(carModel => carModel.id === cars.VIN);
     // console.log(result);
 

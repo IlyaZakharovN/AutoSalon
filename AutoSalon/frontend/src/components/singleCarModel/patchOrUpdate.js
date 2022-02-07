@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { Form} from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { useDispatch} from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";

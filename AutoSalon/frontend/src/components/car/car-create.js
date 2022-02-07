@@ -1,14 +1,13 @@
 import React, { Fragment, useState } from "react";
 import { Form, FormControl } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-// import { Field, reduxForm } from "redux-form";
 import { useForm } from "react-hook-form";
 
 import { createCar, retriveCars } from "../../slices/carSlice";
-// import { carModelsSelector } from "../../slices/carModelsSlice";
 
+// Add car pictures...
 // Add notifications on creation, wrong data input...
-export const CreateCar = () => {
+export const CreateCar = ({ carModels }) => {
     const initialCarState = Object.freeze({
         vin: null,
         model_id: null,
@@ -20,11 +19,7 @@ export const CreateCar = () => {
     const { register, handleSubmit, formState: { errors } } = useForm({reValidateMode: 'onChange',}); 
     const [car, setCar] = useState(initialCarState);
     const dispatch = useDispatch(); 
-    const carModels = useSelector(state => state.carModels);
     console.log(carModels);
-    // {carModels && carModels.map((carModel, index) => (
-    //     console.log(carModel)
-    // ))}
 
     const handleInputChange = event => {
         console.log(event.target.name, " - ", event.target.value);
@@ -105,11 +100,6 @@ export const CreateCar = () => {
                                 {carModel.id + " - " + carModel.brand + " " + carModel.model + " " + carModel.year + " в комплектации " + carModel.package_name + " - " + carModel.base_price}
                             </option>
                         ))}
-                        {/* <option value="Бензин">Бензин</option>
-                        <option value="Дизель">Дизель</option>
-                        <option value="Гибрид">Гибрид</option>
-                        <option value="Электро">Электро</option>
-                        <option value="Неизвестно">Неизвестно</option> */}
                     </Form.Select>
                 </Form.Group>
 

@@ -1,3 +1,4 @@
+from datetime import date
 from django.core.validators import RegexValidator
 from django.db import models
 
@@ -28,6 +29,7 @@ class Stock(models.Model):
         validators=[RegexValidator('^(([(A-Z)*(\d)*]){17}|([(\d)*(A-Z)*]){17})$', 'VIN должен состоять из 17 заглавных букв и цифр.')]
     )
     arrival_type_id = models.ForeignKey(ArrivalType, on_delete=models.SET_DEFAULT, default=1)
+    arrival_date = models.DateField(null=True)
     purchase_value = models.DecimalField(max_digits=11, decimal_places=2)
     millage = models.PositiveIntegerField()
 
@@ -36,5 +38,6 @@ class Stock(models.Model):
 
     # class Meta:
     #     constraints = [
-    #         models.CheckConstraint(check=models.Q(VIN__length=17), name="VIN_stock_length")
+    #         # models.CheckConstraint(check=models.Q(VIN__length=17), name="VIN_stock_length"),
+    #         # models.CheckConstraint(check=models.Q(date_time__gt=date.today()), name='datetime_gt_now'),
     #     ]

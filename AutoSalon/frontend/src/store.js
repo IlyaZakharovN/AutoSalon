@@ -16,23 +16,37 @@ import storage from "redux-persist/lib/storage";
 
 import carModelReducer from "./slices/carModelsSlice";
 import singleCarModeleReducer from "./slices/singleCarModelSlice";
-import userReducer from "./slices/userSlice";
+import userReducer, { userIsLoggedOut } from "./slices/userSlice";
 import carReducer from "./slices/carSlice";
 
-const reducer = combineReducers({
+const appReducer = combineReducers({
   carModels: carModelReducer,
   singleCarModel: singleCarModeleReducer,
   user: userReducer,
   car: carReducer,
-})
+});
+
+const rootReducer = (state, action) => {
+  if (action.type === 'user/logout/fulfilled') {
+    // const { routing } = state
+    // state = { routing }
+    console.log(storage.getItem('persist:root'))
+    storage.removeItem('persist:root')
+    console.log(storage.getItem('persist:root'))
+    return appReducer(undefined, action)
+  }
+
+  return appReducer(state, action);
+}
 
 // redux persist:
 const persistConfig = {
   key: 'root',
-  storage
+  storage,
+  // blacklist: ['carModel'],
 };
 
-const persistedReducer = persistReducer(persistConfig, reducer);
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
   reducer: persistedReducer,

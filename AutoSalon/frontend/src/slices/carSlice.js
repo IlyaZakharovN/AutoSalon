@@ -39,6 +39,18 @@ export const createCar = createAsyncThunk(
     }
 );
 
+///// Patrial Update car /////
+export const updateCar = createAsyncThunk(
+    "car/partial-update",
+    async ({ id, data }) => {
+        console.log('Initial data - ', data);
+        const res = await axiosDefault.patch(`/carmodels/${id}/`, data);
+        console.log('Updated data - ', res.data);
+        return res.data;
+    }
+);
+
+
 const carSlice = createSlice({
     name: "car",
     initialState,
@@ -50,6 +62,7 @@ const carSlice = createSlice({
         [retriveCars.rejected]: (state, action) => {
             return { ...initialState };
         },
+
         [createCar.fulfilled]: (state, action) => {
             state.push(action.payload);
             // return { ...state };
@@ -63,6 +76,14 @@ const carSlice = createSlice({
                 console.log(state.error);
             }
             return { ...state };
+        },
+
+        [updateCar.fulfilled]: (state, action) => {
+            const index = state.findIndex(cars => cars.id === action.payload.id);
+            state[index] = {
+                ...state[index],
+                ...action.payload,
+            };
         },
     },
 });

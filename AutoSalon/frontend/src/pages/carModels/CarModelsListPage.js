@@ -12,15 +12,27 @@ import CarModels from "../../components/carModels/list";
 // Add availability
 const CarModelsList = () => {
     // const [currentCarModel, setCurrentCarModel] = useState(null);
-    // const [carModels, setCarModels] = useState();
+    const [carModels, setCarModels] = useState();
     // const { carModels: carModels, loading: carModelsLoading, hasErrors: carModelsHasErrors } = useSelector(carModelsSelector); // maybe add later
     // const [currentIndex, setCurrentIndex] = useState(-1); // maybe later add short description
     // const [searchCarModel, setSearchCarModel] = useState(""); // for searching, add later
 
-    const carModels = useSelector(state => state.carModels);
+    // const carModels = useSelector(state => state.carModels);
     const { isAuthenticated, is_superuser, is_sales_director, is_puchase_manager } = useSelector(userSelector);
     const dispatch = useDispatch();
     console.log(carModels);
+
+    const fetchCarModels = useCallback(async() => { // pre: no useCallback
+        console.log('dispatched');
+        const result = await dispatch(retriveCarModels());
+        setCarModels(result.payload);
+        console.log(carModels);
+    }, [dispatch]);
+
+    useEffect(() => {
+        console.log(carModels);
+        return fetchCarModels();
+    }, [fetchCarModels])
 
     // useEffect(() => {
     //     dispatch(retriveCarModels()).then(res => {
@@ -55,71 +67,21 @@ const CarModelsList = () => {
     // }, [initFetch])
     // // end get Carmodels
 
-    const initFetch = useCallback(() => {
-        dispatch(retriveCarModels());
-        console.log('dispatched');
-    }, [dispatch])
-    // // carModels = useSelector(state => state.carModels);
+    // const initFetch = useCallback(() => {
+    //     dispatch(retriveCarModels());
+    //     console.log('dispatched');
+    // }, [dispatch])
+    // // // carModels = useSelector(state => state.carModels);
 
-    useEffect(() => {
-        initFetch();
-    }, [initFetch])
+    // useEffect(() => {
+    //     initFetch();
+    // }, [initFetch])
     // console.log(carModels);
 
     const renderCarModelsList = () => {
-        // const cm = await dispatch(retriveCarModels());
-        // const carModels = await cm.payload;
-        // const carModels = useSelector(state => state.carModels);
-        // setCarModels(carModels);
-        console.log(carModels);
-        // console.log(Array.isArray(Object.entries(carModels)));
-        // console.log(typeof(carModels));
-        // console.log(Object.entries(carModels));
-        // // const carModels = cm.payload;
-        // setCarModels(cm.payload);
         // console.log(carModels);
-
-        // const res = await dispatch(retriveCarModels());
-        // console.log(res.data);
-        // initFetch().then((res) => {
-        //     <CarModels carModels={res.data} />
-        // })
-        // const cm = await initFetch().then(<CarModels carModels={cm} />)
-        // if (carModelsLoading) return <p>Данные загружаются...</p>
-        // if (carModelsHasErrors) return <p>Невозможно отобразить данные.</p>
-        // if (!carModels || carModels.length === 0) {
-        //     return <p>Данные загружаются...</p>
-        // } else {
-        // }
-        // try {
-        //     return <CarModels carModels={carModels} />
-        // } catch (err) {
-        //     console.log(err);
-        // }
-        // return (
-        //     // <>{Object.entries(carModels).map((carModel) => <li>{carModel} </li>)}</>
-        //     <CarModels />
-        // );
-        // if (carModels) {
-            // return <CarModels carModels={Children.toArray(carModels)} />
-            // return <p>{(Object.entries(carModels))}</p> 
-        // }
         return <CarModels carModels={carModels}/>
     };
-    
-    // useEffect(() => {
-    //     renderCarModelsList();
-    // }, []);
-
-    // const refreshData = () => {
-    //     setCurrentCarModel(null);
-    //     setCurrentIndex(-1);
-    // };
-
-    // const setActiveCarModel = (carModel, index) => {
-    //     setCurrentCarModel(carModel);
-    //     setCurrentIndex(index);
-    // };
 
     return (
         <section>

@@ -84,6 +84,11 @@ const userSlice = createSlice({
             state.loading = false
             state.hasErrors = true
         },
+        userIsLoggedOut: state => {
+            state.isAuthenticated = false
+            state.loading = false
+            state.hasErrors = false
+        },
     },
     extraReducers: {
         [retriveUserData.fulfilled]: (state, action) => { // pre:(state, action) |||||| (state, { payload })
@@ -129,7 +134,7 @@ const userSlice = createSlice({
 });
 
 // const { reducer } = userSlice; // 'reducer' name is a must
-export const { getUser, getUserSuccess, getUserFailure } = userSlice.actions;
+export const { getUser, getUserSuccess, getUserFailure, userIsLoggedOut } = userSlice.actions;
 export const userSelector = state => state.user;
 export default userSlice.reducer;    
 

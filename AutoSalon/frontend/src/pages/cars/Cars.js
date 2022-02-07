@@ -7,11 +7,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { CreateCar } from "../../components/car/car-create";
 import { CarList } from "../../components/car/car-list";
 import { retriveCars } from "../../slices/carSlice";
+import { retriveCarModels } from "../../slices/carModelsSlice";
 import { userSelector, retriveUserData } from "../../slices/userSlice";
 
 const Cars = () => {
     // const cars = useSelector(state => state.cars);
     const [cars, setCars] = useState();
+    const [carModels, setCarModels] = useState();
     const { isAuthenticated, is_superuser, is_sales_director, is_puchase_manager } = useSelector(userSelector);
     const dispatch = useDispatch();
 
@@ -21,26 +23,22 @@ const Cars = () => {
         setCars(result.payload);
         console.log(cars);
     }, [dispatch]);
-    
-    // const fetchCars = useCallback(() => {
-    //     console.log('dispatched');
-    //     dispatch(retriveCars());
-    // }, [dispatch])
+
+    const fetchCarModels = useCallback(async() => { 
+        console.log('dispatched');
+        const result = await dispatch(retriveCarModels());
+        setCarModels(result.payload);
+        console.log(carModels);
+    }, [dispatch]);
     
     useEffect(() => {
         console.log(cars);
-        return fetchCars();
-    }, [fetchCars])
+        fetchCars();
+        fetchCarModels();
+    }, [fetchCars, fetchCarModels])
 
 
-    // const useFetchCars = () => {
-    //     useEffect(() => {
-    //         fetchCars();
-    //     }, [fetchCars]);
-    // }
-    // const c = useFetchCars();
-
-    const carModels = useSelector(state => state.carModels);
+    // const carModels = useSelector(state => state.carModels);
     const renderCarList = () => {
         // fetchCars();
         // fetchCars();
@@ -49,7 +47,11 @@ const Cars = () => {
         // console.log(c);
     
         
-        return <CarList cars={cars}/>;
+        return <CarList cars={cars} carModels={carModels}/>;
+    };
+
+    const renderCreateCar = () => {
+        return <CreateCar carModels={carModels}/>
     };
 
     return (
@@ -61,12 +63,12 @@ const Cars = () => {
                             {renderCarList()}
                         </Col> 
                         <Col xs lg="4">
-                            {CreateCar()}
+                            {renderCreateCar()}
                         </Col>
                     </Fragment>
                     ):(
                         <Fragment>
-                            {/* {renderCarModelsList()} */}
+                            {renderCarList()}
                         </Fragment>
                     )   
                 }
