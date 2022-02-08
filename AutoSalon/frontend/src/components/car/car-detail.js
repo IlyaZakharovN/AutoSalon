@@ -10,17 +10,18 @@ const CarDetail = ({ car, carModel, stock, arrivalType }) => { //
     return (
         <Fragment>
             {/* add styles... */}
-            <div className=""> 
-                <h3 className="mb-3">
-                    {car.VIN + " " + carModel.brand + " " + carModel.model + " " + carModel.year}
+            <div style={{textAlign: "left"}}> 
+                <h3 className="mb-3" style={{textAlign: "center"}}>
+                    {`${car.VIN} ${carModel.brand} ${carModel.model} ${carModel.year} в комплектации ${carModel.package_name}`}
                 </h3>
                 <img src={carModel.main_photo} className="mb-3"/>
                 {/* <h5>Статус - {something.status}</h5> */}
                 <p>Цена автомобиля - {car.price} руб.</p>
                 <p>Базовая цена модели - от {carModel.base_price} руб.</p>
+                <p>Описание модели: <span>{carModel.model_descr}</span></p>
                 {isAuthenticated && (
                     <div className="">
-                        <p>Стоимость приобретения - {stock.purchase_value}</p>
+                        <p>Стоимость приобретения - {stock.purchase_value} руб.</p>
                         <p>Тип поступления - {arrivalType.name}</p>
                         <p>Дата поступления - {stock.arrival_date}</p>
                     </div>

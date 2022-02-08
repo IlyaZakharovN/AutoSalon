@@ -21,30 +21,13 @@ const CarPage = () => {
     const [car, setCar] = useState();
     // const [cars, setCars] = useState()
     const [carModel, setCarModel] = useState();
-    // const [carModels, setCarModels] = useState();
+    const [carModels, setCarModels] = useState();
     const [stock, setStock] = useState();
     const [arrivalType, setArrivalType] = useState();
+    const [arrTypes, setArrTypes] = useState();
 
-    console.log(car);
+    // console.log(car);
     // console.log(carModels);
-
-    // const fetchCars = useCallback(async() => { 
-    //     console.log('fetching cars');
-    //     const result = await dispatch(retriveCars());
-    //     setCars(result.payload);
-    //     console.log(cars);
-    // }, [dispatch]);
-
-    // const fetchCarModels = useCallback(async() => { 
-    //     console.log('fetching car models');
-    //     const result = await dispatch(retriveCarModels());
-    //     setCarModels(result.payload);
-    //     console.log(carModels);
-    // }, [dispatch]);
-    
-    // useEffect(() => {
-    //     fetchCarModels();
-    // }, [fetchCars, fetchCarModels])
 
     const fetchData = useCallback(async() => {
         console.log('1) fetching car');
@@ -77,13 +60,20 @@ const CarPage = () => {
         console.log('5) fetching all arrival types');
         const arrivalTypesResult = await dispatch(retriveArrivalTypes());
         // console.log(arrivalTypesResult.payload);
+        setArrTypes(arrivalTypesResult.payload);
         const stockArrTypeId = theStock.arrival_type_id;
-        // console.log(stockArrTypeId);
+        console.log(arrTypes);
 
         console.log('6) fetching required arrival type');
         const theArrTypesResult = await dispatch(fetchArrivalType(stockArrTypeId));
         // console.log(theArrTypesResult.payload);
         setArrivalType(theArrTypesResult.payload);
+        console.log(arrivalType);
+
+        console.log('For patch function:');
+        console.log('7) fetching all car models');
+        const carModelsResult = await dispatch(retriveCarModels());
+        setCarModels(carModelsResult.payload);
     }, [dispatch]);
 
     useEffect(() => {
@@ -96,11 +86,17 @@ const CarPage = () => {
         if (car && carModel && stock && arrivalType) {
             return <CarDetail car={car} carModel={carModel} stock={stock} arrivalType={arrivalType}/>
         } else {
-            return <p>Ожидание загрузки...</p>
+            return <p>Ожидание загрузки страницы...</p>
         }
     };
 
-    const renderUpdateForm = () => {};
+    const renderUpdateForm = () => {
+        if (car && carModel && stock && arrivalType) {
+            return <CarUpdate car={car} stock={stock} carModels={carModels} arrTypes={arrTypes}/>
+        } else {
+            return <p>Ожидание загрузки формы обновления...</p>
+        }
+    };
 
     const renderDeleteFeature = () => {};
 
@@ -113,7 +109,7 @@ const CarPage = () => {
                             {renderCar()}
                         </Col> 
                         <Col xs lg="4">
-                            {/* {CreateCarModel()} */}
+                            {renderUpdateForm()}
                         </Col>
                     </Fragment>
                     ):(

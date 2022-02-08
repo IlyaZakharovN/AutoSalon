@@ -81,56 +81,6 @@ export const CreateCar = ({ carModels, arrivalTypes }) => {
             });
     };
 
-    // const saveCar = async (d, event) => {
-    //     console.log(car);
-    //     console.log(stock);
-    //     // event.preventDefault();
-
-    //     let newCarData = new FormData();
-    //     newCarData.append('VIN', car.vin);
-    //     newCarData.append('model_id', car.model_id);
-    //     newCarData.append('price', car.price);
-    //     newCarData.append('puprose', car.purpose);
-    //     newCarData.append('note', car.note);
-
-    //     // let newStockData = new FormData();
-    //     // newStockData.append('VIN', car.vin);
-    //     // newStockData.append('arrival_type_id', stock.arrival_type_id);
-    //     // newStockData.append('arrival_date', stock.arrival_date);
-    //     // newStockData.append('purchase_value', stock.purchase_value);
-    //     // newStockData.append('millage', stock.millage);
-
-    //     await (dispatch(createCar(newCarData))
-    //         .unwrap()
-    //         // .then(console.log(car))
-    //         .then(data => {
-    //             console.log(data);
-    //             // setCar({
-    //             //     VIN: data.vin,
-    //             //     model_id: data.model_id,
-    //             //     price: data.price,
-    //             //     purpose: data.purpose,
-    //             //     note: data.note
-    //             // });
-    //         })
-    //         .catch(e => {
-    //             console.log(e);
-    //         }),
-
-    //     // dispatch(createStockRecord(newStockData))
-    //     //     .unwrap()
-    //     //     .then(console.log(stock))
-    //     //     .then(data => {
-    //     //         console.log(data);
-    //     //     })
-    //     //     .catch(e => {
-    //     //         console.log(e);
-    //     //     }));
-
-    //     // window.location.reload();
-    //     // dispatch(retriveCars());
-    // };
-
     const saveStockRecord = async (data, event) => {
         // event.preventDefault();
         let newStockData = new FormData();
@@ -143,15 +93,10 @@ export const CreateCar = ({ carModels, arrivalTypes }) => {
         dispatch(createStockRecord(newStockData))
             .unwrap()
             .then(console.log(stockRec))
-            // .then(data => {
-            //     // console.log(data);
-            // })
             .catch(e => {
                 console.log(stockRec);
                 console.log(e);
             });
-        // window.location.reload();
-        // dispatch(retriveCars());
     };
 
     const changeHandler = (event) => {
@@ -162,6 +107,7 @@ export const CreateCar = ({ carModels, arrivalTypes }) => {
     return (
         <Fragment>
             <h4>Добавить автомобиль</h4>
+            
             <Form onSubmit={handleSubmit(saveData)}>
                 <Form.Group className='mb-3'>
                     <Form.Label className='mb-1' htmlFor="vin">VIN</Form.Label>

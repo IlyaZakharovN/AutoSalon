@@ -104,7 +104,7 @@ const stockSlice = createSlice({
         },
 
         [updateStock.fulfilled]: (state, action) => {
-            const index = state.findIndex(stock => stock.id === action.payload.id);
+            const index = state.findIndex(({stock}) => stock.id === action.payload.id);
             state[index] = {
                 ...state[index],
                 ...action.payload,

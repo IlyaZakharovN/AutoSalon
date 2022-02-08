@@ -59,7 +59,7 @@ export const updateCar = createAsyncThunk(
     "car/partial-update",
     async ({ id, data }) => {
         console.log('Initial data - ', data);
-        const res = await axiosDefault.patch(`/carmodels/${id}/`, data);
+        const res = await axiosDefault.patch(`/cars/${id}/`, data);
         console.log('Updated data - ', res.data);
         return res.data;
     }
