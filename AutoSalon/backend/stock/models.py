@@ -26,7 +26,7 @@ class Stock(models.Model):
         Car, 
         on_delete=models.SET_DEFAULT, 
         default='A0000000000000000',
-        validators=[RegexValidator('^(([(A-Z)*(\d)*]){17}|([(\d)*(A-Z)*]){17})$', 'VIN должен состоять из 17 заглавных букв и цифр.')]
+        # validators=[RegexValidator('^(([(A-Z)*(\d)*]){17}|([(\d)*(A-Z)*]){17})$', 'VIN должен состоять из 17 заглавных букв и цифр.')]
     )
     arrival_type_id = models.ForeignKey(ArrivalType, on_delete=models.SET_DEFAULT, default=1)
     arrival_date = models.DateField()

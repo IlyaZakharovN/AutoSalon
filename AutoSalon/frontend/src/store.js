@@ -14,6 +14,7 @@ import {
   } from 'redux-persist'
 import storage from "redux-persist/lib/storage";
 
+import arrivalTypesReducer from "./slices/arrivalTypesSlice";
 import carReducer from "./slices/carSlice";
 import carModelReducer from "./slices/carModelsSlice";
 import singleCarModeleReducer from "./slices/singleCarModelSlice";
@@ -26,6 +27,7 @@ const appReducer = combineReducers({
   user: userReducer,
   car: carReducer,
   stock: stockReducer,
+  arrivalTypes: arrivalTypesReducer,
 });
 
 const rootReducer = (state, action) => {
@@ -57,6 +59,7 @@ const store = configureStore({
     serializableCheck: {
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
     },
+    // serializableCheck: false,
   }),
   devTools: true,
 });

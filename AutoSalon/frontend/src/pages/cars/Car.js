@@ -7,6 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import CarDetail from "../../components/car/car-detail";
 import CarUpdate from "../../components/car/car-patch";
+import { retriveArrivalTypes, fetchArrivalType } from "../../slices/arrivalTypesSlice";
 import { retriveCarModels, fetchCarModel } from "../../slices/carModelsSlice";
 import { fetchCar, retriveCars } from "../../slices/carSlice";
 import { fetchStockRecord, retriveStock } from "../../slices/stockSlice";
@@ -22,6 +23,7 @@ const CarPage = () => {
     const [carModel, setCarModel] = useState();
     // const [carModels, setCarModels] = useState();
     const [stock, setStock] = useState();
+    const [arrivalType, setArrivalType] = useState();
 
     console.log(car);
     // console.log(carModels);
@@ -61,15 +63,27 @@ const CarPage = () => {
         console.log('3) fetching all stock records');
         const stockResult = await dispatch(retriveStock());
         // console.log(stockResult.payload);
-        const stockId = (stockResult.payload && stockResult.payload
+        const theStock = (stockResult.payload && stockResult.payload
             .sort((a, b) => new Date(b.arrival_date) - new Date(a.arrival_date))
-            .filter(stock => stock.VIN === vin))[0].id; //
-        console.log(stockId);
+            .filter(stock => stock.VIN === vin))[0]; 
+        const stockId = theStock.id
+        // console.log(stockId);
 
         console.log('4) fetching the stock record');
         const theStockResult = await dispatch(fetchStockRecord(stockId));
-        console.log(theStockResult.payload);
+        // console.log(theStockResult.payload);
         setStock(theStockResult.payload);
+
+        console.log('5) fetching all arrival types');
+        const arrivalTypesResult = await dispatch(retriveArrivalTypes());
+        // console.log(arrivalTypesResult.payload);
+        const stockArrTypeId = theStock.arrival_type_id;
+        // console.log(stockArrTypeId);
+
+        console.log('6) fetching required arrival type');
+        const theArrTypesResult = await dispatch(fetchArrivalType(stockArrTypeId));
+        // console.log(theArrTypesResult.payload);
+        setArrivalType(theArrTypesResult.payload);
     }, [dispatch]);
 
     useEffect(() => {
@@ -79,8 +93,8 @@ const CarPage = () => {
     }, [fetchData]); //dispatch fetchCarModels
 
     const renderCar = () => {
-        if (car && carModel && stock) {
-            return <CarDetail car={car} carModel={carModel} stock={stock}/>
+        if (car && carModel && stock && arrivalType) {
+            return <CarDetail car={car} carModel={carModel} stock={stock} arrivalType={arrivalType}/>
         } else {
             return <p>Ожидание загрузки...</p>
         }

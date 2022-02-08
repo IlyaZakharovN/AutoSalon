@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import { userSelector, retriveUserData } from "../../slices/userSlice";
 
-const CarDetail = ({ car, carModel, stock }) => { // 
+const CarDetail = ({ car, carModel, stock, arrivalType }) => { // 
     const { isAuthenticated, is_superuser, is_sales_director, is_puchase_manager } = useSelector(userSelector);
     
     return (
@@ -21,7 +21,7 @@ const CarDetail = ({ car, carModel, stock }) => { //
                 {isAuthenticated && (
                     <div className="">
                         <p>Стоимость приобретения - {stock.purchase_value}</p>
-                        {/* <p>Тип поступления - {something.name}</p> */}
+                        <p>Тип поступления - {arrivalType.name}</p>
                         <p>Дата поступления - {stock.arrival_date}</p>
                     </div>
                     // <p>Установлены допополнительные опции - {something.add_option_id}</p>
