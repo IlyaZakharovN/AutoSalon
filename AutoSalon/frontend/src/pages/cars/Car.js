@@ -7,6 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import CarDetail from "../../components/car/car-detail";
 import CarUpdate from "../../components/car/car-patch";
+import CarDelete from "../../components/car/car-delete";
 import { retriveArrivalTypes, fetchArrivalType } from "../../slices/arrivalTypesSlice";
 import { retriveCarModels, fetchCarModel } from "../../slices/carModelsSlice";
 import { fetchCar, retriveCars } from "../../slices/carSlice";
@@ -98,7 +99,13 @@ const CarPage = () => {
         }
     };
 
-    const renderDeleteFeature = () => {};
+    const renderDeleteFeature = () => {
+        if (car && carModel && stock && arrivalType) {
+            return <CarDelete car={car} stock={stock}/>
+        } else {
+            return <p>Ожидание загрузки функции удаления...</p>
+        }
+    };
 
     return (
         <section>
@@ -111,10 +118,15 @@ const CarPage = () => {
                         <Col xs lg="4">
                             {renderUpdateForm()}
                         </Col>
+                        <div className="mt-5"> 
+                            {renderDeleteFeature()}
+                        </div>
                     </Fragment>
                     ):(
                         <Fragment>
-                            {renderCar()}
+                            <Col xs lg="6">
+                                {renderCar()}
+                            </Col>
                         </Fragment>
                     )   
                 }

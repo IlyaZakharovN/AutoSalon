@@ -17,7 +17,9 @@ const CarDetail = ({ car, carModel, stock, arrivalType }) => { //
                 <img src={carModel.main_photo} className="mb-3"/>
                 {/* <h5>Статус - {something.status}</h5> */}
                 <p>Цена автомобиля - {car.price} руб.</p>
-                <p>Базовая цена модели - от {carModel.base_price} руб.</p>
+                {isAuthenticated && (
+                    <p>Базовая цена модели - от {carModel.base_price} руб.</p>
+                )}
                 <p>Описание модели: <span>{carModel.model_descr}</span></p>
                 {isAuthenticated && (
                     <div className="">

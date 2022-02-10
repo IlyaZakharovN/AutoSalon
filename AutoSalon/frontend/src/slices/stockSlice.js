@@ -18,6 +18,7 @@ export const retriveStock = createAsyncThunk(
             console.log(res.data);
             return res.data;
         } catch (err) {
+            console.log("Error happened while retriving stock records.");
             console.log(err);
             return rejectWithValue(err.response.data);
         }
@@ -33,6 +34,7 @@ export const fetchStockRecord = createAsyncThunk(
             console.log(res.data);
             return res.data;
         } catch (err) {
+            console.log("Error happened while fetching a stock record.");
             console.log(err);
             return rejectWithValue(err.response.data);
         }
@@ -48,6 +50,7 @@ export const createStockRecord = createAsyncThunk(
             console.log(res.data);
             return res.data; // return (await res).data;
         } catch (err) {
+            console.log("Error happened while creating a stock record.");
             console.log(err);
             return rejectWithValue(err.response.data);
         }
@@ -64,6 +67,25 @@ export const updateStock = createAsyncThunk(
         return res.data;
     }
 );
+
+///// Delete stock /////
+// const deleteSCM = vin => {
+//     return axiosDefault.delete(`/cars/${vin}/`);
+// };
+
+export const deleteStock = createAsyncThunk(
+    "stock/delete",
+    async ({ id }) => {
+        try {
+            const res = await axiosDefault.delete(`/stock/stock/${id}/`);
+            return { id };
+        } catch (err) {
+            console.log("Error happened while deleting the stock record.");
+            console.log(err);
+        }
+    }
+);
+
 
 const stockSlice = createSlice({
     name: "stock",

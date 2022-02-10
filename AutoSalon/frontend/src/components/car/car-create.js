@@ -34,25 +34,54 @@ export const CreateCar = ({ carModels, arrivalTypes }) => {
     const handleInputChange = event => {
         console.log(event.target.name, " - ", event.target.value);
         setCar({ ...car, [event.target.name]: event.target.value });
-        // console.log(car);
+        console.log(car);
     };
 
     const handleStockChange = event => {
         console.log(event.target.name, " - ", event.target.value);
         setStockRec({ ...stockRec, [event.target.name]: event.target.value });
-        // console.log(stockRec);
+        console.log(stockRec);
     };
 
     const saveData = async (d, event) => {
         event.preventDefault();
         // await Promise.all([dispatch(saveStockRecord(), dispatch(saveCar()))]);
-        await Promise.all([saveCar(), saveStockRecord()]);
+        // await Promise.all([saveCar(), saveStockRecord()]);
         // await saveStockRecord();
-        // await(dispatch(saveCar()));
+        // const res = await dispatch(saveCar());
+        // if (res.ok) {
+        //     saveStockRecord();
+        //     window.location.reload();
+        //     dispatch(retriveCars());
+        // }
         //     // .then(((saveStockRecord())))
         // (dispatch(saveStockRecord()));
+
+        await saveCar().catch(e => {
+            console.log('Error happened while running saveCar in saveData');
+            console.log(e);
+        });
+
+        try {
+            saveStockRecord();
+        } catch (e) {
+            console.log('Error happened while running saveStockRecord in saveData');
+            console.log(e);
+        };
+
         window.location.reload();
-        dispatch(retriveCars());
+
+        // await saveStockRecord().catch(e => {
+        //     console.log('Error happened while running saveStockRecord in saveData');
+        //     console.log(e);
+        // });
+
+        // try {
+        //     saveCar();
+        // } catch (e) {
+        //     console.log('Error happened while running saveCar in saveData');
+        //     console.log(e);
+        // };
     };
 
     const saveCar = async (data, event) => {
@@ -84,7 +113,7 @@ export const CreateCar = ({ carModels, arrivalTypes }) => {
     const saveStockRecord = async (data, event) => {
         // event.preventDefault();
         let newStockData = new FormData();
-        newStockData.append('VIN', car.vin);
+        newStockData.append('VIN', stockRec.vin);
         newStockData.append('arrival_type_id', stockRec.arrival_type_id);
         newStockData.append('arrival_date', stockRec.arrival_date);
         newStockData.append('purchase_value', stockRec.purchase_value);

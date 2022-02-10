@@ -18,6 +18,7 @@ export const retriveCars = createAsyncThunk(
             console.log(res.data);
             return res.data;
         } catch (err) {
+            console.log("Error happened while retriving cars.");
             console.log(err);
             return rejectWithValue(err.response.data);
         }
@@ -33,6 +34,7 @@ export const fetchCar = createAsyncThunk(
             console.log(res.data);
             return res.data;
         } catch (err) {
+            console.log("Error happened while fetching the car.");
             console.log(err);
             return rejectWithValue(err.response.data);
         }
@@ -48,6 +50,7 @@ export const createCar = createAsyncThunk(
             console.log(res);
             return res.data; // return (await res).data;
         } catch (err) {
+            console.log("Error happened while creating a car.");
             console.log(err);
             return rejectWithValue(err.response.data);
         }
@@ -66,6 +69,22 @@ export const updateCar = createAsyncThunk(
 );
 
 ///// Delete car /////
+// const deleteSCM = vin => {
+//     return axiosDefault.delete(`/cars/${vin}/`);
+// };
+
+export const deleteCar = createAsyncThunk(
+    "car/delete",
+    async ({ vin }) => {
+        try {
+            const res = await axiosDefault.delete(`/cars/${vin}/`);
+            return { vin };
+        } catch (err) {
+            console.log("Error happened while deleting the car.");
+            console.log(err);
+        }
+    }
+);
 
 
 const carSlice = createSlice({

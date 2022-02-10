@@ -31,7 +31,7 @@ const appReducer = combineReducers({
 });
 
 const rootReducer = (state, action) => {
-  if (action.type === 'user/logout/fulfilled') {
+  if (action.type === 'user/logout/fulfilled' || action.type === 'user/retrieve/pending') {
     // const { routing } = state
     // state = { routing }
     console.log(storage.getItem('persist:root'))

@@ -25,6 +25,7 @@ const Navbar = () => {
     const guestLinks = () => (
         <Fragment>
             <Link className="nav-link" to="/carmodels/">Каталог</Link>
+            <Link className="nav-link" to="/cars/">Автомобили в наличии</Link>
             <Link className="nav-link" to="/">Тест-драйв</Link>
             <Link className="nav-link" to="/">О нас</Link>
             <Link className="nav-link" to="/login">Вход для сотрудников</Link>
