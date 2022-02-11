@@ -14,12 +14,13 @@ const AddOptions = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const addOptions = useSelector(state => state.addOption)
+    // const addOptions = useSelector(state => state.addOption)
+    const [addOptions, setAddOptions] = useState();
 
     const fetchAddOptions = useCallback(async() => { 
         console.log('fetching add options...');
-        await dispatch(retriveAddOptions());
-        // setCars(result.payload);
+        const result = await dispatch(retriveAddOptions());
+        setAddOptions(result.payload);
         // console.log(addOptions);
     }, [dispatch]);
 

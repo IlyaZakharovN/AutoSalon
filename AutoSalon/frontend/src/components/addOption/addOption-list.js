@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 export const AddOptionList = ({ addOptions }) => {
     return (
         <Fragment>
-            <h4>Каталог дополнительных опций</h4>
+            <h4>Каталог дополнительного оборудования</h4>
 
             <Row>
                 {addOptions ? (
