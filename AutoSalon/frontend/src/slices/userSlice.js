@@ -7,6 +7,7 @@ import { axiosDefault } from "../http-common"; // axios instance
 // const initialState = [];
 const initialState = {
     // user: [],
+    id: null,
     name: "",
     email: "",
     is_superuser: null,
@@ -97,6 +98,7 @@ const userSlice = createSlice({
             state.isAuthenticated = true;
             state.loading = false;
             state.hasErrors = false;
+            state.id = action.payload.id;
             state.name = action.payload.name;
             state.email = action.payload.email;
             state.is_superuser = action.payload.is_superuser;
@@ -120,6 +122,7 @@ const userSlice = createSlice({
             // return {...action.payload};
         },
         [UserLogout.fulfilled]: (state, action) => {
+            state.id = null;
             state.name = null;
             state.email = null;
             state.isAuthenticated = null;

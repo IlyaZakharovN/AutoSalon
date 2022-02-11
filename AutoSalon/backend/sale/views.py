@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.permissions import BasePermission
 from rest_framework.viewsets import ModelViewSet
 
-from .models import Sale
+from .models import Sale, PurchaseType
 from .serializers import PurchaseTypeSerializer, SaleSerializer
 
 # Create your views here.
@@ -20,4 +20,9 @@ class CustomPermission(BasePermission):
 class SaleViewSet(ModelViewSet):
     queryset = Sale.objects.all()
     serializer_class = SaleSerializer
+    permission_classes = (CustomPermission,)
+
+class PurchaseTypeViewSet(ModelViewSet):
+    queryset = PurchaseType.objects.all()
+    serializer_class = PurchaseTypeSerializer
     permission_classes = (CustomPermission,)

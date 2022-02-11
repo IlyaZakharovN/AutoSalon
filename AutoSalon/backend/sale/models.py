@@ -19,6 +19,9 @@ class PurchaseType(models.Model):
     name = models.CharField(max_length=100, choices=PurchaseTypes.choices, default=PurchaseTypes.FULL_PRICE)
     coefficient = models.FloatField()
 
+    def __str__(self):
+        return f'{self.id} - {self.name}, коэффициент - {self.coefficient}'
+
 class Sale(models.Model):
     VIN = models.ForeignKey(
         Car, 
@@ -41,9 +44,10 @@ class Sale(models.Model):
     customer_passport = models.CharField(
         max_length=10,
         validators=[
-        MaxValueValidator(9999999999), 
-        RegexValidator('^([(\d)+]){10}$', 'Серия и номер пасспорта должны состоять из 10 цифр.')
-    ])
+            MaxValueValidator(9999999999), 
+            RegexValidator('^([(\d)+]){10}$', 'Серия и номер пасспорта должны состоять из 10 цифр.')
+        ]
+    )
 
     add_option_id = models.ManyToManyField(AddOption, default=0)
     note = models.TextField(default='Примечание продажи не указано.', blank=True, null=True)
@@ -55,3 +59,4 @@ class Sale(models.Model):
         constraints = [
             models.CheckConstraint(check=models.Q(customer_passport__length=10), name="passport_length")
         ]
+        # restrict deleting after 14 days???

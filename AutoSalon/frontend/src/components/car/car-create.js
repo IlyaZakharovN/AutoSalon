@@ -32,30 +32,19 @@ export const CreateCar = ({ carModels, arrivalTypes }) => {
     // console.log(carModels);
 
     const handleInputChange = event => {
-        console.log(event.target.name, " - ", event.target.value);
+        // console.log(event.target.name, " - ", event.target.value);
         setCar({ ...car, [event.target.name]: event.target.value });
-        console.log(car);
+        // console.log(car);
     };
 
     const handleStockChange = event => {
-        console.log(event.target.name, " - ", event.target.value);
+        // console.log(event.target.name, " - ", event.target.value);
         setStockRec({ ...stockRec, [event.target.name]: event.target.value });
-        console.log(stockRec);
+        // console.log(stockRec);
     };
 
     const saveData = async (d, event) => {
         event.preventDefault();
-        // await Promise.all([dispatch(saveStockRecord(), dispatch(saveCar()))]);
-        // await Promise.all([saveCar(), saveStockRecord()]);
-        // await saveStockRecord();
-        // const res = await dispatch(saveCar());
-        // if (res.ok) {
-        //     saveStockRecord();
-        //     window.location.reload();
-        //     dispatch(retriveCars());
-        // }
-        //     // .then(((saveStockRecord())))
-        // (dispatch(saveStockRecord()));
 
         await saveCar().catch(e => {
             console.log('Error happened while running saveCar in saveData');
@@ -70,18 +59,6 @@ export const CreateCar = ({ carModels, arrivalTypes }) => {
         };
 
         window.location.reload();
-
-        // await saveStockRecord().catch(e => {
-        //     console.log('Error happened while running saveStockRecord in saveData');
-        //     console.log(e);
-        // });
-
-        // try {
-        //     saveCar();
-        // } catch (e) {
-        //     console.log('Error happened while running saveCar in saveData');
-        //     console.log(e);
-        // };
     };
 
     const saveCar = async (data, event) => {
@@ -95,16 +72,6 @@ export const CreateCar = ({ carModels, arrivalTypes }) => {
 
         await dispatch(createCar(newCarData))
             .unwrap()
-            .then(data => {
-                // console.log(data);
-                // setCar({
-                //     VIN: data.vin,
-                //     model_id: data.model_id,
-                //     price: data.price,
-                //     purpose: data.purpose,
-                //     note: data.note
-                // });
-            })
             .catch(e => {
                 console.log(e);
             });
@@ -131,7 +98,7 @@ export const CreateCar = ({ carModels, arrivalTypes }) => {
     const changeHandler = (event) => {
         handleInputChange(event);
         handleStockChange(event);
-    }
+    };
 
     return (
         <Fragment>

@@ -26,6 +26,7 @@ const Navbar = () => {
         <Fragment>
             <Link className="nav-link" to="/carmodels/">Каталог</Link>
             <Link className="nav-link" to="/cars/">Автомобили в наличии</Link>
+            <Link className="nav-link" to="/add-options/">Доп. оборудование</Link>
             <Link className="nav-link" to="/">Тест-драйв</Link>
             <Link className="nav-link" to="/">О нас</Link>
             <Link className="nav-link" to="/login">Вход для сотрудников</Link>
@@ -37,9 +38,10 @@ const Navbar = () => {
             <Link className="nav-link" to="/carmodels/">Каталог</Link>
             <Link className="nav-link" to="/">Тест-драйв</Link>
             <Link className="nav-link" to="/cars/">Автомобили в наличии</Link>
-            <Link className="nav-link" to="/">Доп. опции</Link>
-            <Link className="nav-link" to="/">Продажи</Link>
+            <Link className="nav-link" to="/add-options/">Доп. оборудование</Link>
+            <Link className="nav-link" to="/sales/">Продажи</Link>
             <Link className="nav-link" to="/">Тех. экспертиза</Link>
+            <Link className="nav-link" to="/profile">Профиль</Link>
             <Link className="nav-link" to="/">О нас</Link>
             <Link className="nav-link" to="/logout">Выход</Link>
         </Fragment>
@@ -50,9 +52,10 @@ const Navbar = () => {
             <Link className="nav-link" to="/carmodels/">Каталог</Link>
             <Link className="nav-link" to="/">Тест-драйв</Link>
             <Link className="nav-link" to="/cars/">Автомобили в наличии</Link>
-            <Link className="nav-link" to="/">Доп. опции</Link>
-            <Link className="nav-link" to="/">Продажи</Link>
+            <Link className="nav-link" to="/add-options/">Доп. оборудование</Link>
+            <Link className="nav-link" to="/sales/">Продажи</Link>
             <Link className="nav-link" to="/">Тех. экспертиза</Link>
+            <Link className="nav-link" to="/profile">Профиль</Link>
             <Link className="nav-link" to="/">Статистика сотрудников</Link>
             <Link className="nav-link" to="/">О нас</Link>
             <Link className="nav-link" to="/logout">Выход</Link>

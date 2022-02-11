@@ -15,8 +15,8 @@ export const CarList = ({ cars, carModels }) => {
             <h4>Архив автомобилей</h4>
             <Row>
                 {cars && cars.map((car, index) => (
-                    <Col sm key={car.VIN}>
-                        <Card>
+                    <Col>
+                        <Card sm key={car.VIN}>
                             {carModels && carModels
                                 .filter(carModel => carModel.id === car.model_id)
                                 .map((carModel, index) => (

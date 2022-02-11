@@ -44,10 +44,9 @@ const Cars = () => {
         fetchCars();
         fetchCarModels();
         fetchArrivalTypes();
-    }, [fetchCars, fetchCarModels, fetchArrivalTypes])
+    }, [fetchCars, fetchCarModels, fetchArrivalTypes]);
 
 
-    // const carModels = useSelector(state => state.carModels);
     const renderCarList = () => {
         if (cars && carModels) {
             return <CarList cars={cars} carModels={carModels}/>;
