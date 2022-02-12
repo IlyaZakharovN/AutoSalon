@@ -14,12 +14,12 @@ export const AddOptionList = ({ addOptions }) => {
                     <Col className="col-6" key={addOption.id}> 
                         <Card>
                             <Card.Title>
-                                <Link to={`add-options/${addOption.id}`}>
+                                <Link to={`/add-options/${addOption.id}`}>
                                     {`${addOption.name}`}
                                 </Link>
                             </Card.Title>
                             <Card.Subtitle>{`${addOption.price} руб.`}</Card.Subtitle>
-                            <Card.Text>{`${addOption.desciption}`}</Card.Text>
+                            <Card.Text>{`${addOption.description}`}</Card.Text>
                         </Card>
                     </Col>
                     ))) : (

@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import './App.css';
+import AddOption from './pages/addOptions/AddOption';
 import AddOptions from './pages/addOptions/AddOptions';
 import CarPage from './pages/cars/Car';
 import Cars from './pages/cars/Cars';
@@ -32,6 +33,7 @@ function App() {
                     <Route path="/sales" element={<Sales/>} />
                     {/* <Route path="/sales/:id" element={<Sales/>} /> */}
                     <Route path="/add-options" element={<AddOptions/>} />
+                    <Route path="/add-options/:id" element={<AddOption/>} />
                 </Routes>
             </BrowserRouter>
         </div>

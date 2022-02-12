@@ -133,5 +133,6 @@ const addOptionSlice = createSlice({
 
 const { reducer } = addOptionSlice;
 
-export const addOptionSelector = state => state.addOption;
+// export const addOptionSelector = state => state.addOption;
+export const addOptionSelector = ({ addOption }) => addOption;
 export default reducer; 
