@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { axiosDefault } from "../http-common"; 
 
 const initialState = {
-    saleRecords: [],
+    sale: [],
     // loading: false, 
     // hasErrors: false,
 };
@@ -47,7 +47,7 @@ export const createSaleRecord = createAsyncThunk(
     async (data, { rejectWithValue }) => {
         try {
             const res = axiosDefault.post("/sales/sale/", data);
-            console.log(res.data);
+            console.log(data);
             return res.data;
         } catch (err) {
             console.log("Error happened while creating a sale record.");
@@ -70,7 +70,7 @@ export const updateSale = createAsyncThunk(
 
 ///// Delete sale record /////
 export const deleteSale = createAsyncThunk(
-    "stock/delete",
+    "sale/delete",
     async ({ id }) => {
         try {
             const res = await axiosDefault.delete(`/stock/stock/${id}/`);
@@ -133,5 +133,6 @@ const saleSlice = createSlice({
 
 const { reducer } = saleSlice;
 
-export const saleSelector = state => state.sale;
+// export const saleSelector = state => state.sale;
+export const saleSelector = ({ sale }) => sale;
 export default reducer; 

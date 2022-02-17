@@ -55,7 +55,7 @@ const AddOptions = () => {
                 </Fragment> 
             ):(
                 <Fragment>
-
+                    {renderAddOptionList()}
                 </Fragment>
             )}
             </Row>

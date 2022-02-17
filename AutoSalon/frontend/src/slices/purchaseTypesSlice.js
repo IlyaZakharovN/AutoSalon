@@ -48,6 +48,7 @@ const purchaseTypesSlice = createSlice({
     reducers: {},
     extraReducers: {
         [retrivePurchaseTypes.fulfilled]: (state, action) => {
+            console.log(action.payload);
             return [...action.payload];
         },
         [retrivePurchaseTypes.rejected]: (state, action) => {
@@ -65,5 +66,6 @@ const purchaseTypesSlice = createSlice({
 
 const { reducer } = purchaseTypesSlice;
 
-export const purchaseTypesSelector = state => state.purchaseTypes;
+export const purchaseTypesSelector = ({ purchaseTypes }) => purchaseTypes;
+// export const purchaseTypesSelector = state => state.purchaseTypes;
 export default reducer; 

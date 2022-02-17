@@ -111,7 +111,8 @@ export const CreateCar = ({ carModels, arrivalTypes }) => {
                     <Form.Control
                         {...register("vin", { 
                             required: true, 
-                            pattern: /^(([(A-Z)*(\d)*]){17}|([(\d)*(A-Z)*]){17})$/,
+                            pattern: /^(?=.*?\d)(?=.*?[A-Z])[A-Z\d]{17}$/,
+                            // pattern: /^([(A-Z)*(\d)*]{17}|([(\d)*(A-Z)*]){17})$/,
                             minLength: 17, 
                             maxLength: 17, 
                         })}

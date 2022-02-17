@@ -1,4 +1,4 @@
-from django.core.validators import MaxValueValidator, RegexValidator
+from django.core.validators import MaxValueValidator, MinLengthValidator, MaxLengthValidator, RegexValidator
 from django.db import models
 from django.db.models.functions import Length
 
@@ -27,7 +27,10 @@ class Sale(models.Model):
         Car, 
         on_delete=models.SET_DEFAULT, 
         default='A0000000000000000',
-        validators=[RegexValidator('^(([(A-Z)*(\d)*]){17}|([(\d)*(A-Z)*]){17})$', 'VIN должен состоять из 17 заглавных букв и цифр.')]
+        validators=[RegexValidator(r'^(?=.*?\d)(?=.*?[A-Z])[A-Z\d]{17}')]
+        # ^[A-Z0-9]{17}$
+        # ^([A-Z][\d]|[\d][A-Z]){17}|[\dA-Z]{17}$
+        #^([A-Z]+[\d]*|[\d]+[A-Z]*)$
     )
 
     seller = models.ForeignKey(
@@ -44,16 +47,18 @@ class Sale(models.Model):
     customer_passport = models.CharField(
         max_length=10,
         validators=[
-            MaxValueValidator(9999999999), 
-            RegexValidator('^([(\d)+]){10}$', 'Серия и номер пасспорта должны состоять из 10 цифр.')
+            # MaxValueValidator(9999999999), 
+            MaxLengthValidator(10),
+            MinLengthValidator(10),
+            # RegexValidator('^([(\d)+]){10}$', 'Серия и номер пасспорта должны состоять из 10 цифр.')
         ]
     )
 
-    add_option_id = models.ManyToManyField(AddOption, default=0)
+    add_option_id = models.ManyToManyField(AddOption, default=0, blank=True)
     note = models.TextField(default='Примечание продажи не указано.', blank=True, null=True)
 
     def __str__(self):
-        return f'{self.VIN - self.date, self.seller}'
+        return f'{self.VIN} - {self.date}; Продавец: {self.seller}'
 
     class Meta:
         constraints = [
