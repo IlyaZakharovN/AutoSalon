@@ -31,7 +31,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # path('auth/user/', include('employees.urls')), # user
-    path('me/', include('employees.urls', namespace='user_api')), # user
+    path('users/', include('employees.urls', namespace='user_api')), # user
     path('carmodels/', include('carmodels.urls', namespace='carmodel_api')),
     path('cars/', include('cars.urls', namespace='car_api')),
     path('stock/', include('stock.urls', namespace='stock_api')),

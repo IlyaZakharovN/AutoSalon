@@ -13,7 +13,7 @@ export const SaleList = ({ sales, purch_types, carModels }) => {
                         <Col>
                             <Card sm key={sale.id}>
                                 <Card.Title>
-                                    <Link to={`sales/sale/${sale.id}`}>
+                                    <Link to={`/sales/${sale.id}`}>
                                         {`${sale.id} - ${sale.date}, ${sale.VIN}`}
                                     </Link>
                                 </Card.Title>

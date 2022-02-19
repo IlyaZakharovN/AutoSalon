@@ -8,4 +8,5 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         # fields = '__all__'
-        fields = ('id', 'name', 'email', 'password', 'is_superuser', 'is_active', 'is_staff', 'is_sales_director', 'is_sales_manager', 'is_puchase_manager', 'is_tech_inspector')
+        fields = ('id', 'name', 'email', 'is_superuser', 'is_active', 'is_staff', 'is_sales_director', 'is_sales_manager', 'is_puchase_manager', 'is_tech_inspector')
+        # removed 'password',

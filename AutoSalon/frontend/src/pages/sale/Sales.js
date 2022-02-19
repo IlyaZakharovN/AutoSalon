@@ -15,9 +15,10 @@ import { addOptionSelector, retriveAddOptions } from "../../slices/addOptionSlic
 import { purchaseTypesSelector } from "../../slices/purchaseTypesSlice";
 
 const Sales = () => {
-    const { isAuthenticated, is_superuser, is_sales_director, is_sales_manager } = useSelector(userSelector);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    
+    const { isAuthenticated, is_superuser, is_sales_director, is_sales_manager } = useSelector(userSelector);
     const cars = useSelector(carsSelector);
     const carModels = useSelector(carModelsSelector);
     const sales = useSelector(saleSelector);

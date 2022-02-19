@@ -6,7 +6,7 @@ import { axiosDefault } from "../http-common"; // axios instance
 
 // const initialState = [];
 const initialState = {
-    // user: [],
+    // user: {},
     id: null,
     name: "",
     email: "",
@@ -21,8 +21,9 @@ const initialState = {
     hasErrors: false,
 };
 
+//// Get all users ////
 const userData = () => {
-    return axiosDefault.get("/me");
+    return axiosDefault.get("/users");
 };
 
 export const retriveUserData = createAsyncThunk(
@@ -34,6 +35,23 @@ export const retriveUserData = createAsyncThunk(
     }
 );
 
+/// Retrive user by ID /////
+// export const fetchUserData = createAsyncThunk(
+//     "user/fetch",
+//     async (id, { rejectWithValue }) => {
+//         try {
+//             const res = await axiosDefault.get(`/users/${id}/`);
+//             console.log(res.data);
+//             return res.data;
+//         } catch (err) {
+//             console.log("Error happened while fetching a user data.");
+//             console.log(err);
+//             return rejectWithValue(err.response.data);
+//         }
+//     }
+// );
+
+//// Logout user /////
 export const UserLogout = createAsyncThunk(
     "user/logout",
     async () => {
@@ -57,6 +75,7 @@ export const UserLogout = createAsyncThunk(
         navigate('/login');
     }
 );
+
 
 const userSlice = createSlice({
     name: "user",
@@ -94,6 +113,7 @@ const userSlice = createSlice({
     extraReducers: {
         [retriveUserData.fulfilled]: (state, action) => { // pre:(state, action) |||||| (state, { payload })
             // return {...action.payload};
+            // return [...action.payload];
             console.log(action.payload);
             state.isAuthenticated = true;
             state.loading = false;
@@ -121,6 +141,25 @@ const userSlice = createSlice({
             console.log('is_tech_inspector - ', localStorage.getItem('is_tech_inspector'));
             // return {...action.payload};
         },
+
+        // [fetchUserData.fulfilled]: (state, action) => {
+        //     // return {...action.payload};
+        //     return {...initialState.user, ...action.payload};
+        //     // return [...state.user, state.user.push(action.payload)];
+        //     // state.isAuthenticated = true;
+        //     // state.id = action.payload.id;
+        //     // state.name = action.payload.name;
+        //     // state.email = action.payload.email;
+        //     // state.is_superuser = action.payload.is_superuser;
+        //     // state.is_sales_director = action.payload.is_sales_director;
+        //     // state.is_sales_manager = action.payload.is_sales_manager;
+        //     // state.is_puchase_manager = action.payload.is_puchase_manager;
+        //     // state.is_tech_inspector = action.payload.is_tech_inspector;
+        // },
+        // [fetchUserData.rejected]: (state, action) => {
+        //     return { ...initialState };
+        // },
+        
         [UserLogout.fulfilled]: (state, action) => {
             state.id = null;
             state.name = null;

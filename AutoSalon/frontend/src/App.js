@@ -12,6 +12,7 @@ import Logout from './pages/auth/Logout';
 import Login from './pages/auth/Login';
 import Navbar from './components/Navbar';
 import Profile from './pages/user/ProfilePage';
+import Sale from './pages/sale/Sale';
 import Sales from './pages/sale/Sales';
 // import { UserLogout } from './slices/userSlice';
 // import CarModelsPage from './pages/CarModelsPage';
@@ -31,7 +32,7 @@ function App() {
                     <Route path="/logout" element={<Logout/>} />
                     <Route path="/profile" element={<Profile/>} />
                     <Route path="/sales" element={<Sales/>} />
-                    {/* <Route path="/sales/:id" element={<Sales/>} /> */}
+                    <Route path="/sales/:id" element={<Sale/>} />
                     <Route path="/add-options" element={<AddOptions/>} />
                     <Route path="/add-options/:id" element={<AddOption/>} />
                 </Routes>
