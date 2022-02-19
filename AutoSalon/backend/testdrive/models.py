@@ -7,7 +7,19 @@ from employees.models import UserAccount
 
 # Create your models here.
 
-class TestDrive(models.Model):
+class TestDriveStatus(models.Model):
+    class TD_Status(models.TextChoices):
+        NOT_AGREED = ' Заявка не согласована'
+        AGREED = 'Заявка согласована'
+        CANCELED = 'Отменен'
+        DONE = 'Проведен'
+
+    name = models.CharField(max_length=100, choices=TD_Status.choices, default=TD_Status.NOT_AGREED)
+
+    def __str__(self):
+        return f'{self.id} - {self.name}'
+
+class TestDrive(models.Model):        
     VIN = models.ForeignKey(
         Car, 
         on_delete=models.SET_DEFAULT, 
@@ -16,9 +28,10 @@ class TestDrive(models.Model):
     )
 
     date_time = models.DateTimeField()
-    seller = models.ForeignKey(UserAccount, on_delete=models.SET_DEFAULT, default=0)
+    seller = models.ForeignKey(UserAccount, on_delete=models.SET_DEFAULT, default=0, blank=True)
     client_name = models.CharField(max_length=255)
     client_phone = models.CharField(validators=[RegexValidator(regex = r"^\+?1?\d{11,11}$")], max_length=12)
+    status = models.ForeignKey(TestDriveStatus, on_delete=models.SET_DEFAULT, default=2)
 
     def __str__(self):
         return f'{self.date_time}, {self.VIN} - {self.seller}'

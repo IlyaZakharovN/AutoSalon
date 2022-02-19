@@ -10,18 +10,19 @@ export const SaleList = ({ sales, purch_types, carModels }) => {
                 {Array.isArray(sales) ? (
                     sales.map((sale, index) =>(
                         <Row>
-                        <Col>
-                            <Card sm key={sale.id}>
-                                <Card.Title>
-                                    <Link to={`/sales/${sale.id}`}>
-                                        {`${sale.id} - ${sale.date}, ${sale.VIN}`}
-                                    </Link>
-                                </Card.Title>
-                                <Card.Subtitle>{`Стоимость продажи - ${sale.sale_price}`}</Card.Subtitle>
-                                <Card.Subtitle>{`Вид покупки - ${sale.purchase_type_id}`}</Card.Subtitle>
-                            </Card>
-                        </Col>
-                        </Row>))
+                            <Col>
+                                <Card sm key={sale.id}>
+                                    <Card.Title>
+                                        <Link to={`/sales/${sale.id}`}>
+                                            {`${sale.id} - ${sale.date}, ${sale.VIN}`}
+                                        </Link>
+                                    </Card.Title>
+                                    <Card.Subtitle>{`Стоимость продажи - ${sale.sale_price}`}</Card.Subtitle>
+                                    <Card.Subtitle>{`Вид покупки - ${sale.purchase_type_id}`}</Card.Subtitle>
+                                </Card>
+                            </Col>
+                        </Row>
+                    ))
                     ) : (
                         <div>Записи продаж не найдены.</div>
                     )

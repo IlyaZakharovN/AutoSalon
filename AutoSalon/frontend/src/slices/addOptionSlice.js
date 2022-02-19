@@ -122,7 +122,7 @@ const addOptionSlice = createSlice({
         },
 
         [updateAddOption.fulfilled]: (state, action) => {
-            const index = state.findIndex(({stock}) => stock.id === action.payload.id);
+            const index = state.findIndex(({addOption}) => addOption.id === action.payload.id);
             state[index] = {
                 ...state[index],
                 ...action.payload,

@@ -3,13 +3,15 @@ User = get_user_model()
 from django.shortcuts import render
 
 from rest_framework import status
-from rest_framework.permissions import BasePermission
+from rest_framework.generics import RetrieveUpdateAPIView
+from rest_framework.permissions import BasePermission, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
 from .serializers import UserSerializer
 from .models import UserAccount
+from .renderers import UserJSONRenderer
 
 # Create your views here.
 
@@ -35,3 +37,16 @@ class UserViewSet(ModelViewSet):
     #         return Response(user.data)
     #     except:
     #         return Response("no data")
+
+class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
+    permission_classes = (IsAuthenticated,)
+    renderer_classes = (UserJSONRenderer,)
+    serializer_class = UserSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        # Здесь нечего валидировать или сохранять. Мы просто хотим, чтобы
+        # сериализатор обрабатывал преобразования объекта User во что-то, что
+        # можно привести к json и вернуть клиенту.
+        serializer = self.serializer_class(request.user)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)

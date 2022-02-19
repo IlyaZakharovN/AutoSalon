@@ -27,7 +27,7 @@ const Navbar = () => {
             <Link className="nav-link" to="/carmodels/">Каталог</Link>
             <Link className="nav-link" to="/cars/">Автомобили в наличии</Link>
             <Link className="nav-link" to="/add-options/">Доп. оборудование</Link>
-            <Link className="nav-link" to="/">Тест-драйв</Link>
+            <Link className="nav-link" to="/testdrives">Тест-драйв</Link>
             <Link className="nav-link" to="/">О нас</Link>
             <Link className="nav-link" to="/login">Вход для сотрудников</Link>
         </Fragment>
@@ -36,7 +36,7 @@ const Navbar = () => {
     const authLinks = () => (
         <Fragment>
             <Link className="nav-link" to="/carmodels/">Каталог</Link>
-            <Link className="nav-link" to="/">Тест-драйв</Link>
+            <Link className="nav-link" to="/testdrives">Тест-драйв</Link>
             <Link className="nav-link" to="/cars/">Автомобили в наличии</Link>
             <Link className="nav-link" to="/add-options/">Доп. оборудование</Link>
             <Link className="nav-link" to="/sales/">Продажи</Link>
@@ -50,7 +50,7 @@ const Navbar = () => {
     const directorOrSuperLinks = () => (
         <Fragment>
             <Link className="nav-link" to="/carmodels/">Каталог</Link>
-            <Link className="nav-link" to="/">Тест-драйв</Link>
+            <Link className="nav-link" to="/testdrives">Тест-драйв</Link>
             <Link className="nav-link" to="/cars/">Автомобили в наличии</Link>
             <Link className="nav-link" to="/add-options/">Доп. оборудование</Link>
             <Link className="nav-link" to="/sales/">Продажи</Link>
