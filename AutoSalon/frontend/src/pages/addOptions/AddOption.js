@@ -14,6 +14,7 @@ import { userSelector, retriveUserData } from "../../slices/userSlice";
 const AddOption = () => {
     const dispatch = useDispatch();
     const params = useParams();
+    // const { isAuthenticated, is_superuser, is_sales_director, is_sales_manager } = useSelector(userSelector);
     const { isAuthenticated, is_superuser, is_sales_director, is_sales_manager } = useSelector(userSelector);
     const addOption = useSelector(addOptionSelector);
 
