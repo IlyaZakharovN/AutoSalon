@@ -8,13 +8,19 @@ from carmodels.models import CarModel
 
 models.CharField.register_lookup(Length)
 
-class Car(models.Model):
+class Purpose(models.Model):
     class PurposeType(models.TextChoices):
         FOR_SALE = 'Реализация'
         EXPO = 'Выстовочный образец'
         TESTDRIVE = 'Для тест-драйва'
         UNKNOWN = 'Неизвестно'
+    
+    name = models.CharField(max_length=100, choices=PurposeType.choices, default=PurposeType.FOR_SALE)
 
+    def __str__(self):
+        return f'{self.name}'
+
+class Car(models.Model):
     VIN = models.CharField(
         primary_key=True, 
         editable=True, 
@@ -24,7 +30,8 @@ class Car(models.Model):
 
     model_id = models.ForeignKey(CarModel, on_delete=models.SET_DEFAULT, default=0)
     price = models.DecimalField(max_digits=11, decimal_places=2)
-    purpose = models.CharField(max_length=50, choices=PurposeType.choices, default=PurposeType.FOR_SALE)
+    # purpose = models.CharField(max_length=50, choices=PurposeType.choices, default=PurposeType.FOR_SALE)
+    purpose = models.ForeignKey(Purpose, on_delete=models.SET_DEFAULT, default=1)
     note = models.TextField(default='Примечание не найдено.', blank=True, null=True)
 
     def __str__(self):

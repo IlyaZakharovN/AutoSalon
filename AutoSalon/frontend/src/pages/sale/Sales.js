@@ -18,12 +18,11 @@ const Sales = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     
-    const { isAuthenticated, is_superuser, is_sales_director, is_sales_manager } = useSelector(userSelector);
+    const { isAuthenticated, user } = useSelector(userSelector);
     const cars = useSelector(carsSelector);
     const carModels = useSelector(carModelsSelector);
     const sales = useSelector(saleSelector);
     const purchaseTypes = useSelector(purchaseTypesSelector);
-    const empl = useSelector(userSelector);
     const addOption = useSelector(addOptionSelector);
 
     const initFetch = useCallback(async() => {
@@ -42,27 +41,38 @@ const Sales = () => {
     const renderSaleList = () => {
         // console.log('cars - ', cars);
         if (sales && purchaseTypes && cars && carModels) {
-            return <SaleList sales={sales} purch_types={purchaseTypes} carModels={carModels}/>;
+            return <SaleList 
+                sales={sales} 
+                purch_types={purchaseTypes} 
+                carModels={carModels}
+            />;
         } else {
             return <p>Ожидание загрузки списка продаж...</p>
         }
     };
 
     const renderCreateSale = () => {
-        if (cars && carModels && purchaseTypes && empl && addOption) {
-            return <CreateSale purch_types={purchaseTypes} empl={empl} cars={cars} carModels={carModels} addOpts={addOption} sales={sales}/>;
+        if (cars && carModels && purchaseTypes && user && addOption) {
+            return <CreateSale 
+                purch_types={purchaseTypes} 
+                empl={user.user} 
+                cars={cars} 
+                carModels={carModels} 
+                addOpts={addOption} 
+                sales={sales}
+            />;
         } else {
             return <p>Ожидание загрузки формы добавления продажи...</p>
         }
     };
 
     return (
-        (!sales && !purchaseTypes && !empl && !cars && !carModels && !addOption) ? (
+        (!sales && !purchaseTypes && !user && !cars && !carModels && !addOption) ? (
             <div>Ожидание загрузки данных</div>
         ) : (
             <section>
                 <Row className="mt-3 justify-content-md-center">
-                { isAuthenticated && (is_superuser || is_sales_director || is_sales_manager) ? (
+                { isAuthenticated && (user.user.is_superuser || user.user.is_sales_director || user.user.is_sales_manager) ? (
                 <Fragment>
                         <Col xs lg="6">
                             {renderSaleList()}

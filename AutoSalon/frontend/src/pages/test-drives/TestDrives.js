@@ -9,8 +9,9 @@ import { CreateTestDriveEmpl } from "../../components/testdrive/create/test-driv
 import { retriveCars, carsSelector } from "../../slices/carSlice";
 import { retriveCarModels, carModelsSelector } from "../../slices/carModelsSlice";
 import { fetchEmplData, retriveEmplData, employeeSelector } from "../../slices/employeeSlice";
-import { getAllTestDrives, fetchTestDrive, testDriveSelector } from "../../slices/testDriveSlice";
+import { getAllPurposes, purposeSelector } from "../../slices/purposeSlice";
 import { getAllTestDriveStatuses, fetchTestDriveStatus, testDriveStatusSelector } from "../../slices/testDriveStatusSlice";
+import { getAllTestDrives, fetchTestDrive, testDriveSelector } from "../../slices/testDriveSlice";
 import { userSelector, getUserDetails } from "../../slices/userSlice";
 
 const TestDrives = () => {
@@ -31,6 +32,7 @@ const TestDrives = () => {
     const empls = useSelector(employeeSelector);
     const testdrives = useSelector(testDriveSelector);
     const testDriveStatuses = useSelector(testDriveStatusSelector);
+    const purposes = useSelector(purposeSelector);
 
     const initFetch = useCallback(async() => {
         await dispatch(retriveCarModels());
@@ -38,6 +40,7 @@ const TestDrives = () => {
         await dispatch(getAllTestDrives());
         await dispatch(getAllTestDriveStatuses());
         await dispatch(retriveEmplData());
+        await dispatch(getAllPurposes());
     }, [dispatch]);
 
     useEffect(() => {
@@ -45,14 +48,15 @@ const TestDrives = () => {
     }, [initFetch]);
 
     const renderTestDriveList = () => {
-        // console.log('cars - ', cars);
-        if (testdrives && testDriveStatuses && cars && carModels && empls) {
+        console.log('empls - ', empls);
+        if (testdrives && testDriveStatuses && cars && carModels && empls && purposes) {
             return <TestDriveList 
                 testdrives={testdrives} 
                 testDriveStatuses={testDriveStatuses}
                 cars={cars}
                 carModels={carModels}
                 empls={empls}
+                purposes={purposes}
             />;
         } else {
             return <p>Ожидание загрузки списка тестдрайвов...</p>
@@ -60,13 +64,14 @@ const TestDrives = () => {
     };
 
     const renderCreateTestDrive = () => {
-        if (cars && carModels && testDriveStatuses && user) {
+        if (cars && carModels && testDriveStatuses && user && purposes) {
             if (user.user.is_sales_manager) {
                 return <CreateTestDriveEmpl 
                     cars={cars} 
                     carModels={carModels} 
                     testDriveStatuses={testDriveStatuses} 
                     user={user.user} 
+                    purposes={purposes}
                 />;
             }
             // ((is_sales_director || is_superuser) ? (
@@ -79,12 +84,12 @@ const TestDrives = () => {
             //     ))
             // ))
         } else {
-            return <p>Ожидание загрузки формы добавления продажи...</p>
+            return <p>Ожидание загрузки формы добавления тестдрайва...</p>
         }
     };
 
     return (
-        (!testdrives && !testDriveStatuses && !cars && !carModels && !empls && !user) ? (
+        (!testdrives && !testDriveStatuses && !cars && !carModels && !empls && !user && !purposes) ? (
             <div>Ожидание загрузки данных</div>
         ) : (
             <section>

@@ -20,6 +20,7 @@ import carReducer from "./slices/carSlice";
 import carModelReducer from "./slices/carModelsSlice";
 import employeeReducer from "./slices/employeeSlice";
 import purchaseTypesReducer from "./slices/purchaseTypesSlice"
+import purposeReducer from "./slices/purposeSlice";
 import saleReducer from "./slices/saleSlice";
 import singleCarModeleReducer from "./slices/singleCarModelSlice";
 import stockReducer from "./slices/stockSlice";
@@ -38,8 +39,9 @@ const appReducer = combineReducers({
   purchaseTypes: purchaseTypesReducer,
   addOption: addOptionReducer,
   employee: employeeReducer,
-  testDrive: testDriveReducer,
+  testdrive: testDriveReducer,
   testDriveStatus: testDriveStatusReducer,
+  purpose: purposeReducer,
 });
 
 const rootReducer = (state, action) => {

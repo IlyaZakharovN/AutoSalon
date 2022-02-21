@@ -5,7 +5,7 @@ import { axiosDefault } from "../http-common";
 
 const initialState = {
     arrivalTypes: [],
-    arrivalType: {},
+    // arrivalType: {},
     // loading: false, 
     // hasErrors: false,
 };
@@ -48,21 +48,26 @@ const arrivalTypesSlice = createSlice({
     reducers: {},
     extraReducers: {
         [retriveArrivalTypes.fulfilled]: (state, action) => {
-            // return [...action.payload];
-            return {...initialState.arrivalTypes, ...action.payload};
+            return [...action.payload];
+            // return {
+            //     arrivalTypes: {...initialState.arrivalTypes, ...action.payload}
+            // };
         },
         [retriveArrivalTypes.rejected]: (state, action) => {
             return { ...initialState.arrivalTypes };
         },
 
         [fetchArrivalType.fulfilled]: (state, action) => {
-            // return {...action.payload};
+            return {...action.payload};
             // initialState.arrivalType.push(action.payload);
             // state.arrivalType.push(action.payload);
-            return {...initialState.arrivalType, ...action.payload};
+            // return {...initialState.arrivalTypes, ...action.payload};
         },
         [fetchArrivalType.rejected]: (state, action) => {
-            return { ...initialState.arrivalType };
+            // return {
+            //     arrivalTypes: { ...initialState.arrivalTypes }
+            // };
+            return { ...initialState.arrivalTypes };
         },
     },
 });

@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 
 import { createCar, retriveCars } from "../../slices/carSlice";
-import { createStockRecord } from "../../slices/stockSlice";
+import { createStockRecord, retriveStock } from "../../slices/stockSlice";
 
 // Add car pictures...
 // Add notifications on creation, wrong data input...
-export const CreateCar = ({ carModels, arrivalTypes }) => {
+export const CreateCar = ({ carModels, arrivalTypes, purposes }) => {
     const initialCarState = Object.freeze({
         vin: null,
         model_id: null,
@@ -58,6 +58,9 @@ export const CreateCar = ({ carModels, arrivalTypes }) => {
             console.log(e);
         };
 
+        // await Promise.all([retriveCars(), retriveStock()]);
+        await dispatch(retriveCars());
+        await dispatch(retriveStock());
         window.location.reload();
     };
 
@@ -180,10 +183,17 @@ export const CreateCar = ({ carModels, arrivalTypes }) => {
                         onChange={handleInputChange}
                     >
                         <option key='blankChoice' hidden value />
-                        <option value="Реализация">Реализация</option>
+                        {Array.isArray(purposes) && purposes
+                            .map((p, index) => (
+                                <option value={p.id} key={p.id}>
+                                    {`${p.id} - ${p.name}`}
+                                </option>
+                            )
+                        )}
+                        {/* <option value="Реализация">Реализация</option>
                         <option value="Выстовочный образец">Выстовочный образец</option>
                         <option value="Для тест-драйва">Для тест-драйва</option>
-                        <option value="Неизвестно">Неизвестно</option>
+                        <option value="Неизвестно">Неизвестно</option> */}
                     </Form.Select>
                 </Form.Group>
 
@@ -198,13 +208,26 @@ export const CreateCar = ({ carModels, arrivalTypes }) => {
                         value={stockRec.arrival_type_id}
                         onChange={handleStockChange}
                     >
-                        <option key='blankChoice' hidden value />
-                        {arrivalTypes && arrivalTypes.map((arrType, index) => (
-                            // console.log(carModel)
-                            <option value={arrType.arrival_type_id} key={arrType.arrival_type_id}>
-                                {arrType.arrival_type_id + " - " + arrType.name}
-                            </option>
-                        ))}
+                         <option key='blankChoice' hidden value />
+                        {/*{Object.entries(arrivalTypes).map(([key, value]) => {
+                            <option value={value.arrival_type_id} key={value.arrival_type_id}>
+                                {key + " - " +value}
+                                </option>
+                        })} */}
+                        {/* {Object.fromEntries(Object.entries(arrivalTypes)
+                            .map(([k, v]) => [k, (console.log(v))
+                                // <option value={arrType.arrival_type_id} key={arrType.arrival_type_id}>
+                                // {arrType.arrival_type_id + " - " + arrType.name}
+                                // </option>
+                            ]))
+                        } */}
+                        {Array.isArray(arrivalTypes) && arrivalTypes
+                            .map((arrType, index) => (
+                                <option value={arrType.arrival_type_id} key={arrType.arrival_type_id}>
+                                    {`${arrType.arrival_type_id} - ${arrType.name}`}
+                                </option>
+                            ))
+                        }
                     </Form.Select>
                 </Form.Group>
 
@@ -248,7 +271,7 @@ export const CreateCar = ({ carModels, arrivalTypes }) => {
                         // required
                         size="md"
                         type="number"
-                        step="0.01"
+                        step="1"
                         min={0}
                         id="millage"
                         name="millage"

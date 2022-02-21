@@ -30,7 +30,7 @@ class TestDrive(models.Model):
     date_time = models.DateTimeField()
     seller = models.ForeignKey(UserAccount, on_delete=models.SET_DEFAULT, default=0, blank=True)
     client_name = models.CharField(max_length=255)
-    client_phone = models.CharField(validators=[RegexValidator(regex = r"^\+?1?\d{11,11}$")], max_length=12)
+    client_phone = models.CharField(validators=[RegexValidator(regex = r"^\+{1}7{1}\d{10}$")], max_length=12)
     status = models.ForeignKey(TestDriveStatus, on_delete=models.SET_DEFAULT, default=2)
 
     def __str__(self):

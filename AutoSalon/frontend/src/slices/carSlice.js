@@ -14,7 +14,7 @@ export const retriveCars = createAsyncThunk(
     "cars/retrieve",
     async (_, { rejectWithValue }) => {
         try {
-            const res = await axiosDefault.get("/cars/");
+            const res = await axiosDefault.get("/cars/cars/");
             console.log(res.data);
             return res.data;
         } catch (err) {
@@ -30,7 +30,7 @@ export const fetchCar = createAsyncThunk(
     "cars/fetchCar",
     async (vin, { rejectWithValue }) => {
         try {
-            const res = await axiosDefault.get(`/cars/${vin}/`);
+            const res = await axiosDefault.get(`/cars/cars/${vin}/`);
             console.log(res.data);
             return res.data;
         } catch (err) {
@@ -46,7 +46,7 @@ export const createCar = createAsyncThunk(
     "car/create",
     async (data, { rejectWithValue }) => {
         try {
-            const res = axiosDefault.post("/cars/", data);
+            const res = axiosDefault.post("/cars/cars/", data);
             console.log(res);
             return res.data; // return (await res).data;
         } catch (err) {
@@ -62,7 +62,7 @@ export const updateCar = createAsyncThunk(
     "car/partial-update",
     async ({ id, data }) => {
         console.log('Initial data - ', data);
-        const res = await axiosDefault.patch(`/cars/${id}/`, data);
+        const res = await axiosDefault.patch(`/cars/cars/${id}/`, data);
         console.log('Updated data - ', res.data);
         return res.data;
     }
@@ -77,7 +77,7 @@ export const deleteCar = createAsyncThunk(
     "car/delete",
     async ({ vin }) => {
         try {
-            const res = await axiosDefault.delete(`/cars/${vin}/`);
+            const res = await axiosDefault.delete(`/cars/cars/${vin}/`);
             return { vin };
         } catch (err) {
             console.log("Error happened while deleting the car.");

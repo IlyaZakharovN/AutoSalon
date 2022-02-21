@@ -6,7 +6,7 @@ import { axiosDefault } from "../http-common"; // axios instance
 
 const initialState = {
     employees: [],
-    employee: {},
+    // employee: {},
 };
 
 //// Get all employees ////
@@ -46,15 +46,16 @@ const employeeSlice = createSlice({
     reducers: {},
     extraReducers: {
         [retriveEmplData.fulfilled]: (state, action) => {
-            // return [...action.payload];
-            return {...initialState.employees, ...action.payload};
+            return [...action.payload];
+            // return {...initialState.employees, ...action.payload};
         },
         [retriveEmplData.rejected]: (state, action) => {
             return { ...initialState.employees };
         },
 
         [fetchEmplData.fulfilled]: (state, action) => {
-            return {...initialState.employee, ...action.payload};
+            // return {...initialState.employee, ...action.payload};
+            return {...action.payload};
         },
         [fetchEmplData.rejected]: (state, action) => {
             return { ...initialState };
