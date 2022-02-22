@@ -100,7 +100,7 @@ export const CreateTestDriveEmpl = ({cars, carModels, testDriveStatuses, user, p
                 </Form.Group>
 
                 <Form.Group className='mb-3'>
-                    <Form.Label className='mb-1' htmlFor="date_time">Дата проведения тестдрайва</Form.Label>
+                    <Form.Label className='mb-1' htmlFor="date_time">Дата и время проведения тестдрайва</Form.Label>
                     <Form.Control
                         {...register("date_time", { required: true })}
                         // required

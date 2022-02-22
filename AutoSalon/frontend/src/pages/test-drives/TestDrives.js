@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import { TestDriveList } from "../../components/testdrive/testdrive-list";
+import { CreateTestDriveDirector } from "../../components/testdrive/create/test-drive-dir-create";
 import { CreateTestDriveEmpl } from "../../components/testdrive/create/test-drive-empl-create";
 import { retriveCars, carsSelector } from "../../slices/carSlice";
 import { retriveCarModels, carModelsSelector } from "../../slices/carModelsSlice";
@@ -18,14 +19,7 @@ const TestDrives = () => {
     const dispatch = useDispatch();
     // const params = useParams();
 
-    const { 
-        // id: user,
-        user,
-        isAuthenticated, 
-        // is_superuser, 
-        // is_sales_director, 
-        // is_sales_manager 
-    } = useSelector(userSelector);
+    const { user, isAuthenticated } = useSelector(userSelector);
     const empl = useSelector(employeeSelector);
     const cars = useSelector(carsSelector);
     const carModels = useSelector(carModelsSelector);
@@ -73,6 +67,14 @@ const TestDrives = () => {
                     user={user.user} 
                     purposes={purposes}
                 />;
+            } else if (user.user.is_sales_director || user.user.is_superuser) {
+                return <CreateTestDriveDirector
+                    cars={cars} 
+                    carModels={carModels} 
+                    testDriveStatuses={testDriveStatuses}
+                    empls={empls}
+                    purposes={purposes}
+                />;
             }
             // ((is_sales_director || is_superuser) ? (
             //     return null;
@@ -99,19 +101,9 @@ const TestDrives = () => {
                         <Col xs lg="6">
                             {renderTestDriveList()}
                         </Col>
-                        {(user.user.is_superuser || user.user.is_sales_director) ? (
-                            <Col xs lg="4">
-                                {/* {renderCreateSale()} */}
-                            </Col>
-                        ) : (
-                            (user.user.is_sales_manager) ? (
-                                <Col xs lg="4">
-                                    {renderCreateTestDrive()}
-                                </Col>
-                            ) : (
-                                <></>
-                            )
-                        )} 
+                        <Col xs lg="4">
+                            {renderCreateTestDrive()}
+                        </Col>
                         {/* <Col xs lg="4">
                             {renderCreateSale()}
                         </Col> */}

@@ -17,34 +17,34 @@ export const TestDriveList = ({ testdrives, testDriveStatuses, cars, carModels, 
                             .filter(tds => tds.id === td.status)
                             // .filter(td => td.seller === empls.id)
                             .map((tds, index) => (
-                                    Array.isArray(empls) && empls
-                                        .filter(empl => empl.id === td.seller)
-                                        .map((empl, index) => (
-                                            <Row>
-                                                <Col>
-                                                    <Card sm key={td.id}>
-                                                        <Fragment>
-                                                            <Card.Title>
-                                                                <Link to={`/testdrives/${td.id}`}>
-                                                                    {`Тест драйв №${td.id}`}
-                                                                </Link>
-                                                            </Card.Title>
+                                Array.isArray(empls) && empls
+                                    .filter(empl => empl.id === td.seller)
+                                    .map((empl, index) => (
+                                        <Row>
+                                            <Col>
+                                                <Card sm key={td.id}>
+                                                    <Fragment>
+                                                        <Card.Title>
+                                                            <Link to={`/testdrives/${td.id}`}>
+                                                                {`Тест драйв №${td.id}`}
+                                                            </Link>
+                                                        </Card.Title>
+                                                        <Card.Subtitle>
+                                                            {`Дата - ${td.date_time}`}
+                                                        </Card.Subtitle>
+                                                        {td.seller ? (
                                                             <Card.Subtitle>
-                                                                {`Дата - ${td.date_time}`}
+                                                                {`Ответсвенный сотрудник - ${empl.name}`}
                                                             </Card.Subtitle>
-                                                            {td.seller ? (
-                                                                <Card.Subtitle>
-                                                                    {`Ответсвенный сотрудник - ${empl.name}`}
-                                                                </Card.Subtitle>
-                                                            ) : (
-                                                                <Fragment></Fragment>
-                                                            )}
-                                                        </Fragment>
-                                                    </Card>
-                                                </Col>
-                                            </Row>
-                                        ))     
-                                    ))
+                                                        ) : (
+                                                            <Fragment></Fragment>
+                                                        )}
+                                                    </Fragment>
+                                                </Card>
+                                            </Col>
+                                        </Row>
+                                    ))     
+                            ))
                     ))
                 ) : (
                     <div>Записи тест-драйвов не найдены.</div>
