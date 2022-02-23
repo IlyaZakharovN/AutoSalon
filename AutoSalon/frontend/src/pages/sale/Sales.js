@@ -73,7 +73,7 @@ const Sales = () => {
             <section>
                 <Row className="mt-3 justify-content-md-center">
                 { isAuthenticated && (user.user.is_superuser || user.user.is_sales_director || user.user.is_sales_manager) ? (
-                <Fragment>
+                    <Fragment>
                         <Col xs lg="6">
                             {renderSaleList()}
                         </Col> 

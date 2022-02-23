@@ -6,13 +6,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { userSelector } from "../../slices/userSlice";
 
 const SaleDetail = ({ sale, car, carModel, purch_type, addOptions, empl }) => {
-    const dispatch = useDispatch();
-    console.log(sale);
-    console.log(car);
-    console.log(carModel);
-    console.log(purch_type);
-    console.log(addOptions);
-    console.log(empl);
+    // const dispatch = useDispatch();
+    // console.log(sale);
+    // console.log(car);
+    // console.log(carModel);
+    // console.log(purch_type);
+    // console.log(addOptions);
+    // console.log(empl);
 
     // const installed = Object.entries(addOptions).filter(([key, value]) => value.id === sale.add_option_id);
     // console.log(installed);

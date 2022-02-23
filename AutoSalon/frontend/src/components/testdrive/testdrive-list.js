@@ -26,7 +26,7 @@ export const TestDriveList = ({ testdrives, testDriveStatuses, cars, carModels, 
                                                     <Fragment>
                                                         <Card.Title>
                                                             <Link to={`/testdrives/${td.id}`}>
-                                                                {`Тест драйв №${td.id}`}
+                                                                {`Тест-драйв №${td.id}`}
                                                             </Link>
                                                         </Card.Title>
                                                         <Card.Subtitle>
@@ -43,6 +43,9 @@ export const TestDriveList = ({ testdrives, testDriveStatuses, cars, carModels, 
                                                         ) : (
                                                             <Fragment></Fragment>
                                                         )}
+                                                        <Card.Subtitle>
+                                                            {`Статус - ${tds.name}`}
+                                                        </Card.Subtitle>
                                                     </Fragment>
                                                 </Card>
                                             </Col>

@@ -22,7 +22,6 @@ const TestDrives = () => {
     // const params = useParams();
 
     const { user, isAuthenticated } = useSelector(userSelector);
-    const empl = useSelector(employeeSelector);
     const cars = useSelector(carsSelector);
     const carModels = useSelector(carModelsSelector);
     const empls = useSelector(employeeSelector);
@@ -44,7 +43,7 @@ const TestDrives = () => {
     }, [initFetch]);
 
     const renderTestDriveList = () => {
-        console.log('empls - ', empls);
+        // console.log('empls - ', empls);
         if (testdrives && testDriveStatuses && cars && carModels && empls && purposes) {
             return <TestDriveList 
                 testdrives={testdrives} 
@@ -55,7 +54,7 @@ const TestDrives = () => {
                 purposes={purposes}
             />;
         } else {
-            return <p>Ожидание загрузки списка тестдрайвов...</p>
+            return <p>Ожидание загрузки списка тест-драйвов...</p>
         }
     };
 
@@ -100,7 +99,7 @@ const TestDrives = () => {
             //     ))
             // ))
         } else {
-            return <p>Ожидание загрузки формы добавления тестдрайва...</p>
+            return <p>Ожидание загрузки формы добавления тест-драйва...</p>
         }
     };
 

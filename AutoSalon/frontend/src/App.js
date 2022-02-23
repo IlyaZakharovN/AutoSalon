@@ -15,7 +15,7 @@ import Profile from './pages/user/ProfilePage';
 import Sale from './pages/sale/Sale';
 import Sales from './pages/sale/Sales';
 import TestDrives from './pages/test-drives/TestDrives';
-// import TestDrive from './pages/test-drives/TestDrive';
+import TestDrive from './pages/test-drives/TestDrive';
 // import { UserLogout } from './slices/userSlice';
 // import CarModelsPage from './pages/CarModelsPage';
 
@@ -38,7 +38,7 @@ function App() {
                     <Route path="/add-options" element={<AddOptions/>} />
                     <Route path="/add-options/:id" element={<AddOption/>} />
                     <Route path="/testdrives" element={<TestDrives/>} />
-                    {/* <Route path="/testdrives/:id" element={<TestDrive/>} /> */}
+                    <Route path="/testdrives/:id" element={<TestDrive/>} />
                 </Routes>
             </BrowserRouter>
         </div>
