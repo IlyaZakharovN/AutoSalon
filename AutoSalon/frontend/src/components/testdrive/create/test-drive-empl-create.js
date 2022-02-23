@@ -186,7 +186,7 @@ export const CreateTestDriveEmpl = ({cars, carModels, testDriveStatuses, user, p
                         type="submit" 
                         className="btn btn-primary btn-block"
                     >
-                        Добавить запись тестдрайва
+                        Добавить запись тест-драйва
                     </button>
                 </div>
             </Form>

@@ -9,9 +9,11 @@ from .serializers import TestDriveSerializer, TestDriveStatusSerializer
 
 class CustomPermission(BasePermission):
     def has_permission(self, request, view):
-        if view.action in ['list', 'retrieve']:
+        if view.action in ['create', 'list']:
+            return request.user
+        elif view.action in ['retrieve']:
             return request.user.is_authenticated
-        elif view.action in ['create', 'update', 'partial_update', 'destroy']:
+        elif view.action in ['update', 'partial_update', 'destroy']:
             return (request.user.is_authenticated and 
                 (request.user.is_superuser or 
                 request.user.is_sales_manager or
@@ -19,7 +21,9 @@ class CustomPermission(BasePermission):
 
 class CustomStatusPermission(BasePermission):
     def has_permission(self, request, view):
-        if view.action in ['list', 'retrieve']:
+        if view.action in ['list']:
+            return request.user
+        elif view.action in ['retrieve']:
             return request.user.is_authenticated
         elif view.action in ['create', 'update', 'partial_update', 'destroy']:
             return (request.user.is_authenticated and 

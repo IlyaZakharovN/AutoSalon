@@ -28,7 +28,7 @@ class TestDrive(models.Model):
     )
 
     date_time = models.DateTimeField()
-    seller = models.ForeignKey(UserAccount, on_delete=models.SET_DEFAULT, default=0, blank=True)
+    seller = models.ForeignKey(UserAccount, on_delete=models.SET_DEFAULT, default=1, blank=True) # on_delete=models.DO_NOTHING,
     client_name = models.CharField(max_length=255)
     client_phone = models.CharField(validators=[RegexValidator(regex = r"^\+{1}7{1}\d{10}$")], max_length=12)
     status = models.ForeignKey(TestDriveStatus, on_delete=models.SET_DEFAULT, default=2)
@@ -39,7 +39,7 @@ class TestDrive(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(fields=['VIN', 'date_time'], name='unique_VIN_datetime'),
-            models.CheckConstraint(check=models.Q(date_time__gt=datetime.now()), name='datetime_gt_now'),
+            # models.CheckConstraint(check=models.Q(date_time__gt=datetime.now()), name='datetime_gt_now'),
             # models.CheckConstraint(check=models.Q(VIN__length=17), name="VIN_td_length")
         ]
     

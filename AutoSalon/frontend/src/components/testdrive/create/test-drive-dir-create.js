@@ -36,9 +36,9 @@ export const CreateTestDriveDirector = ({cars, carModels, testDriveStatuses, emp
         newTdData.append('client_phone', newTestDrive.client_phone);
         newTdData.append('status', newTestDrive.status);
 
-        for (var value of newTdData.values()) {
-            await console.log(value);
-        }
+        // for (var value of newTdData.values()) {
+        //     await console.log(value);
+        // };
 
         await dispatch(createTestDrive(newTdData))
             .unwrap()
@@ -56,7 +56,7 @@ export const CreateTestDriveDirector = ({cars, carModels, testDriveStatuses, emp
             <h4>Добавить запись тестдрайва</h4>
 
             <Form onSubmit={handleSubmit(saveTD)}>
-            <Form.Group className='mb-3'>
+                <Form.Group className='mb-3'>
                     <Form.Label className='mb-1' htmlFor="VIN">Автомобиль</Form.Label>
                     <Form.Select
                         {...register("VIN", { required: true })}
@@ -184,7 +184,7 @@ export const CreateTestDriveDirector = ({cars, carModels, testDriveStatuses, emp
                         type="submit" 
                         className="btn btn-primary btn-block"
                     >
-                        Добавить запись тестдрайва
+                        Добавить запись тест-драйва
                     </button>
                 </div>
             </Form>

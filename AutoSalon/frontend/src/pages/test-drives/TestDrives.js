@@ -5,8 +5,10 @@ import { Link, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import { TestDriveList } from "../../components/testdrive/testdrive-list";
+import { CreateTestDriveClient } from "../../components/testdrive/create/test-drive-client-create";
 import { CreateTestDriveDirector } from "../../components/testdrive/create/test-drive-dir-create";
 import { CreateTestDriveEmpl } from "../../components/testdrive/create/test-drive-empl-create";
+import { TestDriveClientInfo } from "../../components/testdrive/test-drive-client-info";
 import { retriveCars, carsSelector } from "../../slices/carSlice";
 import { retriveCarModels, carModelsSelector } from "../../slices/carModelsSlice";
 import { fetchEmplData, retriveEmplData, employeeSelector } from "../../slices/employeeSlice";
@@ -58,22 +60,34 @@ const TestDrives = () => {
     };
 
     const renderCreateTestDrive = () => {
-        if (cars && carModels && testDriveStatuses && user && purposes) {
-            if (user.user.is_sales_manager) {
-                return <CreateTestDriveEmpl 
+        if (cars && carModels && testDriveStatuses && purposes) {
+            if (isAuthenticated && user) {
+                // console.log('isAuthenticated')
+                if (user.user.is_sales_manager) {
+                    return <CreateTestDriveEmpl 
+                        cars={cars} 
+                        carModels={carModels} 
+                        testDriveStatuses={testDriveStatuses} 
+                        user={user.user} 
+                        purposes={purposes}
+                    />;
+                } else if (user.user.is_sales_director || user.user.is_superuser) {
+                    return <CreateTestDriveDirector
+                        cars={cars} 
+                        carModels={carModels} 
+                        testDriveStatuses={testDriveStatuses}
+                        empls={empls}
+                        purposes={purposes}
+                    />;
+                }
+            } else {
+                // console.log('not isAuthenticated');
+                // console.log(Array.isArray(testDriveStatuses));
+                return <CreateTestDriveClient
                     cars={cars} 
-                    carModels={carModels} 
-                    testDriveStatuses={testDriveStatuses} 
-                    user={user.user} 
+                    carModels={carModels}
                     purposes={purposes}
-                />;
-            } else if (user.user.is_sales_director || user.user.is_superuser) {
-                return <CreateTestDriveDirector
-                    cars={cars} 
-                    carModels={carModels} 
                     testDriveStatuses={testDriveStatuses}
-                    empls={empls}
-                    purposes={purposes}
                 />;
             }
             // ((is_sales_director || is_superuser) ? (
@@ -90,6 +104,10 @@ const TestDrives = () => {
         }
     };
 
+    const renderTestDriveClientInfo = () => {
+        return <TestDriveClientInfo/>;
+    };
+
     return (
         (!testdrives && !testDriveStatuses && !cars && !carModels && !empls && !user && !purposes) ? (
             <div>Ожидание загрузки данных</div>
@@ -104,13 +122,17 @@ const TestDrives = () => {
                         <Col xs lg="4">
                             {renderCreateTestDrive()}
                         </Col>
-                        {/* <Col xs lg="4">
-                            {renderCreateSale()}
-                        </Col> */}
                     </Fragment> 
                 ):(
                     <Fragment>
-                        {/* {renderSaleList()} */}
+                        {renderTestDriveClientInfo()}
+                        <Row className="mt-3 justify-content-md-center">
+                            <Col xs lg="4"></Col>
+                            <Col xs lg="4">
+                                {renderCreateTestDrive()}
+                            </Col> 
+                            <Col xs lg="4"></Col>
+                        </Row>
                     </Fragment>
                 )}
                 </Row>

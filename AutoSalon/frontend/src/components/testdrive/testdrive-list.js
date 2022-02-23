@@ -34,7 +34,11 @@ export const TestDriveList = ({ testdrives, testDriveStatuses, cars, carModels, 
                                                         </Card.Subtitle>
                                                         {td.seller ? (
                                                             <Card.Subtitle>
-                                                                {`Ответсвенный сотрудник - ${empl.name}`}
+                                                                {empl.is_superuser ? (
+                                                                    `Ответсвенный сотрудник - не установлен`
+                                                                ) : (
+                                                                    `Ответсвенный сотрудник - ${empl.name}`
+                                                                )}
                                                             </Card.Subtitle>
                                                         ) : (
                                                             <Fragment></Fragment>
