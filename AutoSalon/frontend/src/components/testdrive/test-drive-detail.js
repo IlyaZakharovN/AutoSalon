@@ -6,11 +6,17 @@ import "bootstrap/dist/css/bootstrap.min.css";
 // import { userSelector } from "../../slices/userSlice";
 
 export const TestDriveDetail = ({ testdrives, testDriveStatuses, cars, carModels, empls, purposes, user }) => {
+    console.log(testdrives);
+    console.log(cars);
+    console.log(carModels);
+    console.log(testDriveStatuses);
     return (
         <Fragment>
             <h3 className="mb-3" style={{textAlign: "center"}}>
                 {`Тест драйв №${testdrives.id}, ${testdrives.date_time}`}
             </h3>
+
+            {/*  */}
 
             <div style={{textAlign: "left"}}>
                 {(testDriveStatuses) && testDriveStatuses
@@ -36,11 +42,7 @@ export const TestDriveDetail = ({ testdrives, testDriveStatuses, cars, carModels
                             <img src={carModels.main_photo} className="mb-3"/>
                             <p>{cars.VIN}, {carModels.brand} {carModels.model} {carModels.year} в комплектации {carModels.package_name}</p>
                         </Fragment>
-                        // <p>Дата</p>
                 ))}
-
-                {/* <p>Дата - {`${}`}</p> */}
-                
             </div>
         </Fragment>
     );

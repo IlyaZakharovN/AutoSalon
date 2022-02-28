@@ -34,7 +34,7 @@ class TestDrive(models.Model):
     status = models.ForeignKey(TestDriveStatus, on_delete=models.SET_DEFAULT, default=2)
 
     def __str__(self):
-        return f'{self.date_time}, {self.VIN} - {self.seller}'
+        return f'{self.id} - {self.date_time}, {self.VIN} - {self.seller}'
 
     class Meta:
         constraints = [

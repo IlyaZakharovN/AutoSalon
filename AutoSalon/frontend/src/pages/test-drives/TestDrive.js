@@ -5,6 +5,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import { TestDriveDetail } from "../../components/testdrive/test-drive-detail";
+import { TestDriveUpdate } from "../../components/testdrive/test-drive-patch";
 import { retriveCars, fetchCar, carsSelector } from "../../slices/carSlice";
 import { retriveCarModels, fetchCarModel, carModelsSelector } from "../../slices/carModelsSlice";
 import { fetchEmplData, retriveEmplData, employeeSelector } from "../../slices/employeeSlice";
@@ -25,36 +26,68 @@ const TestDrive = () => {
     const testDriveStatuses = useSelector(testDriveStatusSelector);
     const purposes = useSelector(purposeSelector);
 
+    const [tdCar, setTdCar] = useState();
+    const [tdCarModel, setTdCarModel] = useState();
+
     const initFetch = useCallback(async() => {
+        // const id = params.id;
         await dispatch(fetchTestDrive(params.id));
-        // await dispatch(retriveCars());
-        await dispatch(fetchCar(testdrives.VIN));
-        // await dispatch(retriveCarModels());
-        await dispatch(fetchCarModel(cars.model_id));
+        // dispatch(getAllTestDrives());
+        await console.log(testdrives[0]);
+        const carResult = await dispatch(fetchCar(testdrives.VIN));
+        await setTdCar(carResult.payload);
+        // const model_id = tdCar[0].model_id;
+
+        await console.log((carResult.payload).model_id);
+        const cmResult = await dispatch(fetchCarModel((carResult.payload).model_id));
+        setTdCarModel(cmResult.payload);
+
+        await dispatch(retriveCars());
+        // await dispatch(fetchCar(testdrives.VIN));
+        await dispatch(retriveCarModels());
+        // await dispatch(fetchCarModel(cars.model_id));
         await dispatch(getAllTestDriveStatuses());
         await dispatch(retriveEmplData());
         // await dispatch(fetchEmplData(testdrives.seller));
         await dispatch(getAllPurposes());
-    }, [dispatch, params.id, testdrives.VIN, cars.model_id]);
+
+    }, [dispatch, params.id, testdrives.VIN]); // , params.id
 
     useEffect(() => {
         initFetch();
+        // fetchTdData();
     }, [initFetch]);
 
     const renderTestDriveDetail = () => {
-        if (testdrives, testDriveStatuses, cars, carModels, empls, purposes, user) {
+        if (testdrives, testDriveStatuses, cars, carModels, empls, purposes, user, tdCar, tdCarModel) {
             return <TestDriveDetail
                 testdrives={testdrives} 
                 testDriveStatuses={testDriveStatuses}
-                cars={cars}
-                // cars={cars.filter(car => testdrives.VIN === car.VIN)}
-                carModels={carModels}
+                cars={tdCar}
+                carModels={tdCarModel}
                 empls={empls.filter(empl => empl.id === testdrives.seller)}
+                // empls={empls}
                 purposes={purposes}
                 user={user.user}
             />
         } else {
             return <p>Ожидание загрузки информации о тест-драйве...</p>
+        }
+    };
+
+    const renderTestDriveUpdate = () => {
+        if (testdrives, testDriveStatuses, cars, carModels, empls, purposes, user) {
+            return <TestDriveUpdate
+                testdrives={testdrives} 
+                testDriveStatuses={testDriveStatuses}
+                cars={cars}
+                carModels={carModels}
+                empls={empls.filter(empl => empl.is_sales_manager || empl.is_sales_director)}
+                purposes={purposes}
+                user={user.user}
+            />
+        } else {
+            return <p>Ожидание загрузки формы обновления...</p>
         }
     };
 
@@ -70,6 +103,7 @@ const TestDrive = () => {
                                 {renderTestDriveDetail()}
                             </Col>
                             <Col xs lg="6">
+                                {renderTestDriveUpdate()}
                             </Col>
                         </Row>
                     ) : (
