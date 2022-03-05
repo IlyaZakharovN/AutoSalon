@@ -8,7 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import SaleDetail from "../../components/sale/sale-detail";
 import { fetchAddOption, addOptionSelector, retriveAddOptions } from "../../slices/addOptionSlice";
 import { fetchCar, retriveCars, carsSelector } from "../../slices/carSlice";
-import { fetchCarModel, retriveCarModels, carModelsSelector } from "../../slices/carModelsSlice";
+import { fetchCarModel, getAllCarModels, carModelsSelector } from "../../slices/carModelsSlice";
 import { fetchPurchaseType, retrivePurchaseTypes, purchaseTypesSelector } from "../../slices/purchaseTypesSlice";
 import { retriveSaleRecords, fetchSaleRecord, saleSelector } from "../../slices/saleSlice";
 import { retriveUserData, userSelector } from "../../slices/userSlice";

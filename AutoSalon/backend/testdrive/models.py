@@ -9,7 +9,7 @@ from employees.models import UserAccount
 
 class TestDriveStatus(models.Model):
     class TD_Status(models.TextChoices):
-        NOT_AGREED = ' Заявка не согласована'
+        NOT_AGREED = 'Заявка не согласована'
         AGREED = 'Заявка согласована'
         CANCELED = 'Отменен'
         DONE = 'Проведен'
@@ -22,8 +22,7 @@ class TestDriveStatus(models.Model):
 class TestDrive(models.Model):        
     VIN = models.ForeignKey(
         Car, 
-        on_delete=models.SET_DEFAULT, 
-        default='A0000000000000000',
+        on_delete=models.DO_NOTHING, # models.SET_DEFAULT, default='A0000000000000000',
         # validators=[RegexValidator('^(([(A-Z)*(\d)*]){17}|([(\d)*(A-Z)*]){17})$', 'VIN должен состоять из 17 заглавных букв и цифр.')]
     )
 

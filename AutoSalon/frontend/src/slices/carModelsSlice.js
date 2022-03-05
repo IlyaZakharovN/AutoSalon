@@ -8,19 +8,20 @@ import { axiosMultipart, axiosDefault } from "../http-common"; // axios instance
 // const initialState = [];
 const initialState = {
     carModels: [],
-    loading: false, 
-    hasErrors: false,
+    // loading: false, 
+    // hasErrors: false,
 };
 
 ///// Get all car models /////
-export const retriveCarModels = createAsyncThunk(
-    "carModels/retrieve",
+export const getAllCarModels = createAsyncThunk(
+    "carModels/getAll",
     async (_, { rejectWithValue }) => {
         try {
-            const res = await axiosDefault.get("/carmodels/");
+            const res = await axiosDefault.get("/carmodels/models");
             console.log(res.data);
             return res.data;
         } catch (err) {
+            console.log("Error happened while getting all car models.");
             console.log(err);
             return rejectWithValue(err.response.data);
         }
@@ -29,13 +30,14 @@ export const retriveCarModels = createAsyncThunk(
 
 ///// Retrive a car model by id /////
 export const fetchCarModel = createAsyncThunk(
-    "carModels/fetchCarModel",
+    "carModels/fetchOne",
     async (id, { rejectWithValue }) => {
         try {
-            const res = await axiosDefault.get(`/carmodels/${id}/`);
+            const res = await axiosDefault.get(`/carmodels/models/${id}/`);
             console.log(res.data);
             return res.data;
         } catch (err) {
+            console.log("Error happened while fetching a car model.");
             console.log(err);
             return rejectWithValue(err.response.data);
         }
@@ -47,13 +49,34 @@ export const createCarModel = createAsyncThunk(
     "carModels/create",
     async (data, { rejectWithValue }) => {
         try {
-            const res = axiosMultipart.post("/carmodels/", data);
+            const res = axiosMultipart.post("/carmodels/models/", data);
             console.log(res);
             return res.data;
         } catch (err) {
+            console.log("Error happened while creating a car model.");
             console.log(err);
             return rejectWithValue(err.response.data);
         }
+    }
+);
+
+///// Partial Update car model /////
+export const updateCarModel = createAsyncThunk(
+    "carModels/partial-update",
+    async ({ id, data }) => {
+        console.log('Initial data - ', data);
+        const res = await axiosDefault.patch(`/carmodels/models/${id}/`, data);
+        console.log('Updated data - ', res.data);
+        return res.data;
+    }
+);
+
+///// Delete single car model /////
+export const deleteSingleCarModel = createAsyncThunk(
+    "singleCarModel/delete-single",
+    async ({ id }) => {
+        const res = await axiosDefault.delete(`/carmodels/models/${id}/`);
+        return { id };
     }
 );
 
@@ -62,48 +85,14 @@ export const createCarModel = createAsyncThunk(
 const carModelSlice = createSlice({
     name: "carModel",
     initialState,
-    reducers: {
-        getCarModels: state => {
-            state.loading = true
-        },
-        getCarModelsSuccess: (state, { payload }) => {
-            state.carModels = payload
-            state.loading = false
-            state.hasErrors = false
-        },
-        getCarModelsFailure: state => {
-            state.loading = false
-            state.hasErrors = true
-        },
-        carModelAdd: (state, action) => {
-            state.push(action.payload);
-        },
-    },
+    reducers: {},
     extraReducers: {
-        [createCarModel.fulfilled]: (state, action) => {
-            state.push(action.payload);
-            return { ...state };
-        },
-        [createCarModel.pending]: (state, action) => {
-            console.log(action.meta.arg);
-        },
-        [createCarModel.rejected]: (state, action) => {
-            if (action.payload) {
-                state.error = action.payload.errorMessage;
-                console.log(state.error);
-            } 
-            // else {
-            //     state.error = action.error.message
-            // }
-            return { ...state };
-        },
-        
-        [retriveCarModels.fulfilled]: (state, action) => {
+        [getAllCarModels.fulfilled]: (state, action) => {
             // state.carModels = action.payload.carModels;
             return [...action.payload];
             // state.carModels.push(action.payload);
         },
-        [retriveCarModels.rejected]: (state, action) => {
+        [getAllCarModels.rejected]: (state, action) => {
             return {
                 ...initialState
             }
@@ -115,11 +104,34 @@ const carModelSlice = createSlice({
         [fetchCarModel.rejected]: (state, action) => {
             return { ...initialState };
         },
+
+        [createCarModel.fulfilled]: (state, action) => {
+            state.push(action.payload);
+            return { ...state };
+        },
+        [createCarModel.rejected]: (state, action) => {
+            if (action.payload) {
+                state.error = action.payload.errorMessage;
+                console.log(state.error);
+            } 
+            return { ...state };
+        },
+
+        [updateCarModel.fulfilled]: (state, action) => {
+            const index = state.findIndex(carModels => carModels.id === action.payload.id);
+            state[index] = {
+                ...state[index],
+                ...action.payload,
+            };
+        },
+        // [deleteSingleCarModel.fulfilled]: (state,action) => {
+        //     let index = state.findIndex(({ id }) => id === action.payload.id);
+        //     state.splice(index, 1);
+        // },
     },
 });
 
 const { reducer } = carModelSlice; // 'reducer' name is a must
 
-export const { getCarModels, getCarModelsSuccess, getCarModelsFailure, carModelAdd } = carModelSlice.actions;
 export const carModelsSelector = state => state.carModels;
 export default reducer;    

@@ -9,17 +9,22 @@ from .serializers import TestDriveSerializer, TestDriveStatusSerializer
 
 class CustomPermission(BasePermission):
     def has_permission(self, request, view):
-        if view.action in ['create', 'list']:
+        if view.action in ['create',]:
             return request.user
-        elif view.action in ['retrieve']:
+        elif view.action in ['list', 'retrieve']:
             return request.user.is_authenticated
         elif view.action in ['update', 'partial_update', 'destroy']:
             return (request.user.is_authenticated and 
                 (request.user.is_superuser or 
                 request.user.is_sales_manager or
                 request.user.is_sales_director))
+        elif view.action in ['destroy']:
+            return (request.user.is_authenticated and 
+                (request.user.is_superuser or 
+                request.user.is_sales_manager or
+                request.user.is_sales_director))
 
-class CustomStatusPermission(BasePermission):
+class StatusPermission(BasePermission):
     def has_permission(self, request, view):
         if view.action in ['list']:
             return request.user
@@ -45,4 +50,4 @@ class TestDriveViewSet(ModelViewSet):
 class TestDriveStatusViewSet(ModelViewSet):
     queryset = TestDriveStatus.objects.all()
     serializer_class = TestDriveStatusSerializer
-    permission_classes = (CustomStatusPermission,)
+    permission_classes = (StatusPermission,)

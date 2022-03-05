@@ -8,7 +8,7 @@ import { CreateCar } from "../../components/car/car-create";
 import { CarList } from "../../components/car/car-list";
 import { retriveArrivalTypes, fetchArrivalType, arrivalTypesSelector } from "../../slices/arrivalTypesSlice";
 import { retriveCars, carsSelector } from "../../slices/carSlice";
-import { retriveCarModels, carModelsSelector } from "../../slices/carModelsSlice";
+import { getAllCarModels, carModelsSelector } from "../../slices/carModelsSlice";
 import { getAllPurposes, purposeSelector } from "../../slices/purposeSlice";
 import { userSelector, retriveUserData } from "../../slices/userSlice";
 
@@ -27,7 +27,7 @@ const Cars = () => {
     
     useEffect(() => {
         dispatch(getAllPurposes());
-        dispatch(retriveCarModels());
+        dispatch(getAllCarModels());
         dispatch(retriveCars());
         dispatch(retriveArrivalTypes());
     }, [dispatch]);

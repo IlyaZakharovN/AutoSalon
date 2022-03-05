@@ -20,6 +20,19 @@ class Purpose(models.Model):
     def __str__(self):
         return f'{self.name}'
 
+class Status(models.Model):
+    class StatusType(models.TextChoices):
+        IN_STOCK = 'В наличии'
+        TECH_INSPECTION = 'На техосмотре'
+        TECH_MAINTENANCE = 'На техоблуживании'
+        SOLD = 'Продан'
+        UNKNOWN = 'Неизвестно'
+
+    name = models.CharField(max_length=100, choices=StatusType.choices, default=StatusType.UNKNOWN)
+
+    def __str__(self):
+        return f'{self.name}'
+
 class Car(models.Model):
     VIN = models.CharField(
         primary_key=True, 
@@ -30,9 +43,9 @@ class Car(models.Model):
 
     model_id = models.ForeignKey(CarModel, on_delete=models.SET_DEFAULT, default=0)
     price = models.DecimalField(max_digits=11, decimal_places=2)
-    # purpose = models.CharField(max_length=50, choices=PurposeType.choices, default=PurposeType.FOR_SALE)
     purpose = models.ForeignKey(Purpose, on_delete=models.SET_DEFAULT, default=1)
-    note = models.TextField(default='Примечание не найдено.', blank=True, null=True)
+    status = models.ForeignKey(Status, on_delete=models.SET_DEFAULT, default=5)
+    description = models.TextField(default='Описание не найдено.', blank=True, null=True)
 
     def __str__(self):
         return f'{self.VIN} - {self.model_id} - {self.purpose} - {self.price} руб.'
@@ -41,3 +54,10 @@ class Car(models.Model):
         constraints = [
             models.CheckConstraint(check=models.Q(VIN__length=17), name="VIN_length")
         ]
+
+class CarPhoto(models.Model):
+    VIN = models.ForeignKey(Car, on_delete=models.DO_NOTHING)
+    photo = models.ImageField(upload_to='cars/')
+
+    def __str__(self):
+        return f'{self.id}: {self.model_id}'

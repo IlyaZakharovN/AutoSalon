@@ -7,7 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { TestDriveDetail } from "../../components/testdrive/test-drive-detail";
 import { TestDriveUpdate } from "../../components/testdrive/test-drive-patch";
 import { retriveCars, fetchCar, carsSelector } from "../../slices/carSlice";
-import { retriveCarModels, fetchCarModel, carModelsSelector } from "../../slices/carModelsSlice";
+import { getAllCarModels, fetchCarModel, carModelsSelector } from "../../slices/carModelsSlice";
 import { fetchEmplData, retriveEmplData, employeeSelector } from "../../slices/employeeSlice";
 import { getAllPurposes, purposeSelector } from "../../slices/purposeSlice";
 import { getAllTestDriveStatuses, fetchTestDriveStatus, testDriveStatusSelector } from "../../slices/testDriveStatusSlice";
@@ -44,7 +44,7 @@ const TestDrive = () => {
 
         await dispatch(retriveCars());
         // await dispatch(fetchCar(testdrives.VIN));
-        await dispatch(retriveCarModels());
+        await dispatch(getAllCarModels());
         // await dispatch(fetchCarModel(cars.model_id));
         await dispatch(getAllTestDriveStatuses());
         await dispatch(retriveEmplData());

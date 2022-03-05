@@ -7,7 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { CreateSale } from "../../components/sale/sale-create";
 import { SaleList } from "../../components/sale/sale-list";
 import { retriveCars, carsSelector } from "../../slices/carSlice";
-import { retriveCarModels, carModelsSelector } from "../../slices/carModelsSlice";
+import { getAllCarModels, carModelsSelector } from "../../slices/carModelsSlice";
 import { retrivePurchaseTypes, fetchPurchaseType } from "../../slices/purchaseTypesSlice";
 import { retriveSaleRecords, fetchSaleRecord, saleSelector } from "../../slices/saleSlice";
 import { userSelector, retriveUserData } from "../../slices/userSlice";
@@ -26,7 +26,7 @@ const Sales = () => {
     const addOption = useSelector(addOptionSelector);
 
     const initFetch = useCallback(async() => {
-        await dispatch(retriveCarModels());
+        await dispatch(getAllCarModels());
         await dispatch(retriveCars());
         await dispatch(retriveSaleRecords());
         await dispatch(retrivePurchaseTypes());
