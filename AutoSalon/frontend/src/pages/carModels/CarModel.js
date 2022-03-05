@@ -33,7 +33,9 @@ const CarModel = () => {
         if (carModel && carModelsPhotos) {
             return <CarModelDetail 
                 carModel={carModel} 
-                carModelsPhotos={carModelsPhotos}
+                carModelsPhotos={carModelsPhotos
+                    .filter(photo => photo.model_id === carModel.id)
+                }
             />
         } else {
             return <p>Ожидание загрузки информации об автомобиле...</p>
