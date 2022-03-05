@@ -28,7 +28,7 @@ const CarModelUpdate = ({ carModel }) => {
         // multiple images
     };
 
-    const [showToast, setShowToast] = useState(false);
+    // const [showToast, setShowToast] = useState(false);
 
     const dispatch = useDispatch();
     const { register, handleSubmit, formState: { errors } } = useForm({reValidateMode: 'onChange',}); 
@@ -56,14 +56,14 @@ const CarModelUpdate = ({ carModel }) => {
 
         window.location.reload();
 
-        return (
-            <Toast onClose={() => setShowToast(false)} show={showToast} delay={3000} autohide>
-                <Toast.Header>
-                    <strong className="me-auto">Информация обновлена</strong>
-                </Toast.Header>
-                <Toast.Body>Информация о моделе автомобиля была успешно обновлена.</Toast.Body>
-            </Toast>
-        );
+        // return (
+        //     <Toast onClose={() => setShowToast(false)} show={showToast} delay={3000} autohide>
+        //         <Toast.Header>
+        //             <strong className="me-auto">Информация обновлена</strong>
+        //         </Toast.Header>
+        //         <Toast.Body>Информация о моделе автомобиля была успешно обновлена.</Toast.Body>
+        //     </Toast>
+        // );
     };
 
     return (
