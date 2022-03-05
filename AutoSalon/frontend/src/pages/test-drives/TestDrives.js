@@ -10,7 +10,7 @@ import { CreateTestDriveDirector } from "../../components/testdrive/create/test-
 import { CreateTestDriveEmpl } from "../../components/testdrive/create/test-drive-empl-create";
 import { TestDriveClientInfo } from "../../components/testdrive/test-drive-client-info";
 import { retriveCars, carsSelector } from "../../slices/carSlice";
-import { retriveCarModels, carModelsSelector } from "../../slices/carModelsSlice";
+import { getAllCarModels, carModelsSelector } from "../../slices/carModelsSlice";
 import { fetchEmplData, retriveEmplData, employeeSelector } from "../../slices/employeeSlice";
 import { getAllPurposes, purposeSelector } from "../../slices/purposeSlice";
 import { getAllTestDriveStatuses, fetchTestDriveStatus, testDriveStatusSelector } from "../../slices/testDriveStatusSlice";
@@ -30,7 +30,7 @@ const TestDrives = () => {
     const purposes = useSelector(purposeSelector);
 
     const initFetch = useCallback(async() => {
-        await dispatch(retriveCarModels());
+        await dispatch(getAllCarModels());
         await dispatch(retriveCars());
         await dispatch(getAllTestDrives());
         await dispatch(getAllTestDriveStatuses());

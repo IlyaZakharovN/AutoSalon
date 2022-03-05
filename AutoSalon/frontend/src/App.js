@@ -5,8 +5,8 @@ import AddOption from './pages/addOptions/AddOption';
 import AddOptions from './pages/addOptions/AddOptions';
 import CarPage from './pages/cars/Car';
 import Cars from './pages/cars/Cars';
-import CarModel from './pages/carModels/CarModelPage';
-import CarModelsList from './pages/carModels/CarModelsListPage';
+import CarModel from './pages/carModels/CarModel';
+import CarModelsList from './pages/carModels/CarModels';
 import Home from './pages/Home';
 import Logout from './pages/auth/Logout';
 import Login from './pages/auth/Login';
@@ -28,7 +28,7 @@ function App() {
                     <Route exact path="/" element={<Home/>} />
                     <Route exact path="/cars" element={<Cars/>} />
                     <Route exact path="/car/:vin" element={<CarPage/>} />
-                    <Route exact path="/carmodels" element={<CarModelsList/>} />
+                    <Route exact path="/carmodels/" element={<CarModelsList/>} />
                     <Route path="/carmodels/:id" element={<CarModel/>} />
                     <Route path="/login" element={<Login/>} />
                     <Route path="/logout" element={<Logout/>} />

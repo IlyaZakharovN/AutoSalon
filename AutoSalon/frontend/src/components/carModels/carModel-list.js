@@ -4,21 +4,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-// import { retriveCarModels } from "../../slices/carModelsSlice";
-// import { carModelsSelector } from "../../slices/carModelsSlice";
-
 // Add Card styles...
 const CarModels = ({ carModels }) => {
-    // const [currentCarModel, setCurrentCarModel] = useState(null);
     console.log(carModels);
 
     return (
         <Fragment>
             <h4>Модели автомобилей</h4>
             <Row>
-                {carModels && carModels.map((carModel, index) =>(
+                {Array.isArray(carModels) && carModels.map((carModel, index) =>(
                     <Col sm key={carModel.id}>
-                        <Card>
+                        <Card key={carModel.id}>
                             <Card.Img variant="top" src={carModel.main_photo}/>
                             <Card.Title>
                                 <Link 

@@ -9,7 +9,7 @@ import CarDetail from "../../components/car/car-detail";
 import CarUpdate from "../../components/car/car-patch";
 import CarDelete from "../../components/car/car-delete";
 import { retriveArrivalTypes, fetchArrivalType } from "../../slices/arrivalTypesSlice";
-import { retriveCarModels, fetchCarModel } from "../../slices/carModelsSlice";
+import { getAllCarModels, fetchCarModel } from "../../slices/carModelsSlice";
 import { fetchCar, retriveCars } from "../../slices/carSlice";
 import { fetchStockRecord, retriveStock } from "../../slices/stockSlice";
 import { userSelector, retriveUserData } from "../../slices/userSlice";
@@ -73,7 +73,7 @@ const CarPage = () => {
 
         console.log('For patch function:');
         console.log('7) fetching all car models');
-        const carModelsResult = await dispatch(retriveCarModels());
+        const carModelsResult = await dispatch(getAllCarModels());
         setCarModels(carModelsResult.payload);
     }, [dispatch]);
 

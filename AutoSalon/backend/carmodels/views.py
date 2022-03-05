@@ -1,8 +1,8 @@
 from rest_framework.permissions import BasePermission, AllowAny, DjangoModelPermissionsOrAnonReadOnly, SAFE_METHODS
 from rest_framework.viewsets import ModelViewSet
 
-from .models import CarModel
-from .serializers import CarModelSerializer
+from .models import CarModel, CarModelPhoto
+from .serializers import CarModelSerializer, CarModelPhotoSerializer
 
 # Create your views here.
 
@@ -12,27 +12,24 @@ from .serializers import CarModelSerializer
 
 class CustomPermission(BasePermission):
     def has_obj_permission(self, request, view):
-        if view.action in ['create', 'update', 'partial_update', 'destroy']:
+        if view.action in ['create', 'update', 'partial_update']:
             return (request.user.is_authenticated and 
                 (request.user.is_superuser or 
                 request.user.is_sales_director or 
                 request.user.is_puchase_manager))
-#         if request.user:
-#             if request.user.is_superuser or request.user.is_sales_director or request.user.is_puchase_manager:
-#                 return True
-#             else: 
-#                 return False
-
-# class IsAuthenticatedPermission(BasePermission):
-#     def has_permission(self, request, view):
-#         if not request.user.is_authenticated:
-#             return False
-#         else: 
-#             return True
+        elif view.action in ['destroy',]:
+            return (request.user.is_authenticated and 
+                (request.user.is_superuser or 
+                request.user.is_sales_director))
 
 class CarModelsViewSet(ModelViewSet):
     queryset = CarModel.objects.all()
     serializer_class = CarModelSerializer
+    permission_classes = (CustomPermission,)
+
+class CarModelPhotoViewSet(ModelViewSet):
+    queryset = CarModelPhoto.objects.all()
+    serializer_class = CarModelPhotoSerializer
     permission_classes = (CustomPermission,)
 
     # def get_permissions(self):

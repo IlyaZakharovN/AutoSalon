@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import CarModel
+from .models import CarModel, CarModelPhoto
 
 # Register your models here.
 
@@ -10,3 +10,4 @@ class CarModelAdmin(admin.ModelAdmin):
     # search_fields = 
 
 admin.site.register(CarModel, CarModelAdmin)
+admin.site.register(CarModelPhoto)
