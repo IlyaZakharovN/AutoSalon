@@ -44,3 +44,41 @@
   margin-left: auto;
   margin-right: auto;
 }
+
+.car-carModel {
+  max-width: 1280px;
+  max-height: 720px;
+}
+.car-carModel img {
+  width: auto;
+  height : auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.carousel-main {
+  min-width: 360px;
+  min-height: 240px;
+  max-width: 720px;
+  max-height: 480px;
+  text-align: center;
+}
+
+.carousel-item {
+  /* max-width: 720px;
+  max-height: 480px; */
+  max-width: auto;
+  max-height: auto;
+  position: relative;
+}
+
+.carousel-item img {
+  width: auto;
+  height : auto;
+  max-width: 720px;
+  max-height: 480px;
+  object-fit: contain;
+  display: inline-flex;
+  /* position: absolute; */
+}
