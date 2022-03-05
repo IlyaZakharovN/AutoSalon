@@ -1,19 +1,20 @@
 import React, { Fragment } from "react";
-import { Breadcrumb } from "react-bootstrap";
+import { Breadcrumb, Carousel } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import { userSelector, retriveUserData } from "../../slices/userSlice";
 
-const CarModelDetail = ({ carModel }) => {
+const CarModelDetail = ({ carModel, carModelsPhotos }) => {
     return (
         <Fragment>
             {/* <Breadcrumb>
                 <Breadcrumb.Item href="/carmodels/">Каталог</Breadcrumb.Item>
             </Breadcrumb> */}
-            <div>
-                <h2>{carModel.brand + " " + carModel.model + " " + carModel.year}</h2>
+            <div style={{textAlign: "left"}}>
+                <h2 className="mb-3" style={{textAlign: "center"}}>{`${carModel.brand} ${carModel.model} ${carModel.year} в комплектации ${carModel.package_name}`}</h2>
                 <img src={carModel.main_photo}/>
+
                 <p>{carModel.model_descr}</p>
                 <p>Цена - от {carModel.base_price} руб.</p>
                 <p>Год выпуска - {carModel.year}</p>

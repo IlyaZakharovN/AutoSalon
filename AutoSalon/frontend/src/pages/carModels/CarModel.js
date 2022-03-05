@@ -4,21 +4,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import { getAllCarModels, fetchCarModel, carModelsSelector } from "../../slices/carModelsSlice";
 import CarModelDetail from "../../components/carModels/carModel-detail";
 import CarModelUpdate from "../../components/carModels/carModel-patch";
 // import SingleCarModelDelete from "../../components/singleCarModel/delete";
+import CarModelPhotosUpload from "../../components/carModels/carModelPhotos-upload";
+import { getAllCarModels, fetchCarModel, carModelsSelector } from "../../slices/carModelsSlice";
 import { userSelector, retriveUserData, isAuthenticated } from "../../slices/userSlice";
+import { carModelPhotosSelector, getAllCarModelPhotos } from "../../slices/carModelPhotosSlice";
 
 const CarModel = () => {
     const dispatch = useDispatch();
     const params = useParams();
     const carModel = useSelector(carModelsSelector);
+    const carModelsPhotos = useSelector(carModelPhotosSelector);
     const { user, isAuthenticated } = useSelector(userSelector);
 
     const initFetch = useCallback(async() => {
         const id = params.id;
         await dispatch(fetchCarModel(id));
+        await dispatch(getAllCarModelPhotos())
     }, [dispatch, params.id]);
 
     useEffect(() => {
@@ -26,15 +30,18 @@ const CarModel = () => {
     }, [initFetch]);
 
     const renderCarModelDetail = () => {
-        if (carModel) {
-            return <CarModelDetail carModel={carModel} />
+        if (carModel && carModelsPhotos) {
+            return <CarModelDetail 
+                carModel={carModel} 
+                carModelsPhotos={carModelsPhotos}
+            />
         } else {
             return <p>Ожидание загрузки информации об автомобиле...</p>
         }
     };
 
     const renderCarModelUpdate = () => {
-        if (carModel) {
+        if (carModel && carModelsPhotos) {
             return <CarModelUpdate carModel={carModel}/>
         } else {
             return <p>Ожидание загрузки формы обновления...</p>
@@ -46,6 +53,14 @@ const CarModel = () => {
     //     if (singleCarModelHasErrors) return <p>Невозможно загрузить функцию удаления.</p>
     //     return <SingleCarModelDelete singleCarModel={singleCarModel} />
     // };
+
+    const renderCarModelPhotoUpload = () => {
+        if (carModel) {
+            return <CarModelPhotosUpload carModel={carModel}/>
+        } else {
+            return <p>Ожидание загрузки формы добавления изображений...</p>
+        }
+    };
 
     return (
         (!carModel) ? (
@@ -60,6 +75,9 @@ const CarModel = () => {
                             </Col> 
                             <Col xs lg="4">
                                 {renderCarModelUpdate()}
+                                <div className="mt-5">
+                                    {renderCarModelPhotoUpload()}
+                                </div>
                             </Col>
                             <div className="mt-5"> 
                                 {/* {renderDeleteFeature()} */}

@@ -352,7 +352,7 @@ const CreateCarModel = () => {
                         onChange={handleInputChange}
                     />
                 </Form.Group>
-                {errors.package_descr && <p>Необходимо указать главное изображение модели.</p>}
+                {errors.main_photo && <p>Необходимо указать главное изображение модели.</p>}
                 
                 <div>
                     <button 
