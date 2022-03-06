@@ -33,7 +33,7 @@ class Stock(models.Model):
     acceptor = models.ForeignKey(
         UserAccount, 
         on_delete=models.DO_NOTHING, # models.SET_DEFAULT, default=0, 
-        limit_choices_to=(models.Q(is_sales_director=True) | models.Q(is_puchase_manager=True) | models.Q(is_superuser=True))
+        limit_choices_to=(models.Q(is_sales_director=True) | models.Q(is_puchase_manager=True))
     )
     purchase_value = models.DecimalField(max_digits=11, decimal_places=2)
     millage = models.PositiveIntegerField()
