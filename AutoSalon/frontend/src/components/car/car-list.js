@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-export const CarList = ({ cars, carModels }) => {
+export const CarList = ({ cars, carModels, carStatuses }) => {
     console.log(cars);
     // const carModels = useSelector(state => state.carModels);
     // let result = Object.values(carModels, cars).filter(carModel => carModel.id === cars.VIN);
@@ -12,7 +12,7 @@ export const CarList = ({ cars, carModels }) => {
 
     return (
         <Fragment>
-            <h4>Архив автомобилей</h4>
+            <h4>Каталог автомобилей</h4>
             <Row>
                 {Array.isArray(cars) && cars.map((car, index) => (
                     <Col>

@@ -90,7 +90,7 @@ const CreateCarModel = () => {
                 })
                 // .then(dispatch(getAllCarModels()))
                 .catch(e => {
-                    alert("Что-то пошло не так, проверьте заполнены ли все необходимые поля формы.");
+                    console.log("Error happened while running saveCarModel")
                     console.log(e);
                 });
 

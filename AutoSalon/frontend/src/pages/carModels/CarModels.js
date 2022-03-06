@@ -34,11 +34,12 @@ const CarModelsList = () => {
     };
 
     const renderCreateCarModel = () => {
-        if (carModels) {
-            return <CreateCarModel/>
-        } else {
-            return <p>Ожидание загрузки формы добавления моделей автомобилей...</p>
-        }
+        return <CreateCarModel/>
+        // if (carModels) {
+        //     return <CreateCarModel/>
+        // } else {
+        //     return <p>Ожидание загрузки формы добавления моделей автомобилей...</p>
+        // }
     }
 
     return (

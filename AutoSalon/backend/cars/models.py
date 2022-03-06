@@ -46,6 +46,7 @@ class Car(models.Model):
     purpose = models.ForeignKey(Purpose, on_delete=models.SET_DEFAULT, default=1)
     status = models.ForeignKey(Status, on_delete=models.SET_DEFAULT, default=5)
     description = models.TextField(default='Описание не найдено.', blank=True, null=True)
+    note = models.TextField(default='Примечание не найдено.', blank=True, null=True)
 
     def __str__(self):
         return f'{self.VIN} - {self.model_id} - {self.purpose} - {self.price} руб.'

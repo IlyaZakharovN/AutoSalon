@@ -25,7 +25,7 @@ class StockPermission(BasePermission):
 class ArrivalPermission(BasePermission):
     def has_permission(self, request, view):
         if view.action in ['list', 'retrieve']:
-            return request.user.is_authenticated
+            return request.user
         elif view.action in ['create', 'update', 'partial_update', 'destroy']:
             return (request.user.is_authenticated and 
                 (request.user.is_superuser or 

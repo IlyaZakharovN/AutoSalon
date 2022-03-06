@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 
-import { axiosDefault } from "../http-common"; 
+import { axiosDefault, axiosMultipart } from "../http-common"; 
 
 const initialState = {
     stockRecords: [],
@@ -46,7 +46,7 @@ export const createStockRecord = createAsyncThunk(
     "stock/create",
     async (data, { rejectWithValue }) => {
         try {
-            const res = axiosDefault.post("/stock/stock/", data);
+            const res = axiosMultipart.post("/stock/stock/", data);
             console.log(res.data);
             return res.data; // return (await res).data;
         } catch (err) {
