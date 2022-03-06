@@ -59,7 +59,7 @@ class CarModel(models.Model):
         return f'{self.id} - {self.brand} {self.model} {self.year}, {self.fuel_type} {self.engine_volume} л., {self.engine_power} л.с. в комплектации {self.package_name} - от {self.base_price} руб.'
 
 class CarModelPhoto(models.Model):
-    model_id = models.ForeignKey(CarModel, on_delete=models.DO_NOTHING)
+    model_id = models.ForeignKey(CarModel, on_delete=models.CASCADE)
     photo = models.ImageField(upload_to='car_models/')
 
     def __str__(self):

@@ -1,25 +1,25 @@
 import React, { Fragment, useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-import { deleteSingleCarModel } from "../../slices/singleCarModelSlice";
+import { deleteCarModel } from "../../slices/carModelsSlice";
 
-const SingleCarModelDelete = ({ singleCarModel }) => {
+const CarModelDelete = ({ carModel }) => {
     const dispatch = useDispatch();
-    // const params = useParams();
     const navigate = useNavigate();
 
-    const id = singleCarModel.id;
+    const id = carModel.id;
 
     const removeCarModel = () => {
-        dispatch(deleteSingleCarModel({ id: id }))
+        dispatch(deleteCarModel({ id: id }))
         .unwrap()
         .then(() => {
             navigate('/carmodels');
         })
         .catch(e => {
+            console.log('Error happened while running removeCarModel');
             console.log(e);
         });
     };
@@ -40,4 +40,4 @@ const SingleCarModelDelete = ({ singleCarModel }) => {
     );
 };
 
-export default SingleCarModelDelete;
+export default CarModelDelete;
