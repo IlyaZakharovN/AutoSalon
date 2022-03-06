@@ -3,6 +3,7 @@ from django.core.validators import RegexValidator
 from django.db import models
 
 from cars.models import Car
+from employees.models import UserAccount
 
 # Create your models here.
 
@@ -29,6 +30,11 @@ class Stock(models.Model):
     )
     arrival_type = models.ForeignKey(ArrivalType, on_delete=models.SET_DEFAULT, default=1)
     arrival_date = models.DateField()
+    acceptor = models.ForeignKey(
+        UserAccount, 
+        on_delete=models.DO_NOTHING, # models.SET_DEFAULT, default=0, 
+        limit_choices_to=(models.Q(is_sales_director=True) | models.Q(is_puchase_manager=True) | models.Q(is_superuser=True))
+    )
     purchase_value = models.DecimalField(max_digits=11, decimal_places=2)
     millage = models.PositiveIntegerField()
     stock_document = models.FileField(upload_to='stock-documents/')
