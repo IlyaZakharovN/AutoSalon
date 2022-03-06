@@ -44,6 +44,8 @@ const Cars = () => {
                 cars={cars} 
                 carModels={carModels}
                 carStatuses={carStatuses}
+                isAuthenticated={isAuthenticated}
+                purposes={purposes}
             />;
         } else {
             return <p>Ожидание загрузки списка автомобилей...</p>
