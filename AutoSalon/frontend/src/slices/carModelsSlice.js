@@ -72,8 +72,8 @@ export const updateCarModel = createAsyncThunk(
 );
 
 ///// Delete single car model /////
-export const deleteSingleCarModel = createAsyncThunk(
-    "singleCarModel/delete-single",
+export const deleteCarModel = createAsyncThunk(
+    "carModels/delete",
     async ({ id }) => {
         const res = await axiosDefault.delete(`/carmodels/models/${id}/`);
         return { id };
