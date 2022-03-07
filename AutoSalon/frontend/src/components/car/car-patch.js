@@ -8,23 +8,26 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { updateCar } from "../../slices/carSlice";
 import { updateStock } from "../../slices/stockSlice";
 
-const CarUpdate = ({ car, stock, carModels, arrTypes }) => {
+const CarUpdate = ({ car, stock, carModels, arrTypes, carStatuses, user, acceptors, purposes }) => {
     const initialCarState = {
         VIN: car.VIN,
         model_id: car.model_id,
         price: car.price,
         purpose: car.purpose,
+        status: car.status,
+        description: car.description,
         note: car.note,
-        // multiple images
     };
 
     const initialStockState = {
-        id: stock.id,
-        VIN: stock.VIN,
-        arrival_type_id: stock.arrival_type_id,
-        arrival_date: stock.arrival_date,
-        purchase_value: stock.purchase_value,
-        millage: stock.millage,
+        id: stock[0].id,
+        VIN: stock[0].VIN,
+        arrival_type_id: stock[0].arrival_type_id,
+        arrival_date: stock[0].arrival_date,
+        acceptor: stock[0].acceptor,
+        purchase_value: stock[0].purchase_value,
+        millage: stock[0].millage,
+        stock_document: stock[0].stock_document,
     };
 
     const dispatch = useDispatch();
@@ -49,6 +52,12 @@ const CarUpdate = ({ car, stock, carModels, arrTypes }) => {
         // console.log(patchData);
     };
 
+    // const handleDoc = event => {
+    //     console.log(event.target.name, " - ", event.target.files);
+    //     setStockDoc(event.target.files[0]);
+    //     console.log(stockDoc);
+    // };
+
     const changeHandler = (event) => {
         handleCarChange(event);
         handleStockChange(event);
@@ -71,7 +80,7 @@ const CarUpdate = ({ car, stock, carModels, arrTypes }) => {
     };
 
     const patchStock = (event) => { // add notification/popups on success and on failure 
-        dispatch(updateStock({ id: stock.id, data: stockPatchData }))
+        dispatch(updateStock({ id: stock[0].id, data: stockPatchData }))
             .unwrap()
             .then(response => {
                 console.log('response - ', response);
@@ -93,17 +102,13 @@ const CarUpdate = ({ car, stock, carModels, arrTypes }) => {
                         {...register("vin", { 
                             required: true, 
                             pattern: /^(?=.*?\d)(?=.*?[A-Z])[A-Z\d]{17}$/,
-                            // pattern: /^(([(A-Z)*(\d)*]){17}|([(\d)*(A-Z)*]){17})$/,
                             minLength: 17, 
                             maxLength: 17, 
                         })}
                         size="md"
                         type="text"
-                        // minLength={17}
-                        // maxLength={17}
                         id="vin"
                         name="vin"
-                        // value={car.vin}
                         defaultValue={car.VIN}
                         onChange={changeHandler}
                     />
@@ -122,14 +127,14 @@ const CarUpdate = ({ car, stock, carModels, arrTypes }) => {
                         onChange={handleCarChange}
                     >
                         <option key='blankChoice' hidden value />
-                        {carModels && carModels.map((carModel, index) => (
-                            // console.log(carModel)
+                        {Array.isArray(carModels) && carModels.map((carModel, index) => (
                             <option value={carModel.id} key={carModel.id}>
                                 {carModel.id + " - " + carModel.brand + " " + carModel.model + " " + carModel.year + " в комплектации " + carModel.package_name + " - " + carModel.base_price}
                             </option>
                         ))}
                     </Form.Select>
                 </Form.Group>
+                {errors.model_id && <p>Необходимо указать модель автомобиля.</p>}
 
                 <Form.Group className='mb-3'>
                     <Form.Label className='mb-1' htmlFor="price">Цена (руб.)</Form.Label>
@@ -146,7 +151,6 @@ const CarUpdate = ({ car, stock, carModels, arrTypes }) => {
                         name="price"
                         defaultValue={car.price}
                         onChange={handleCarChange}
-                        // pattern="^\d{1,9}(\,\d{0,2})$"
                     />
                 </Form.Group>
 
@@ -154,7 +158,6 @@ const CarUpdate = ({ car, stock, carModels, arrTypes }) => {
                     <Form.Label className='mb-1' htmlFor="purpose">Назначение</Form.Label>
                     <Form.Select
                         {...register("purpose", { required: true })}
-                        // required
                         size="md"
                         id="purpose"
                         name="purpose"
@@ -162,27 +165,28 @@ const CarUpdate = ({ car, stock, carModels, arrTypes }) => {
                         onChange={handleCarChange}
                     >
                         <option key='blankChoice' hidden value />
-                        <option value="Реализация">Реализация</option>
-                        <option value="Выстовочный образец">Выстовочный образец</option>
-                        <option value="Для тест-драйва">Для тест-драйва</option>
-                        <option value="Неизвестно">Неизвестно</option>
+                        {Array.isArray(purposes) && purposes
+                            .map((p, index) => (
+                                <option value={p.id} key={p.id}>
+                                    {`${p.id} - ${p.name}`}
+                                </option>
+                            )
+                        )}
                     </Form.Select>
                 </Form.Group>
 
                 <Form.Group className='mb-3'>
-                    <Form.Label className='mb-1' htmlFor="arrival_type_id">Вид поставки</Form.Label>
+                    <Form.Label className='mb-1' htmlFor="arrival_type">Вид поставки</Form.Label>
                     <Form.Select
-                        {...register("arrival_type_id", { required: true })}
-                        // required
+                        {...register("arrival_type", { required: true })}
                         size="md"
-                        id="arrival_type_id"
-                        name="arrival_type_id"
-                        defaultValue={stock.arrival_type_id}
+                        id="arrival_type"
+                        name="arrival_type"
+                        defaultValue={stock[0].arrival_type}
                         onChange={handleStockChange}
                     >
                         <option key='blankChoice' hidden value />
-                        {arrTypes && arrTypes.map((arrType, index) => (
-                            // console.log(carModel)
+                        {Array.isArray(arrTypes) && arrTypes.map((arrType, index) => (
                             <option value={arrType.arrival_type_id} key={arrType.arrival_type_id}>
                                 {arrType.arrival_type_id + " - " + arrType.name}
                             </option>
@@ -191,17 +195,36 @@ const CarUpdate = ({ car, stock, carModels, arrTypes }) => {
                 </Form.Group>
 
                 <Form.Group className='mb-3'>
+                    <Form.Label className='mb-1' htmlFor="status">Статус</Form.Label>
+                    <Form.Select
+                        {...register("status", { required: true })}
+                        size="md"
+                        id="status"
+                        name="status"
+                        defaultValue={car.status}
+                        onChange={handleCarChange}
+                    >
+                        <option key='blankChoice' hidden value />
+                        {Array.isArray(carStatuses) && carStatuses
+                            .map((cS, index) => (
+                                <option value={cS.id} key={cS.id}>
+                                    {`${cS.id} - ${cS.name}`}
+                                </option>
+                            )
+                        )}
+                    </Form.Select>
+                </Form.Group>
+
+                <Form.Group className='mb-3'>
                     <Form.Label className='mb-1' htmlFor="arrival_date">Дата поставки</Form.Label>
                     <Form.Control
                         {...register("arrival_date", { required: true })}
-                        // required
                         size="md"
                         type="date"
                         id="arrival_date"
                         name="arrival_date"
-                        defaultValue={stock.arrival_date}
+                        defaultValue={stock[0].arrival_date}
                         onChange={handleStockChange}
-                        // pattern="^\d{1,9}(\,\d{0,2})$"
                     />
                 </Form.Group>
 
@@ -217,10 +240,40 @@ const CarUpdate = ({ car, stock, carModels, arrTypes }) => {
                         max={999999999.99}
                         id="purchase_value"
                         name="purchase_value"
-                        defaultValue={stock.purchase_value}
+                        defaultValue={stock[0].purchase_value}
                         onChange={handleStockChange}
-                        // pattern="^\d{1,9}(\,\d{0,2})$"
                     />
+                </Form.Group>
+
+                <Form.Group className='mb-3'>
+                    <Form.Label className='mb-1' htmlFor="acceptor">Приемщик</Form.Label>
+                    <Form.Select
+                        {...register("acceptor", { required: true })}
+                        size="md"
+                        id="acceptor"
+                        name="acceptor"
+                        defaultValue={stock[0].acceptor}
+                        onChange={handleStockChange}
+                    >
+                        <option key='blankChoice' hidden value />
+                        {(user.user.is_superuser || user.user.is_sales_director) ? (
+                            Array.isArray(acceptors) && acceptors
+                                .map((acceptor, index) => (
+                                    <option value={acceptor.id} key={acceptor.id}>
+                                        {acceptor.is_sales_director ? (
+                                            `${acceptor.id} - ${acceptor.name} - Директор`
+                                        ) : (
+                                            `${acceptor.id} - ${acceptor.name} - Менеджер по закупкам`
+                                        )}
+                                    </option>
+                                )
+                            )
+                        ) : (
+                            <option value={user.id} key={user.id}>
+                                {`${user.user.id} - ${user.user.name} - Менеджер по закупкам`}
+                            </option>
+                        )}
+                    </Form.Select>
                 </Form.Group>
 
                 <Form.Group className='mb-3'>
@@ -234,14 +287,29 @@ const CarUpdate = ({ car, stock, carModels, arrTypes }) => {
                         min={0}
                         id="millage"
                         name="millage"
-                        defaultValue={stock.millage}
+                        defaultValue={stock[0].millage}
                         onChange={handleStockChange}
                         // pattern="^\d{1,9}(\,\d{0,2})$"
                     />
                 </Form.Group>
 
                 <Form.Group className='mb-3'> 
-                    <Form.Label className='mb-1' htmlFor="note">Примечание</Form.Label>
+                    <Form.Label className='mb-1' htmlFor="note">Описание автомобиля (необязательно)</Form.Label>
+                    <textarea
+                        {...register("description")}
+                        className="form-control"
+                        rows="5"
+                        size="md"
+                        type="text"
+                        id="description"
+                        name="description"
+                        value={car.description}
+                        onChange={handleCarChange}
+                    />
+                </Form.Group>
+
+                <Form.Group className='mb-3'> 
+                    <Form.Label className='mb-1' htmlFor="note">Примечание (необязательно)</Form.Label>
                     <textarea
                         {...register("note")}
                         className="form-control"
@@ -250,9 +318,24 @@ const CarUpdate = ({ car, stock, carModels, arrTypes }) => {
                         type="text"
                         id="note"
                         name="note"
-                        // defaultValue="Примечание не найдено."
                         defaultValue={car.note}
                         onChange={handleCarChange}
+                    />
+                </Form.Group>
+
+                <Form.Group className='mb-3'> 
+                    <Form.Label className='mb-1' htmlFor="stock_document">Документ приемки</Form.Label>
+                    <Form.Control
+                        {...register("stock_document")}
+                        className="form-control"
+                        size="md"
+                        type="file"
+                        accept=".png, .jpg., .jpeg, .doc, .docx, .pdf, application/msword"
+                        id="stock_document"
+                        name="stock_document"
+                        defaultValue={stock.stock_document}
+                        // onChange={handleDoc}
+                        onChange={handleStockChange}
                     />
                 </Form.Group>
 
