@@ -24,6 +24,7 @@ export const CreateCar = ({ carModels, arrivalTypes, purposes, carStatuses, acce
         arrival_date: null,
         acceptor: null,
         purchase_value: null,
+        millage: null,
     });
     
     const { register, handleSubmit, formState: { errors } } = useForm({reValidateMode: 'onChange',}); 
@@ -42,9 +43,9 @@ export const CreateCar = ({ carModels, arrivalTypes, purposes, carStatuses, acce
     };
 
     const handleDoc = event => {
-        console.log(event.target.name, " - ", event.target.files);
+        // console.log(event.target.name, " - ", event.target.files);
         setStockDoc(event.target.files[0]);
-        console.log(stockDoc);
+        // console.log(stockDoc);
     };
 
     const changeHandler = (event) => {
@@ -195,6 +196,28 @@ export const CreateCar = ({ carModels, arrivalTypes, purposes, carStatuses, acce
                     </Form.Select>
                 </Form.Group>
                 {errors.purpose && <p>Необходимо указать назначение автомобиля.</p>}
+                        
+                <Form.Group className='mb-3'>
+                    <Form.Label className='mb-1' htmlFor="arrival_type_id">Вид поставки</Form.Label>
+                    <Form.Select
+                        {...register("arrival_type_id", { required: true })}
+                        size="md"
+                        id="arrival_type_id"
+                        name="arrival_type_id"
+                        value={stockRec.arrival_type_id}
+                        onChange={handleStockChange}
+                    >
+                        <option key='blankChoice' hidden value />
+                        {Array.isArray(arrivalTypes) && arrivalTypes
+                            .map((arrType, index) => (
+                                <option value={arrType.arrival_type_id} key={arrType.arrival_type_id}>
+                                    {`${arrType.arrival_type_id} - ${arrType.name}`}
+                                </option>
+                            ))
+                        }
+                    </Form.Select>
+                </Form.Group>
+                {errors.arrival_type_id && <p>Необходимо указать вид поставки.</p>}
 
                 <Form.Group className='mb-3'>
                     <Form.Label className='mb-1' htmlFor="status">Статус</Form.Label>
@@ -218,27 +241,6 @@ export const CreateCar = ({ carModels, arrivalTypes, purposes, carStatuses, acce
                 </Form.Group>
                 {errors.status && <p>Необходимо указать статус автомобиля.</p>}
 
-                <Form.Group className='mb-3'>
-                    <Form.Label className='mb-1' htmlFor="arrival_type_id">Вид поставки</Form.Label>
-                    <Form.Select
-                        {...register("arrival_type_id", { required: true })}
-                        size="md"
-                        id="arrival_type_id"
-                        name="arrival_type_id"
-                        value={stockRec.arrival_type_id}
-                        onChange={handleStockChange}
-                    >
-                        <option key='blankChoice' hidden value />
-                        {Array.isArray(arrivalTypes) && arrivalTypes
-                            .map((arrType, index) => (
-                                <option value={arrType.arrival_type_id} key={arrType.arrival_type_id}>
-                                    {`${arrType.arrival_type_id} - ${arrType.name}`}
-                                </option>
-                            ))
-                        }
-                    </Form.Select>
-                </Form.Group>
-                {errors.arrival_type_id && <p>Необходимо указать вид поставки.</p>}
 
                 <Form.Group className='mb-3'>
                     <Form.Label className='mb-1' htmlFor="arrival_date">Дата поставки</Form.Label>

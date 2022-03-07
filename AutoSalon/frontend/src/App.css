@@ -82,3 +82,11 @@
   display: inline-flex;
   /* position: absolute; */
 }
+
+.info p {
+  font-weight: bold;
+}
+
+.info p span {
+  font-weight: normal;
+}
