@@ -61,4 +61,4 @@ class CarPhoto(models.Model):
     photo = models.ImageField(upload_to='cars/')
 
     def __str__(self):
-        return f'{self.id}: {self.model_id}'
+        return f'{self.id}: {self.VIN}'

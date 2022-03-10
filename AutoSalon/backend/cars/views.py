@@ -16,11 +16,13 @@ class CustomPermission(BasePermission):
         #         request.user.is_puchase_manager))
         if view.action in ['list', 'retrieve']:
             return request.user
-        elif view.action in ['create', 'update', 'partial_update']:
+        elif view.action in ['create', 'update',]:
             return (request.user.is_authenticated and 
                 (request.user.is_superuser or 
                 request.user.is_sales_director or 
                 request.user.is_puchase_manager))
+        elif view.action in ['partial_update',]:
+            return (request.user.is_authenticated)
         elif view.action in ['destroy',]:
             return (request.user.is_authenticated and 
                 (request.user.is_superuser or 
