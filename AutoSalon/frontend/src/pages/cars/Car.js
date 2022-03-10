@@ -8,6 +8,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import CarDetail from "../../components/car/car-detail";
 import CarUpdate from "../../components/car/car-patch";
 import CarDelete from "../../components/car/car-delete";
+import CarPhotosUpload from "../../components/car/carPhotos-upload";
+
 import { retriveArrivalTypes, fetchArrivalType, arrivalTypesSelector } from "../../slices/arrivalTypesSlice";
 import { getAllCarModels, fetchCarModel, carModelsSelector } from "../../slices/carModelsSlice";
 import { fetchCar, retriveCars, carsSelector } from "../../slices/carSlice";
@@ -16,11 +18,13 @@ import { userSelector, retriveUserData } from "../../slices/userSlice";
 import { purposeSelector, getAllPurposes } from "../../slices/purposeSlice";
 import { employeeSelector, retriveEmplData } from "../../slices/employeeSlice";
 import { getAllCarStatuses, carStatusSelector } from "../../slices/carStatusSlice";
+import { getAllCarPhotos, carPhotosSelector } from "../../slices/carPhotosSlice";
+import { getAllCarModelPhotos, carModelPhotosSelector } from "../../slices/carModelPhotosSlice";
 
 const CarPage = () => {
     const dispatch = useDispatch();
     const params = useParams();
-    
+
     const { isAuthenticated, user } = useSelector(userSelector);
     const car = useSelector(carsSelector);
     const carModels = useSelector(carModelsSelector);
@@ -29,6 +33,10 @@ const CarPage = () => {
     const empls = useSelector(employeeSelector);
     const stock = useSelector(stockSelector);
     const arrivalTypes = useSelector(arrivalTypesSelector);
+    const carPhotos = useSelector(carPhotosSelector);
+    const carModelPhotos = useSelector(carModelPhotosSelector);
+
+    // const [thisCarPhotos, setThisCarPhotos] = useState([]);
 
     const initFetch = useCallback(async() => {
         const vin = params.vin;
@@ -40,6 +48,8 @@ const CarPage = () => {
         await dispatch(retriveStock());
         await dispatch(retriveArrivalTypes());
         await dispatch(getAllCarStatuses());
+        await dispatch(getAllCarPhotos());
+        await dispatch(getAllCarModelPhotos());
     }, [dispatch, params.vin]); 
 
     useEffect(() => {
@@ -57,7 +67,13 @@ const CarPage = () => {
         .filter(aT => aT.id === theStock.arrival_type);
 
     const thePurpose = Array.isArray(purposes) && purposes
-        .filter(p => p.id === car.purpose)
+        .filter(p => p.id === car.purpose);
+
+    const thisCarPhotos = Array.isArray(carPhotos) && carPhotos
+        .filter(photo => photo.VIN === car.VIN)
+
+    const thisCarModelPhotos = Array.isArray(carModelPhotos) && carModelPhotos
+        .filter(photo => photo.model_id === car.model_id);
 
     const renderCar = () => {
         if (car && 
@@ -65,19 +81,26 @@ const CarPage = () => {
             stock && theStock && 
             arrivalTypes && theArrivalType && 
             carStatuses && theCarStatus &&
-            purposes && thePurpose    
-        ) {
+            purposes && thePurpose &&
+            carPhotos && carModelPhotos) {
+            // console.log(theStock);
             return <CarDetail 
                 car={car} 
                 carModel={Array.isArray(carModels) && carModels
                     .filter(cM => cM.id === car.model_id)
                 } 
-                stock={theStock} 
+                stock={Array.isArray(stock) && stock
+                    .filter(s => s.VIN === car.VIN)
+                    .sort((a, b) => new Date(b.arrival_date) - new Date(a.arrival_date))} 
                 arrivalType={theArrivalType}
                 user={user}
                 isAuthenticated={isAuthenticated}
                 carStatus={theCarStatus}
-                purpose = {thePurpose}
+                purpose={thePurpose}
+                carPhotos={Array.isArray(carPhotos) && carPhotos
+                    .filter(photo => photo.VIN === car.VIN)}
+                carModelPhotos={Array.isArray(carModelPhotos) && carModelPhotos
+                    .filter(photo => photo.model_id === car.model_id)}
             />
         } else {
             return <p>Ожидание загрузки страницы...</p>
@@ -85,14 +108,13 @@ const CarPage = () => {
     };
 
     const renderUpdateForm = () => {
-        if (car && 
-            carModels && 
-            stock && theStock && 
-            arrivalTypes && carStatuses
-        ) {
+        if (car && carModels && stock &&
+            arrivalTypes && carStatuses) {
             return <CarUpdate 
                 car={car} 
-                stock={theStock} 
+                stock={Array.isArray(stock) && stock
+                    .filter(s => s.VIN === car.VIN)
+                    .sort((a, b) => new Date(b.arrival_date) - new Date(a.arrival_date))} 
                 carModels={carModels} 
                 arrTypes={arrivalTypes}
                 carStatuses={carStatuses}
@@ -111,36 +133,59 @@ const CarPage = () => {
         }
     };
 
-    // const renderDeleteFeature = () => {
-    //     if (car && carModel && stock && arrivalType) {
-    //         return <CarDelete car={car} stock={stock}/>
-    //     } else {
-    //         return <p>Ожидание загрузки функции удаления...</p>
-    //     }
-    // };
+    const renderDeleteFeature = () => {
+        if (car && carModels && 
+            stock && arrivalTypes) {
+            return <CarDelete 
+                car={car} 
+                stock={Array.isArray(stock) && stock
+                    .filter(s => s.VIN === car.VIN)
+                    .sort((a, b) => new Date(b.arrival_date) - new Date(a.arrival_date))} 
+            />
+        } else {
+            return <p>Ожидание загрузки функции удаления...</p>
+        }
+    };
+
+    const renderCarPhotoUpload = () => {
+        if (car) {
+            return <CarPhotosUpload car={car}/>
+        } else {
+            return <p>Ожидание загрузки формы добавления изображений...</p>
+        }
+    };
 
     return (
-        (!car && !carModels && !purposes && !carStatuses && !arrivalTypes && !stock) ? (
+        (!car && !carModels && !purposes && 
+        !carStatuses && !arrivalTypes && !stock &&
+        !carPhotos && !carModelPhotos) ? (
             <div>Ожидание загрузки данных</div>
         ) : (
             <section>
                 <Row className="mt-3 justify-content-md-center">
-                { isAuthenticated && (user.user.is_superuser || user.user.is_sales_director || user.user.is_puchase_manager) ? (
+                {isAuthenticated ? (
                         <Fragment>
                             <Col xs lg="6">
                                 {renderCar()}
                             </Col> 
                             <Col xs lg="4">
                                 {renderUpdateForm()}
+                                <div className="mt-5">
+                                    {renderCarPhotoUpload()}
+                                </div>
                             </Col>
-                            <div className="mt-5"> 
-                                {/* {renderDeleteFeature()} */}
-                            </div>
+                            {(user.user.is_superuser || user.user.is_sales_director) ? (
+                                <div className="mt-5"> 
+                                    {renderDeleteFeature()}
+                                </div>
+                            ) : (
+                                <></>
+                            )}
                         </Fragment>
                         ):(
                             <Fragment>
                                 <Col xs lg="6">
-                                    {/* {renderCar()} */}
+                                    {renderCar()}
                                 </Col>
                             </Fragment>
                         )   

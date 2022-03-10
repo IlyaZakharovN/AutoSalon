@@ -44,11 +44,11 @@ export const uploadCarPhoto = createAsyncThunk(
     "carPhotos/upload",
     async (data, { rejectWithValue }) => {
         try {
-            const res = axiosMultipart.post("/carmodels/photos/", data);
+            const res = axiosMultipart.post("/cars/photos/", data);
             console.log(res);
             return res.data;
         } catch (err) {
-            console.log("Error happened while uploading a car model photo.");
+            console.log("Error happened while uploading a car photo.");
             console.log(err);
             return rejectWithValue(err.response.data);
         }

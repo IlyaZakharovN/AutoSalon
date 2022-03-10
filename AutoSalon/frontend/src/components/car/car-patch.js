@@ -8,7 +8,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { updateCar } from "../../slices/carSlice";
 import { updateStock } from "../../slices/stockSlice";
 
-const CarUpdate = ({ car, stock, carModels, arrTypes, carStatuses, user, acceptors, purposes }) => {
+const CarUpdate = ({ car, stock, carModels, 
+    arrTypes, carStatuses, user, 
+    acceptors, purposes }) => {
+    // console.log(stock[0]);
+
     const initialCarState = {
         VIN: car.VIN,
         model_id: car.model_id,
@@ -20,14 +24,14 @@ const CarUpdate = ({ car, stock, carModels, arrTypes, carStatuses, user, accepto
     };
 
     const initialStockState = {
-        id: stock[0].id,
-        VIN: stock[0].VIN,
-        arrival_type_id: stock[0].arrival_type_id,
-        arrival_date: stock[0].arrival_date,
-        acceptor: stock[0].acceptor,
-        purchase_value: stock[0].purchase_value,
-        millage: stock[0].millage,
-        stock_document: stock[0].stock_document,
+        id: stock.id,
+        VIN: stock.VIN,
+        arrival_type_id: stock.arrival_type_id,
+        arrival_date: stock.arrival_date,
+        acceptor: stock.acceptor,
+        purchase_value: stock.purchase_value,
+        millage: stock.millage,
+        stock_document: stock.stock_document,
     };
 
     const dispatch = useDispatch();
@@ -80,7 +84,7 @@ const CarUpdate = ({ car, stock, carModels, arrTypes, carStatuses, user, accepto
     };
 
     const patchStock = (event) => { // add notification/popups on success and on failure 
-        dispatch(updateStock({ id: stock[0].id, data: stockPatchData }))
+        dispatch(updateStock({ id: stock.id, data: stockPatchData }))
             .unwrap()
             .then(response => {
                 console.log('response - ', response);
@@ -94,6 +98,8 @@ const CarUpdate = ({ car, stock, carModels, arrTypes, carStatuses, user, accepto
         <Fragment>
             <h4>Изменить данные автомобиля</h4>
 
+            {Array.isArray(stock) && stock
+            .map((s, index) => (
             <Form onSubmit={handleSubmit(patchData)}>
                 <Form.Group className='mb-3'>
                     <Form.Label className='mb-1' htmlFor="vin">VIN</Form.Label>
@@ -182,7 +188,7 @@ const CarUpdate = ({ car, stock, carModels, arrTypes, carStatuses, user, accepto
                         size="md"
                         id="arrival_type"
                         name="arrival_type"
-                        defaultValue={stock[0].arrival_type}
+                        defaultValue={s.arrival_type}
                         onChange={handleStockChange}
                     >
                         <option key='blankChoice' hidden value />
@@ -223,7 +229,7 @@ const CarUpdate = ({ car, stock, carModels, arrTypes, carStatuses, user, accepto
                         type="date"
                         id="arrival_date"
                         name="arrival_date"
-                        defaultValue={stock[0].arrival_date}
+                        defaultValue={s.arrival_date}
                         onChange={handleStockChange}
                     />
                 </Form.Group>
@@ -240,7 +246,7 @@ const CarUpdate = ({ car, stock, carModels, arrTypes, carStatuses, user, accepto
                         max={999999999.99}
                         id="purchase_value"
                         name="purchase_value"
-                        defaultValue={stock[0].purchase_value}
+                        defaultValue={s.purchase_value}
                         onChange={handleStockChange}
                     />
                 </Form.Group>
@@ -252,7 +258,7 @@ const CarUpdate = ({ car, stock, carModels, arrTypes, carStatuses, user, accepto
                         size="md"
                         id="acceptor"
                         name="acceptor"
-                        defaultValue={stock[0].acceptor}
+                        defaultValue={s.acceptor}
                         onChange={handleStockChange}
                     >
                         <option key='blankChoice' hidden value />
@@ -287,7 +293,7 @@ const CarUpdate = ({ car, stock, carModels, arrTypes, carStatuses, user, accepto
                         min={0}
                         id="millage"
                         name="millage"
-                        defaultValue={stock[0].millage}
+                        defaultValue={s.millage}
                         onChange={handleStockChange}
                         // pattern="^\d{1,9}(\,\d{0,2})$"
                     />
@@ -303,7 +309,7 @@ const CarUpdate = ({ car, stock, carModels, arrTypes, carStatuses, user, accepto
                         type="text"
                         id="description"
                         name="description"
-                        value={car.description}
+                        defaultValue={car.description}
                         onChange={handleCarChange}
                     />
                 </Form.Group>
@@ -333,11 +339,12 @@ const CarUpdate = ({ car, stock, carModels, arrTypes, carStatuses, user, accepto
                         accept=".png, .jpg., .jpeg, .doc, .docx, .pdf, application/msword"
                         id="stock_document"
                         name="stock_document"
-                        defaultValue={stock.stock_document}
+                        // defaultValue={stock.stock_document}
                         // onChange={handleDoc}
                         onChange={handleStockChange}
                     />
                 </Form.Group>
+                
 
                 <div>
                     <button 
@@ -349,6 +356,7 @@ const CarUpdate = ({ car, stock, carModels, arrTypes, carStatuses, user, accepto
                     </button>
                 </div>
             </Form>
+            ))}
         </Fragment>
     );
 };

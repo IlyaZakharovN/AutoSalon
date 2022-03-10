@@ -5,9 +5,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import { userSelector, retriveUserData } from "../../slices/userSlice";
 
-const CarDetail = ({ car, carModel, stock, arrivalType, user, isAuthenticated, carStatus, purpose }) => { // 
-    // const { isAuthenticated, is_superuser, is_sales_director, is_puchase_manager } = useSelector(userSelector);
-    // console.log(stock);
+const CarDetail = ({ 
+    car, carModel, stock, 
+    arrivalType, user, isAuthenticated, 
+    carStatus, purpose, carPhotos, 
+    carModelPhotos }) => { // 
+    console.log(carModelPhotos);
     
     return (
         <Fragment>
@@ -15,9 +18,15 @@ const CarDetail = ({ car, carModel, stock, arrivalType, user, isAuthenticated, c
             <div style={{textAlign: "left"}}> 
             {Array.isArray(carModel) && carModel.map((model, index) => (
                 <Fragment>
-                    <h3 className="mb-3" style={{textAlign: "center"}}>
-                        {`${car.VIN} ${model.brand} ${model.model} ${model.year} в комплектации ${model.package_name}`}
-                    </h3>
+                    {isAuthenticated ? (
+                        <h3 className="mb-3" style={{textAlign: "center"}}>
+                            {`${car.VIN} ${model.brand} ${model.model} ${model.year} в комплектации ${model.package_name}`}
+                        </h3>
+                    ) : (
+                        <h3 className="mb-3" style={{textAlign: "center"}}>
+                            {`${model.brand} ${model.model} ${model.year} в комплектации ${model.package_name}`}
+                        </h3>
+                    )}
 
                     <Row className="car-carModel" style={{textAlign: "center"}}>
                         <img src={model.main_photo} className="mb-3"/>
@@ -97,6 +106,53 @@ const CarDetail = ({ car, carModel, stock, arrivalType, user, isAuthenticated, c
                         <p>Спецификация комплектации:<br />
                             <span> {model.package_descr}</span>
                         </p>
+
+                        {carPhotos.length ? (
+                            <Row className="mt-5 mb-5">
+                                {isAuthenticated ? (
+                                    <h6 className="mb-3" style={{textAlign: "center"}}>
+                                        {`Фото автомобиля ${car.VIN} ${model.brand} ${model.model} ${model.year} в комплектации ${model.package_name}`}
+                                    </h6>
+                                ) : (
+                                    <h6 className="mb-3" style={{textAlign: "center"}}>
+                                        {`Фото автомобиля ${model.brand} ${model.model} ${model.year} в комплектации ${model.package_name}`}
+                                    </h6>
+                                )}
+                                <Carousel className="carousel-main">
+                                    {Array.isArray(carPhotos) && carPhotos
+                                        .map((photo, index) => (
+                                            <Carousel.Item interval={2000} key={photo.id} className="carousel-item">
+                                            <img 
+                                                src={photo.photo}
+                                                alt="Изображение автомобиля"
+                                                />
+                                            </Carousel.Item>
+                                        ))
+                                    }
+                                </Carousel>
+                            </Row>
+                        ) : (<></>)}
+
+                        {carModelPhotos.length ? (
+                            <Row className="mt-5 mb-5">
+                                <h6 className="mb-3" style={{textAlign: "center"}}>
+                                    {`Фото модели автмобиля ${model.brand} ${model.model} ${model.year} в комплектации ${model.package_name}`}
+                                </h6>
+                                <Carousel className="carousel-main">
+                                    {Array.isArray(carModelPhotos) && carModelPhotos
+                                        .map((photo, index) => (
+                                            <Carousel.Item interval={3000} key={photo.id} className="carousel-item">
+                                            <img 
+                                                src={photo.photo}
+                                                alt="Изображение модели автомобиля"
+                                                />
+                                            </Carousel.Item>
+                                        ))
+                                    }
+                                </Carousel>
+                            </Row>
+                        ) : (<></>)
+                        }
                     </div>
                 </Fragment>
             ))}

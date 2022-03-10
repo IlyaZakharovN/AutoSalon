@@ -17,40 +17,35 @@ const CarDelete = ({ car, stock }) => {
         await Promise.all([removeStock(),removeCar() ]);
         console.log('Car and stock record are deleted.')
         navigate('/cars');
+        alert("Автомобиль удален из каталога.");
     };
 
     const removeCar = () => {
         dispatch(deleteCar({ vin: vin }))
-        .unwrap()
-        // .then(() => {
-        //     navigate('/carmodels');
-        // })
-        .catch(e => {
-            console.log(e);
-        });
+            .unwrap()
+            .catch(e => {
+                console.log(e);
+            });
     };
 
     const removeStock = () => {
         dispatch(deleteStock({ id: stockId }))
-        .unwrap()
-        // .then(() => {
-        //     navigate('/carmodels');
-        // })
-        .catch(e => {
-            console.log(e);
-        });
+            .unwrap()
+            .catch(e => {
+                console.log(e);
+            });
     };
 
     return (
         <Fragment>
-            <h5>Удалить автомобиль</h5>
+            <h5>Удалить автомобиль из каталога</h5>
             <div>
                 <Button 
                     type="submit" 
                     variant="danger"
                     onClick={removeData}
                 >
-                    Удалить модель
+                    Удалить авто
                 </Button>
             </div>
         </Fragment>

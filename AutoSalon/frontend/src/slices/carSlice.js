@@ -69,10 +69,6 @@ export const updateCar = createAsyncThunk(
 );
 
 ///// Delete car /////
-// const deleteSCM = vin => {
-//     return axiosDefault.delete(`/cars/${vin}/`);
-// };
-
 export const deleteCar = createAsyncThunk(
     "car/delete",
     async ({ vin }) => {
