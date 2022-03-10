@@ -10,7 +10,7 @@ const CarDetail = ({
     arrivalType, user, isAuthenticated, 
     carStatus, purpose, carPhotos, 
     carModelPhotos }) => { // 
-    console.log(carModelPhotos);
+    // console.log(carModelPhotos);
     
     return (
         <Fragment>

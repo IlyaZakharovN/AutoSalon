@@ -55,7 +55,6 @@ const AddOptionUpdate = ({ addOption }) => {
                         type="text"
                         id="name"
                         name="name"
-                        // value={car.vin}
                         defaultValue={addOption.name}
                         onChange={handleAddOptChange}
                     />
@@ -78,23 +77,20 @@ const AddOptionUpdate = ({ addOption }) => {
                     />
                 </Form.Group>
 
-                <Form.Group className='mb-3'>
-                    <Form.Label className='mb-1' htmlFor="description">Описание</Form.Label>
-                    <Form.Control
-                        {...register("description", { 
-                            required: true, 
-                            minLength: 1, 
-                            maxLength: 255, 
-                        })}
+                <Form.Group className='mb-3'> 
+                    <Form.Label className='mb-1' htmlFor="description">Описание (необязательно)</Form.Label>
+                    <textarea
+                        {...register("description")}
+                        className="form-control"
+                        rows="5"
                         size="md"
                         type="text"
                         id="description"
                         name="description"
-                        // value={car.vin}
                         defaultValue={addOption.description}
                         onChange={handleAddOptChange}
                     />
-                </Form.Group> 
+                </Form.Group>
 
                 <div>
                     <button 

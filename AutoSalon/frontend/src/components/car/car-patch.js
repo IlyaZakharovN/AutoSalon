@@ -56,12 +56,6 @@ const CarUpdate = ({ car, stock, carModels,
         // console.log(patchData);
     };
 
-    // const handleDoc = event => {
-    //     console.log(event.target.name, " - ", event.target.files);
-    //     setStockDoc(event.target.files[0]);
-    //     console.log(stockDoc);
-    // };
-
     const changeHandler = (event) => {
         handleCarChange(event);
         handleStockChange(event);
@@ -295,7 +289,6 @@ const CarUpdate = ({ car, stock, carModels,
                         name="millage"
                         defaultValue={s.millage}
                         onChange={handleStockChange}
-                        // pattern="^\d{1,9}(\,\d{0,2})$"
                     />
                 </Form.Group>
 
@@ -350,7 +343,6 @@ const CarUpdate = ({ car, stock, carModels,
                     <button 
                         type="submit" 
                         className="btn btn-primary btn-block"
-                        // onClick={saveCarModel}
                     >
                         Обновить информацию
                     </button>
