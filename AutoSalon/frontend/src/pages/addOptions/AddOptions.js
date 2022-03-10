@@ -10,23 +10,19 @@ import { retriveAddOptions } from "../../slices/addOptionSlice";
 import { userSelector, retriveUserData } from "../../slices/userSlice";
 
 const AddOptions = () => {
-    const { isAuthenticated, is_superuser, is_sales_director, is_sales_manager } = useSelector(userSelector);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    
+    const { isAuthenticated, user } = useSelector(userSelector);
+    const addOptions = useSelector(state => state.addOption)
 
-    // const addOptions = useSelector(state => state.addOption)
-    const [addOptions, setAddOptions] = useState();
-
-    const fetchAddOptions = useCallback(async() => { 
-        console.log('fetching add options...');
-        const result = await dispatch(retriveAddOptions());
-        setAddOptions(result.payload);
-        // console.log(addOptions);
-    }, [dispatch]);
+    const initFetch = useCallback(async() => {
+        await dispatch(retriveAddOptions());
+    }, [dispatch]); 
 
     useEffect(() => {
-        return fetchAddOptions();
-    }, [fetchAddOptions]);
+        initFetch();
+    }, [initFetch]);
 
     const renderAddOptionList = () => {
         if (addOptions) {
@@ -44,7 +40,7 @@ const AddOptions = () => {
     return (
         <section>
             <Row className="mt-3 justify-content-md-center">
-            { isAuthenticated && (is_superuser || is_sales_director || is_sales_manager) ? (
+            { isAuthenticated && (user.user.is_superuser || user.user.is_sales_director || user.user.is_sales_manager) ? (
                <Fragment>
                     <Col xs lg="6">
                         {renderAddOptionList()}

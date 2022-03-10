@@ -48,7 +48,6 @@ export const CreateAddOption = () => {
             <Form onSubmit={handleSubmit(saveAddOption)}>
                 <Form.Group className='mb-3'>
                     <Form.Label className='mb-1' htmlFor="name">Наименование</Form.Label>
-                    {/* <Form.Text><br/>VIN должен состоять из 17 заглавных букв и цифр.</Form.Text> */}
                     <Form.Control
                         {...register("name", { 
                             required: true, 
@@ -63,9 +62,10 @@ export const CreateAddOption = () => {
                         onChange={handleInputChange}
                     />
                 </Form.Group>
+                {errors.name && <p>Необходимо указать наименование доп. оборудования.</p>}
 
                 <Form.Group className='mb-3'>
-                    <Form.Label className='mb-1' htmlFor="price">Цена, включая установку(руб.)</Form.Label>
+                    <Form.Label className='mb-1' htmlFor="price">Цена, включая установку (руб.)</Form.Label>
                     <Form.Text><br/>Цена должна находиться в пределах 1 - 999999999,99 рублей.</Form.Text>
                     <Form.Control
                         {...register("price", { required: true })}
@@ -80,16 +80,14 @@ export const CreateAddOption = () => {
                         onChange={handleInputChange}
                     />
                 </Form.Group>
+                {errors.price && <p>Необходимо указать цену доп. оборудования в пределах 1 - 999999999,99 рублей.</p>}
 
-                <Form.Group className='mb-3'>
-                    <Form.Label className='mb-1' htmlFor="description">Описание</Form.Label>
-                    {/* <Form.Text><br/>VIN должен состоять из 17 заглавных букв и цифр.</Form.Text> */}
-                    <Form.Control
-                        {...register("desciption", { 
-                            required: true, 
-                            minLength: 1, 
-                            maxLength: 255, 
-                        })}
+                <Form.Group className='mb-3'> 
+                    <Form.Label className='mb-1' htmlFor="description">Описание доп. оборудрования</Form.Label>
+                    <textarea
+                        {...register("description")}
+                        className="form-control"
+                        rows="5"
                         size="md"
                         type="text"
                         id="description"
@@ -103,7 +101,6 @@ export const CreateAddOption = () => {
                     <button 
                         type="submit" 
                         className="btn btn-primary btn-block"
-                        // onClick={saveCarModel}
                     >
                         Добавить доп. оборудование
                     </button>

@@ -14,13 +14,17 @@ import { userSelector, retriveUserData } from "../../slices/userSlice";
 const AddOption = () => {
     const dispatch = useDispatch();
     const params = useParams();
-    // const { isAuthenticated, is_superuser, is_sales_director, is_sales_manager } = useSelector(userSelector);
-    const { isAuthenticated, is_superuser, is_sales_director, is_sales_manager } = useSelector(userSelector);
+
+    const { isAuthenticated, user } = useSelector(userSelector);
     const addOption = useSelector(addOptionSelector);
 
-    useEffect(() =>{
+    const initFetch = useCallback(async() => {
         const id = params.id;
-        dispatch(fetchAddOption(id));
+        await dispatch(fetchAddOption(id));
+    }, [dispatch, params.id]);
+
+    useEffect(() =>{
+        initFetch();
     }, [dispatch]);
 
     const renderAddOption = () => {
@@ -50,7 +54,7 @@ const AddOption = () => {
     return (
         <section>
             <Row className="mt-3 justify-content-md-center">
-                { isAuthenticated && (is_superuser || is_sales_director || is_sales_manager) ? (
+                { isAuthenticated && (user.user.is_superuser || user.user.is_sales_director || user.user.is_sales_manager) ? (
                     <Fragment>
                         <Col xs lg="6">
                             {renderAddOption()}

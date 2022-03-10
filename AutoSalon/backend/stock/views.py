@@ -8,7 +8,9 @@ from .serializers import ArrivalTypeSerializer, StockSerializer
 
 class StockPermission(BasePermission):
     def has_permission(self, request, view):
-        if view.action in ['list', 'retrieve']:
+        if view.action in ['list',]:
+            return request.user
+        elif view.action in ['retrieve',]:
             return request.user.is_authenticated
         elif view.action in ['create', 'update']:
             return (request.user.is_authenticated and 

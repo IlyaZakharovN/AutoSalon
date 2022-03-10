@@ -9,8 +9,8 @@ export const AddOptionList = ({ addOptions }) => {
             <h4>Каталог дополнительного оборудования</h4>
 
             <Row>
-                {addOptions ? (
-                    addOptions.map((addOption, index) =>(
+                {Array.isArray(addOptions) && addOptions
+                    .map((addOption, index) =>(
                     <Col className="col-6" key={addOption.id}> 
                         <Card>
                             <Card.Title>
@@ -22,9 +22,7 @@ export const AddOptionList = ({ addOptions }) => {
                             <Card.Text>{`${addOption.description}`}</Card.Text>
                         </Card>
                     </Col>
-                    ))) : (
-                        <div>Доп. оборудование не найдено</div>
-                    ) 
+                    ))
                 }
             </Row>
         </Fragment>

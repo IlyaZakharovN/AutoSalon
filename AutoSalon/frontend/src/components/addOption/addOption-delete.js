@@ -16,6 +16,7 @@ const AddOptionDelete = ({ addOption }) => {
         .unwrap()
         .then(() => {
             navigate('/add-options');
+            alert("Доп. оборудование удалено из каталога.");
         })
         .catch(e => {
             console.log("Error happened while running removeAddOption.");
