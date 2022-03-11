@@ -54,11 +54,15 @@ const Sales = () => {
 
     const renderSaleList = () => {
         // console.log('cars - ', cars);
-        if (sales && purchaseTypes && cars && carModels) {
+        if (
+            sales && saleTypes && cars &&
+            carModels && empls
+        ) {
             return <SaleList 
                 sales={sales} 
-                purch_types={purchaseTypes} 
                 carModels={carModels}
+                saleTypes={saleTypes}
+                empls={empls}
             />;
         } else {
             return <p>Ожидание загрузки списка продаж...</p>
@@ -66,9 +70,11 @@ const Sales = () => {
     };
 
     const renderCreateSale = () => {
-        if (cars && carModels && purchaseTypes && 
+        if (
+            cars && carModels && purchaseTypes && 
             user && addOptions && empls &&
-            sales && carStatuses && saleStatuses) {
+            sales && carStatuses && saleStatuses
+        ) {
             return <CreateSale 
                 purch_types={purchaseTypes} 
                 empls={Array.isArray(empls) &&
