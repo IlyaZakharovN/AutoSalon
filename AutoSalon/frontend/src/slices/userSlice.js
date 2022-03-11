@@ -32,7 +32,7 @@ export const retriveUserData = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const res = await userData();
-            console.log(res.data);
+            // console.log(res.data);
             return res.data;
         } catch (err) {
             console.log("Error happened while fetching users data.");

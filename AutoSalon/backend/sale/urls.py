@@ -8,8 +8,8 @@ app_name = 'sale_api'
 router = DefaultRouter()
 router.register(r'sales', SaleViewSet, basename='sale')
 router.register(r'purchase-types', PurchaseTypeViewSet, basename='purchase-types')
-router.register(r'sale-types', PurchaseTypeViewSet, basename='sale-types')
-router.register(r'statuses', PurchaseTypeViewSet, basename='status')
+router.register(r'sale-types', SaleTypeViewSet, basename='sale-types')
+router.register(r'sale-statuses', SaleStatusViewSet, basename='status')
 
 urlpatterns = [
     path('', include(router.urls))

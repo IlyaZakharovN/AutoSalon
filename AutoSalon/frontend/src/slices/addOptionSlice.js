@@ -15,7 +15,7 @@ export const retriveAddOptions = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const res = await axiosDefault.get("/addoptions/");
-            console.log(res.data);
+            // console.log(res.data);
             return res.data;
         } catch (err) {
             console.log("Error happened while retriving add options.");

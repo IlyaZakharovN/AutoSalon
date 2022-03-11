@@ -13,7 +13,7 @@ export const getAllPurposes = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const res = await axiosDefault.get("/cars/purposes/");
-            console.log(res.data);
+            // console.log(res.data);
             return res.data;
         } catch (err) {
             console.log("Error happened while retriving car purpose types.");

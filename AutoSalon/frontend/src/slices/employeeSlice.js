@@ -18,7 +18,7 @@ export const retriveEmplData = createAsyncThunk(
     "employees/getAll",
     async () => {
         const res = await userData();
-        console.log(res.data);
+        // console.log(res.data);
         return res.data;
     }
 );

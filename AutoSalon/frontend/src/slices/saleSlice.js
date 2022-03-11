@@ -1,12 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 
-import { axiosDefault } from "../http-common"; 
+import { axiosDefault, axiosMultipart } from "../http-common"; 
 
 const initialState = {
     sale: [],
-    // loading: false, 
-    // hasErrors: false,
 };
 
 //// Get all sale records ////
@@ -14,8 +12,8 @@ export const retriveSaleRecords = createAsyncThunk(
     "sale/getAll",
     async (_, { rejectWithValue }) => {
         try {
-            const res = await axiosDefault.get("/sales/sale/");
-            console.log(res.data);
+            const res = await axiosDefault.get("/sales/sales/");
+            // console.log(res.data);
             return res.data;
         } catch (err) {
             console.log("Error happened while retriving sale records.");
@@ -30,7 +28,7 @@ export const fetchSaleRecord = createAsyncThunk(
     "sale/fetchSaleRecord",
     async (id, { rejectWithValue }) => {
         try {
-            const res = await axiosDefault.get(`/sales/sale/${id}/`);
+            const res = await axiosDefault.get(`/sales/sales/${id}/`);
             console.log(res.data);
             return res.data;
         } catch (err) {
@@ -46,7 +44,7 @@ export const createSaleRecord = createAsyncThunk(
     "sale/create",
     async (data, { rejectWithValue }) => {
         try {
-            const res = axiosDefault.post("/sales/sale/", data);
+            const res = axiosMultipart.post("/sales/sales/", data);
             console.log(data);
             return res.data;
         } catch (err) {
@@ -62,7 +60,7 @@ export const updateSale = createAsyncThunk(
     "sale/partial-update",
     async ({ id, data }) => {
         console.log('Initial data - ', data);
-        const res = await axiosDefault.patch(`/sales/sale/${id}/`, data);
+        const res = await axiosDefault.patch(`/sales/sales/${id}/`, data);
         console.log('Updated data - ', res.data);
         return res.data;
     }
@@ -73,7 +71,7 @@ export const deleteSale = createAsyncThunk(
     "sale/delete",
     async ({ id }) => {
         try {
-            const res = await axiosDefault.delete(`/stock/stock/${id}/`);
+            const res = await axiosDefault.delete(`/sales/sales/${id}/`);
             return { id };
         } catch (err) {
             console.log("Error happened while deleting the sale record.");

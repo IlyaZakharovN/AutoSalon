@@ -6,13 +6,18 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import { CreateSale } from "../../components/sale/sale-create";
 import { SaleList } from "../../components/sale/sale-list";
-import { retriveCars, carsSelector } from "../../slices/carSlice";
-import { getAllCarModels, carModelsSelector } from "../../slices/carModelsSlice";
-import { retrivePurchaseTypes, fetchPurchaseType } from "../../slices/purchaseTypesSlice";
-import { retriveSaleRecords, fetchSaleRecord, saleSelector } from "../../slices/saleSlice";
-import { userSelector, retriveUserData } from "../../slices/userSlice";
+
 import { addOptionSelector, retriveAddOptions } from "../../slices/addOptionSlice";
-import { purchaseTypesSelector } from "../../slices/purchaseTypesSlice";
+import { retriveCars, carsSelector } from "../../slices/carSlice";
+import { retriveEmplData, employeeSelector } from "../../slices/employeeSlice";
+import { getAllPurposes, purposeSelector } from "../../slices/purposeSlice";
+import { getAllCarStatuses, carStatusSelector } from "../../slices/carStatusSlice";
+import { getAllCarModels, carModelsSelector } from "../../slices/carModelsSlice";
+import { retrivePurchaseTypes, fetchPurchaseType, purchaseTypesSelector } from "../../slices/purchaseTypesSlice";
+import { retriveSaleRecords, fetchSaleRecord, saleSelector } from "../../slices/saleSlice";
+import { getAllSaleStatuses, saleStatusSelector } from "../../slices/saleStatusSlice";
+import { getAllSaleTypes, saleTypeSelector } from "../../slices/saleTypeSlice";
+import { userSelector, retriveUserData } from "../../slices/userSlice";
 
 const Sales = () => {
     const dispatch = useDispatch();
@@ -23,19 +28,28 @@ const Sales = () => {
     const carModels = useSelector(carModelsSelector);
     const sales = useSelector(saleSelector);
     const purchaseTypes = useSelector(purchaseTypesSelector);
-    const addOption = useSelector(addOptionSelector);
+    const addOptions = useSelector(addOptionSelector);
+    const carStatuses = useSelector(carStatusSelector);
+    const saleTypes = useSelector(saleTypeSelector);
+    const saleStatuses = useSelector(saleStatusSelector);
+    const carPuposes = useSelector(purposeSelector);
+    const empls = useSelector(employeeSelector);
 
     const initFetch = useCallback(async() => {
-        await dispatch(getAllCarModels());
         await dispatch(retriveCars());
+        await dispatch(getAllCarModels());
         await dispatch(retriveSaleRecords());
         await dispatch(retrivePurchaseTypes());
         await dispatch(retriveAddOptions());
+        await dispatch(getAllCarStatuses());
+        await dispatch(getAllSaleTypes());
+        await dispatch(getAllSaleStatuses());
+        await dispatch(getAllPurposes());
+        await dispatch(retriveEmplData());
     }, [dispatch]);
 
     useEffect(() => {
         initFetch();
-        // Init();
     }, [initFetch]);
 
     const renderSaleList = () => {
@@ -52,14 +66,22 @@ const Sales = () => {
     };
 
     const renderCreateSale = () => {
-        if (cars && carModels && purchaseTypes && user && addOption) {
+        if (cars && carModels && purchaseTypes && 
+            user && addOptions && empls &&
+            sales && carStatuses && saleStatuses) {
             return <CreateSale 
                 purch_types={purchaseTypes} 
-                empl={user.user} 
-                cars={cars} 
+                empls={Array.isArray(empls) &&
+                    empls.filter(empl => (empl.is_sales_manager || empl.is_sales_director))
+                } 
+                cars={Array.isArray(cars) && cars
+                    .filter(car => (car.purpose === 1 && car.status === 1))} 
                 carModels={carModels} 
-                addOpts={addOption} 
+                addOpts={addOptions} 
                 sales={sales}
+                user={user.user}
+                saleTypes={saleTypes}
+                saleStatuses={saleStatuses}
             />;
         } else {
             return <p>Ожидание загрузки формы добавления продажи...</p>
@@ -67,7 +89,9 @@ const Sales = () => {
     };
 
     return (
-        (!sales && !purchaseTypes && !user && !cars && !carModels && !addOption) ? (
+        (!sales && !purchaseTypes && !user && 
+        !cars && !carModels && !addOptions &&
+        !empls && carStatuses && saleStatuses) ? (
             <div>Ожидание загрузки данных</div>
         ) : (
             <section>
