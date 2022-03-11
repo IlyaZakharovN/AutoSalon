@@ -22,6 +22,8 @@ import employeeReducer from "./slices/employeeSlice";
 import purchaseTypesReducer from "./slices/purchaseTypesSlice"
 import purposeReducer from "./slices/purposeSlice";
 import saleReducer from "./slices/saleSlice";
+import saleStatusReducer from "./slices/saleStatusSlice";
+import saleTypeReducer from "./slices/saleTypeSlice";
 import singleCarModeleReducer from "./slices/singleCarModelSlice";
 import stockReducer from "./slices/stockSlice";
 import userReducer from "./slices/userSlice";
@@ -48,6 +50,8 @@ const appReducer = combineReducers({
   carModelPhotos: carModelPhotosReducer,
   carStatus: carStatusReducer,
   carPhotos: carPhotosReducer,
+  saleStatus: saleStatusReducer,
+  saleType: saleTypeReducer,
 });
 
 const rootReducer = (state, action) => {

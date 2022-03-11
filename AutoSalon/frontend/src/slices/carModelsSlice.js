@@ -18,7 +18,7 @@ export const getAllCarModels = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const res = await axiosDefault.get("/carmodels/models");
-            console.log(res.data);
+            // console.log(res.data);
             return res.data;
         } catch (err) {
             console.log("Error happened while getting all car models.");

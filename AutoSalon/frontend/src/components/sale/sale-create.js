@@ -4,33 +4,26 @@ import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 
 import { createSaleRecord, retriveSaleRecords } from "../../slices/saleSlice";
+import { updateCar, retriveCars } from "../../slices/carSlice";
 
-export const CreateSale = ({ purch_types, empl, cars, carModels, addOpts, sales }) => {
-    // console.log(sales);
-    // const sold = cars && Array.isArray(sales) && sales.filter(s => !cars.includes(s));
-    // const sold = sales.map((sale, index) => (cars.filter(car => car.VIN === sale.VIN)));
-    // const notSold = sales && cars.filter(car => !sales.includes(car.VIN));
-    // const notSold = sold && cars.filter(car => !sold.includes(car.VIN));
-
-    // console.log(sold);
-    // console.log(notSold);
+export const CreateSale = ({ purch_types, empls, cars, carModels, addOpts, sales, user, saleTypes, saleStatuses }) => {
 
     const initialSaleState = Object.freeze({
         vin: null,
-        seller: empl.id,
-        // date: today,
-        purchase_type_id: null,
+        seller: null,
+        purchase_type: null,
+        sale_type: null,
+        sale_status: null,
         sale_price: null,
-        customer_passport: null,
-        // add_option_id: null,
-        // add_option_id: [],
+        customer_info: null,
         note: "Примечание не найдено.",
     });
     
     const { register, handleSubmit, formState: { errors } } = useForm({reValidateMode: 'onChange',}); 
     const [saleRec, setSaleRec] = useState(initialSaleState);
-    const [price, setPrice] = useState(null);
+    const [saleDoc, setSaleDoc] = useState("");
     const [addOptions, setAddOptions] = useState([]);
+    const [price, setPrice] = useState(null);
     const dispatch = useDispatch(); 
 
     const handleSaleChange = event => {
@@ -39,10 +32,10 @@ export const CreateSale = ({ purch_types, empl, cars, carModels, addOpts, sales 
         console.log(saleRec);
     };
 
-    const handlePriceChange = event => {
-        console.log(event.target.name, " - ", event.target.value);
-        setPrice(price => event.target.value);
-        console.log("New price = ", price);
+    const handleDoc = event => {
+        // console.log(event.target.name, " - ", event.target.files);
+        setSaleDoc(event.target.files[0]);
+        // console.log(saleDoc);
     };
 
     const handleAddOptChange = event => {
@@ -52,26 +45,46 @@ export const CreateSale = ({ purch_types, empl, cars, carModels, addOpts, sales 
         } else {
             setAddOptions(addOptions => addOptions.splice(addOptions.indexOf(event.target.value), 1));
         }
-        console.log(`${addOptions} - ${addOptions.length} items`);
+        // console.log(`${addOptions} - ${addOptions.length} items`);
     };
 
-    const changeHandler = event => {
-        handleSaleChange(event);
-        handlePriceChange(event);
+    const saveData = async (d, event) => {
+        event.preventDefault();
+
+        await saveSale()
+            .catch(e => {
+                console.log('Error happened while running saveSale in saveData');
+                console.log(e);
+            });
+
+        try {
+            changeCarStatus();
+        } catch (e) {
+            console.log('Error happened while running changeCarStatus in saveData');
+            console.log(e);
+        };
+
+        await dispatch(retriveSaleRecords());
+        await dispatch(retriveCars());
+        window.location.reload();
     };
 
-    const saveSale = async (data, event) => {
+    const saveSale = async (data, event) => { //  
         const date = new Date();
         const today = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
 
-        event.preventDefault();
         let newSaleData = new FormData();
         newSaleData.append('VIN', saleRec.vin);
-        newSaleData.append('seller', empl.id);
+        newSaleData.append('seller', saleRec.seller);
         newSaleData.append('date', today); // today
-        newSaleData.append('purchase_type_id', saleRec.purchase_type_id);
-        newSaleData.append('sale_price', price);
-        newSaleData.append('customer_passport', saleRec.customer_passport);
+        newSaleData.append('purchase_type', saleRec.purchase_type);
+        newSaleData.append('sale_type', saleRec.sale_status);
+        newSaleData.append('sale_status', saleRec.sale_status);
+        newSaleData.append('sale_price', saleRec.sale_price);
+        newSaleData.append('customer_info', saleRec.customer_info);
+        newSaleData.append('sale_document', saleDoc);
+        newSaleData.append('note', saleRec.note);
+        
         if (addOptions.length) { 
             console.log(`${addOptions} - ${addOptions.length} items`);
             for (let i=0; i<=addOptions.length-1; i++) {
@@ -79,94 +92,176 @@ export const CreateSale = ({ purch_types, empl, cars, carModels, addOpts, sales 
             };
             console.log(newSaleData.getAll('add_option_id'));
         };
-        newSaleData.append('note', saleRec.note);
 
-        await dispatch(createSaleRecord(newSaleData))
+        await dispatch(createSaleRecord(newSaleData)) //
             .unwrap()
+            .then(console.log(newSaleData.values()))
             .catch(e => {
-                console.log('Error happened while running saveSale');
                 console.log(e);
             });
+    };
 
-        await dispatch(retriveSaleRecords());
-        window.location.reload();
+    const changeCarStatus = async (data, event) => { //
+        let carPatchData = new FormData();
+        carPatchData.append('status', 4);
+
+        await dispatch(updateCar({ id: saleRec.vin, data: carPatchData }))
+            .unwrap()
+            .then(response => {
+                console.log('response - ', response);
+            })
+            .catch(e => {
+                console.log(e);
+            });
     };
 
     return (
         <Fragment>
             <h4>Добавить запись продажи</h4>
 
-            <Form onSubmit={handleSubmit(saveSale)}>
+            <Form onSubmit={handleSubmit(saveData)}>
                 <Form.Group className='mb-3'>
-                    <Form.Label className='mb-1' htmlFor="vin">Автомобиль</Form.Label>
+                    <Form.Label className='mb-1' htmlFor="vin">
+                        Автомобиль
+                    </Form.Label>
                     <Form.Select
-                            {...register("vin", { required: true })}
-                            size="md"
-                            id="vin"
-                            name="vin"
-                            value={saleRec.vin}
-                            onChange={changeHandler}
-                        >
-                            <option key='blankChoice' hidden value />
-                            {/* {cars && cars.map((car, index) => (
-                                carModels && carModels
+                        {...register("vin", { required: true })}
+                        size="md"
+                        id="vin"
+                        name="vin"
+                        value={saleRec.vin}
+                        onChange={handleSaleChange}
+                    >
+                        <option key='blankChoice' hidden value />
+                        {Array.isArray(cars) && cars
+                            .map((car, index) => (
+                                Array.isArray(carModels) && carModels
                                     .filter(carModel => carModel.id === car.model_id)
                                     .map((carModel, index) => (
-                                    // console.log(carModel)
                                     <option value={car.VIN} key={car.VIN}>
                                         {`${car.VIN} - ${car.price}  руб.,  ${carModel.model} ${carModel.year}
                                         в комплектации  ${carModel.package_name}`}
-                                    </option>
-                                ))
-                            ))} */}
-                            {Array.isArray(cars) && cars
-                                // .filter(car => car.VIN === sales.VIN)
-                                // .filter(car => sales.includes(car.VIN))
-                                .map((car, index) => (
-                                    // Array.isArray(sales) && sales &&
-                                        // .filter(sale => sale.VIN === car.VIN),
-                                        // .filter(car => sales.includes(car.VIN)),
-                                        // .filter(sale => sale.VIN !== car.VIN)
-                                        // .map((sale, index) => (
-                                            Array.isArray(carModels) && carModels
-                                                .filter(carModel => carModel.id === car.model_id)
-                                                // .filter(car => car.VIN !== sale.VIN)
-                                                .map((carModel, index) => (
-                                            // console.log(carModel)
-                                                <option value={car.VIN} key={car.VIN}>
-                                                    {`${car.VIN} - ${car.price}  руб.,  ${carModel.model} ${carModel.year}
-                                                    в комплектации  ${carModel.package_name}`}
-                                                </option>
-                                                ))
-                                        // ))
+                                    </option>)
                                     )
                                 )
-                            }
+                            )
+                        }
                     </Form.Select>
                 </Form.Group>  
+                {errors.vin && <p>Необходимо выбрать автомобиль.</p>}
 
                 <Form.Group className='mb-3'>
-                    <Form.Label className='mb-1' htmlFor="purchase_type_id">Вид покупки</Form.Label>
+                    <Form.Label className='mb-1' htmlFor="seller">
+                        Ответственный за продажу
+                    </Form.Label>
                     <Form.Select
-                            {...register("purchase_type_id", { required: true })}
-                            size="md"
-                            id="purchase_type_id"
-                            name="purchase_type_id"
-                            value={saleRec.purchase_type_id}
-                            onChange={changeHandler}
-                        >
-                            <option key='blankChoice' hidden value />
-                            {Array.isArray(purch_types) && purch_types.map((purch_type, index) => (
+                        {...register("seller", { required: true })}
+                        size="md"
+                        id="seller"
+                        name="seller"
+                        value={saleRec.seller}
+                        onChange={handleSaleChange}
+                    >
+                        <option key='blankChoice' hidden value />
+                        {user.is_sales_manager ? (
+                            <option value={user.id} key={user.id}>
+                                {`${user.name} - менеджер по продажам`}
+                            </option>
+                        ) : (
+                            Array.isArray(empls) && 
+                                empls.map((empl, index) => (
+                                    <option value={empl.id} key={empl.id}>
+                                        {empl.is_sales_director ? (
+                                            `${empl.name} - директор по продажам`
+                                        ) : (
+                                            `${empl.name} - менеджер по продажам`
+                                        )}
+                                    </option>
+                                ))
+                        )}
+                    </Form.Select>
+                </Form.Group>  
+                {errors.seller && <p>Необходимо выбрать ответственного за продажу.</p>}
+
+                <Form.Group className='mb-3'>
+                    <Form.Label className='mb-1' htmlFor="purchase_type">
+                        Вид приобретения покупателем
+                    </Form.Label>
+                    <Form.Select
+                        {...register("purchase_type", { required: true })}
+                        size="md"
+                        id="purchase_type"
+                        name="purchase_type"
+                        value={saleRec.purchase_type}
+                        onChange={handleSaleChange}
+                    >
+                        <option key='blankChoice' hidden value />
+                        {Array.isArray(purch_types) && 
+                            purch_types.map((purch_type, index) => (
                                 <option value={purch_type.id} key={purch_type.id}>
                                     {`${purch_type.name}, коэффициент цены - x${purch_type.coefficient}`}
                                 </option>
-                            ))}
+                            ))
+                        }
                     </Form.Select>
-                </Form.Group>    
+                </Form.Group> 
+                {errors.purchase_type && <p>Необходимо выбрать вид приобретения.</p>}
 
                 <Form.Group className='mb-3'>
-                    <Form.Label className='mb-1' htmlFor="sale_price">Цена продажи автомобиля (руб.)</Form.Label>
-                    <Form.Text><br/>Цена должна находиться в пределах 1 - 999999999,99 рублей.</Form.Text>
+                    <Form.Label className='mb-1' htmlFor="sale_type">
+                        Вид продажи
+                    </Form.Label>
+                    <Form.Select
+                        {...register("sale_type", { required: true })}
+                        size="md"
+                        id="sale_type"
+                        name="sale_type"
+                        value={saleRec.sale_type}
+                        onChange={handleSaleChange}
+                    >
+                        <option key='blankChoice' hidden value />
+                        {Array.isArray(saleTypes) && 
+                            saleTypes.map((saleType, index) => (
+                                <option value={saleType.id} key={saleType.id}>
+                                    {`${saleType.name}`}
+                                </option>
+                            ))
+                        }
+                    </Form.Select>
+                </Form.Group> 
+                {errors.sale_type && <p>Необходимо выбрать вид продажи.</p>}
+
+                <Form.Group className='mb-3'>
+                    <Form.Label className='mb-1' htmlFor="sale_status">
+                        Статус продажи
+                    </Form.Label>
+                    <Form.Select
+                        {...register("sale_status", { required: true })}
+                        size="md"
+                        id="sale_sale_statustype"
+                        name="sale_status"
+                        value={saleRec.sale_status}
+                        onChange={handleSaleChange}
+                    >
+                        <option key='blankChoice' hidden value />
+                        {Array.isArray(saleStatuses) && 
+                            saleStatuses.map((saleStatus, index) => (
+                                <option value={saleStatus.id} key={saleStatus.id}>
+                                    {`${saleStatus.name}`}
+                                </option>
+                            ))
+                        }
+                    </Form.Select>
+                </Form.Group> 
+                {errors.sale_status && <p>Необходимо выбрать статус продажи.</p>}   
+
+                <Form.Group className='mb-3'>
+                    <Form.Label className='mb-1' htmlFor="sale_price">
+                        Цена продажи автомобиля (руб.)
+                    </Form.Label>
+                    <Form.Text>
+                        <br/>Цена должна находиться в пределах 1 - 999999999,99 рублей.
+                    </Form.Text>
                     <Form.Control
                         {...register("sale_price", { required: true })}
                         size="md"
@@ -177,19 +272,42 @@ export const CreateSale = ({ purch_types, empl, cars, carModels, addOpts, sales 
                         id="sale_price"
                         name="sale_price"
                         value={saleRec.sale_price}
-                        onChange={handlePriceChange}
-                        // pattern="^\d{1,9}(\,\d{0,2})$"
+                        onChange={handleSaleChange}
                     />
-                </Form.Group> 
+                </Form.Group>
+                {errors.sale_status && <p>Необходимо указать цену продажи автомобиля.</p>} 
 
                 <Form.Group className='mb-3'>
-                <Form.Label className='mb-1' htmlFor="addOpt">Дополнительное оборудование</Form.Label>
+                    <Form.Label className='mb-1' htmlFor="customer_info">
+                        Информация о покупателе
+                    </Form.Label>
                     <Form.Text>
-                        <br/>Выберите дополнительное оборудование для установки.<br/>
+                        <br/>Укажите ФИО, серию и номер пасспорта, номер счета и т.д.
+                    </Form.Text>
+                    <textarea
+                        {...register("customer_info", { required: true })}
+                        className="form-control"
+                        rows="5"
+                        size="md"
+                        type="text"
+                        id="customer_info"
+                        name="customer_info"
+                        value={saleRec.customer_info}
+                        onChange={handleSaleChange}
+                    />
+                </Form.Group> 
+                {errors.customer_info && <p>Необходимо указать информацию о покупателе.</p>} 
+
+                <Form.Group className='mb-3'>
+                    <Form.Label className='mb-1' htmlFor="add_option_id">
+                        Дополнительное оборудование
+                    </Form.Label>
+                    <Form.Text>
+                        <br/>Выберите дополнительное оборудование для установки по желанию клиента.<br/>
                     </Form.Text>
                     {Array.isArray(addOpts) && addOpts.map((addOpt, index) => (
                         <Form.Check
-                            {...register("addOpt")}
+                            {...register("add_option_id")}
                             style={{textAlign: "left"}}
                             id={`addOpts-cb-${addOpt.id}`}
                             label={`${addOpt.name} - ${addOpt.price} руб.`}
@@ -199,36 +317,32 @@ export const CreateSale = ({ purch_types, empl, cars, carModels, addOpts, sales 
                         />
                     ))}
                 </Form.Group>
-                        {/*<span>
-                             <label htmlFor={`addOpts-cb-${addOpt.id}`}>
-                                {addOpt.name}
-                            </label> */}
-                            {/* <label htmlFor={`addOpts-cb-${addOpt.id}`}>
-                                {addOpt.price}
-                            </label>
-                            <br/> 
-                        </span>*/}
-
-                <Form.Group className='mb-3'>
-                    <Form.Label className='mb-1' htmlFor="customer_passport">Серия и номер пасспорта покупателя</Form.Label>
-                    <Form.Text><br/>Серия и номер пасспорта должны включать 10 цифр.</Form.Text>
-                    <Form.Control
-                        {...register("customer_passport", { required: true })}
-                        size="md"
-                        type="number"
-                        step="1"
-                        min={1000000000}
-                        max={9999999999}
-                        id="customer_passport"
-                        name="customer_passport"
-                        value={saleRec.customer_passport}
-                        onChange={handleSaleChange}
-                        // pattern="^\d{1,9}(\,\d{0,2})$"
-                    />
-                </Form.Group> 
 
                 <Form.Group className='mb-3'> 
-                    <Form.Label className='mb-1' htmlFor="note">Примечание</Form.Label>
+                    <Form.Label className='mb-1' htmlFor="sale_document">
+                        Документ приемки
+                    </Form.Label>
+                    <Form.Control
+                        {...register("sale_document", { required: true })}
+                        className="form-control"
+                        size="md"
+                        type="file"
+                        accept=".png, .jpg., .jpeg, .doc, .docx, .pdf, application/msword"
+                        id="sale_document"
+                        name="sale_document"
+                        value={saleRec.sale_document}
+                        onChange={handleDoc}
+                    />
+                </Form.Group>
+                {errors.sale_document && <p>Необходимо добавить документ продажи.</p>}
+
+                <Form.Group className='mb-3'> 
+                    <Form.Label className='mb-1' htmlFor="note">
+                        Примечание (необязательно)
+                    </Form.Label>
+                    <Form.Text>
+                        <br/>При необходимости укажите примечание к продаже.
+                    </Form.Text>
                     <textarea
                         {...register("note")}
                         className="form-control"
@@ -237,7 +351,6 @@ export const CreateSale = ({ purch_types, empl, cars, carModels, addOpts, sales 
                         type="text"
                         id="note"
                         name="note"
-                        // defaultValue="Примечание не найдено."
                         value={saleRec.note}
                         onChange={handleSaleChange}
                     />
@@ -247,7 +360,6 @@ export const CreateSale = ({ purch_types, empl, cars, carModels, addOpts, sales 
                     <button 
                         type="submit" 
                         className="btn btn-primary btn-block"
-                        // onClick={saveCarModel}
                     >
                         Оформить продажу
                     </button>

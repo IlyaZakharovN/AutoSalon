@@ -15,7 +15,7 @@ export const retrivePurchaseTypes = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const res = await axiosDefault.get("/sales/purchase-types/");
-            console.log(res.data);
+            // console.log(res.data);
             return res.data;
         } catch (err) {
             console.log("Error happened while retriving purchase types.");
@@ -27,7 +27,7 @@ export const retrivePurchaseTypes = createAsyncThunk(
 
 ///// Retrive a purchase type by ID /////
 export const fetchPurchaseType = createAsyncThunk(
-    "purchaseTypes/fetchSaleRecord",
+    "purchaseTypes/fetchPurchaseType",
     async (id, { rejectWithValue }) => {
         try {
             const res = await axiosDefault.get(`/sales/purchase-types/${id}/`);
@@ -48,7 +48,6 @@ const purchaseTypesSlice = createSlice({
     reducers: {},
     extraReducers: {
         [retrivePurchaseTypes.fulfilled]: (state, action) => {
-            console.log(action.payload);
             return [...action.payload];
         },
         [retrivePurchaseTypes.rejected]: (state, action) => {
