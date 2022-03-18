@@ -131,6 +131,5 @@ const saleSlice = createSlice({
 
 const { reducer } = saleSlice;
 
-// export const saleSelector = state => state.sale;
-export const saleSelector = ({ sale }) => sale;
+export const saleSelector = state => state.sale;
 export default reducer; 

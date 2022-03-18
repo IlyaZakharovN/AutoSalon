@@ -5,68 +5,90 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import { userSelector } from "../../slices/userSlice";
 
-const SaleDetail = ({ sale, car, carModel, purch_type, addOptions, empl }) => {
-    // const dispatch = useDispatch();
-    // console.log(sale);
-    // console.log(car);
-    // console.log(carModel);
-    // console.log(purch_type);
-    // console.log(addOptions);
-    // console.log(empl);
-
-    // const installed = Object.entries(addOptions).filter(([key, value]) => value.id === sale.add_option_id);
-    // console.log(installed);
+const SaleDetail = ({ 
+        sale, car, carModels, 
+        purch_type, addOptions, empls, 
+        saleType, saleStatus 
+    }) => {
+    // console.log(Object.values(sale.add_option_id));
 
     return (
         <Fragment>
-            <div style={{textAlign: "left"}}>
-                <h3 className="mb-3" style={{textAlign: "center"}}>
-                    {`Акт продажи №${sale.id}: ${sale.date}, ${sale.VIN}`}
-                </h3>
-                <img src={carModel.main_photo} className="mb-3"/>
-                <p>{`Продавец: ${empl.name}, id-${sale.seller}, ${empl.email}`}</p>
-                <p>{`Дата продажи - ${sale.date}`}</p>
-                <p>
-                    {`Автомобиль - `}
-                    <Link to={`car/${car.VIN}`}>
-                        {`${carModel.brand} ${carModel.model} ${carModel.year} ${car.VIN}`}
-                    </Link>
-                </p>
-                <p>{`Стоимость продажи - ${sale.sale_price}`}</p>
-                <p>{`Тип приобретения - ${purch_type.name}`}</p>
-                {/* <p>{`Покупатель - ${customer.last_name} ${customer.first_name} ${customer.patronymic}`}</p> */}
-                <p>{`Серия и номер пасспорта покупателя - ${sale.customer_passport}`}</p>
-                <p>
-                    {`Дополнительное оборудование - `} {addOptions ? (
-                        <span>{`установлены:`}
-                        {/* {{for (i in sale.add_option_id) {
-                            <Link to={`add-options/${sale.add_option_id[i]}`}>
-                                {addOptions.name}
-                            </Link>
-                        }}} */}
-                        {/* {addOptions && Object.fromEntries(Object
-                            .entries(addOptions)
-                            .map(([key, { value }]) => [key, value])
-                            // .filter(add => add.id === sale.add_option_id)
-                            // .map((add, index) => {
-                            // <>{add.name}
-                            // <Link to={`add-options/${add.id}`} key={add.id}>
-                            //     {add.name}
-                            // </Link></>
-                        )} */}
-                        </span>
-                    ) : (
-                        <span>{`не установлены.`}</span>
-                    )}
-                </p>
-                <p>
-                    {`Примечание продажи - `} {sale.note ? (
-                        <span>{`${sale.note}`}</span>
-                    ) : (
-                        <span>{`не указано.`}</span>
-                    )}
-                </p>
-            </div>
+            {Array.isArray(empls) && empls
+                .filter(empl => empl.id === sale.seller)
+                .map((empl) => (
+                    Array.isArray(car) && car
+                        .map((car) => (
+                            Array.isArray(carModels) && carModels
+                                .filter(carModel => carModel.id === car.model_id)
+                                .map((carModel) => (
+                                    <div style={{textAlign: "left"}}>
+                                        <h3 className="mb-3" style={{textAlign: "center"}}>
+                                            {`Акт продажи №${sale.id}: ${sale.date}, ${sale.VIN}`}
+                                        </h3>
+                                        <img src={carModel.main_photo} className="mb-3"/>
+
+                                        <div className="info">
+                                            <p>Продавец:
+                                                <span>{` ${empl.name}, id-${sale.seller}, ${empl.email}`}</span>
+                                            </p>
+                                            <p>Дата продажи - 
+                                                <span>{` ${sale.date}`}</span>
+                                            </p>
+                                            <p key={carModel.id}>{`Автомобиль`}
+                                                <span>{` - `}
+                                                    <Link to={`/car/${car.VIN}/`}>
+                                                        {` ${carModel.brand} ${carModel.model} ${carModel.year} ${car.VIN}`}
+                                                    </Link>
+                                                </span>
+                                            </p>
+                                            <p>Стоимость продажи
+                                                <span>{` - ${sale.sale_price} руб.`}</span>
+                                            </p>
+                                            <p>Тип приобретения
+                                                <span>{` - ${purch_type[0].name}`}</span>
+                                            </p>
+                                            <p>Тип продажи
+                                                <span>{` - ${saleType[0].name}`}</span>
+                                            </p>
+                                            <p>Статус продажи
+                                                <span>{` - ${saleStatus[0].name}`}</span>
+                                            </p>
+                                            <p>Информация о покупателе
+                                                <span>{` - ${sale.customer_info}`}</span>
+                                            </p>
+                                            <p>
+                                                {`Дополнительное оборудование`} {(Object.keys(sale.add_option_id).length) ? (
+                                                    <span>{` - установлены:`}
+                                                        {Array.isArray(Object.values(sale.add_option_id)) && Object.values(sale.add_option_id)
+                                                            .map((addOpt, index) => (
+                                                                Array.isArray(addOptions) && addOptions
+                                                                .filter(addOption => addOption.id === addOpt)
+                                                                .map((addOption, index) => (
+                                                                    <span key={addOpt}><br/>
+                                                                    <Link to={`/add-options/${addOption.id}`} >{`${addOption.name} (${addOption.price} руб.)`}</Link>
+                                                                    </span>
+                                                                ))    
+                                                            ))
+                                                        }
+                                                    </span>
+                                                ) : (
+                                                    <span>{`не установлены.`}</span>
+                                                )}
+                                            </p>
+                                            <p>
+                                                {`Примечание продажи`} {sale.note ? (
+                                                    <span>{` - ${sale.note}`}</span>
+                                                ) : (
+                                                    <span>{` - не указано.`}</span>
+                                                )}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))
+                        ))
+                ))    
+            }
         </Fragment>
     );
 };

@@ -17,7 +17,7 @@ import { retrivePurchaseTypes, fetchPurchaseType, purchaseTypesSelector } from "
 import { retriveSaleRecords, fetchSaleRecord, saleSelector } from "../../slices/saleSlice";
 import { getAllSaleStatuses, saleStatusSelector } from "../../slices/saleStatusSlice";
 import { getAllSaleTypes, saleTypeSelector } from "../../slices/saleTypeSlice";
-import { userSelector, retriveUserData } from "../../slices/userSlice";
+import { userSelector, getUserDetails } from "../../slices/userSlice";
 
 const Sales = () => {
     const dispatch = useDispatch();
@@ -36,12 +36,12 @@ const Sales = () => {
     const empls = useSelector(employeeSelector);
 
     const initFetch = useCallback(async() => {
+        await dispatch(getUserDetails());
         await dispatch(retriveCars());
         await dispatch(getAllCarModels());
         await dispatch(retriveSaleRecords());
         await dispatch(retrivePurchaseTypes());
         await dispatch(retriveAddOptions());
-        await dispatch(getAllCarStatuses());
         await dispatch(getAllSaleTypes());
         await dispatch(getAllSaleStatuses());
         await dispatch(getAllPurposes());

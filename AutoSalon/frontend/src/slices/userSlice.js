@@ -47,7 +47,7 @@ export const getUserDetails = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const res = await axiosDefault.get("/users/current-user");
-            console.log(res.data);
+            // console.log(res.data);
             return res.data;
         } catch (err) {
             console.log("Error happened while fetching user details.");
@@ -172,7 +172,7 @@ const userSlice = createSlice({
         },
 
         [getUserDetails.fulfilled]:(state, action) => {
-            console.log(action.payload);
+            // console.log(action.payload);
             // state.isAuthenticated = true;
             // state.loading = false;
             // state.hasErrors = false;
