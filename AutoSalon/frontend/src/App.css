@@ -90,3 +90,7 @@
 .info p span {
   font-weight: normal;
 }
+
+.form-required p {
+  color: crimson;
+}
