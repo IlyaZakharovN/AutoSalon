@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+import SaleCancel from "../../components/sale/sale-cancel";
 import SaleDetail from "../../components/sale/sale-detail";
 import SaleUpdate from "../../components/sale/sale-patch";
 
@@ -120,6 +121,29 @@ const Sale = () => {
         }
     };
 
+    const renderSaleCancel = () => {
+        if (
+            sale && cars && empls && 
+            user
+        ) {
+            return <SaleCancel
+                sale={sale}
+                car={
+                    Array.isArray(cars) && cars
+                        .filter(car => car.VIN === sale.VIN)[0]
+                }
+                empls={
+                    Array.isArray(empls) &&
+                    empls.filter(empl => (empl.is_sales_manager || empl.is_sales_director))
+                }
+                user={user.user}
+            />
+        }
+        else {
+            return <p>Ожидание загрузки функции отмены...</p>
+        }
+    };
+
     return (
         (!sale && !purchaseTypes && !user && 
         !cars && !carModels && !addOptions &&
@@ -140,6 +164,9 @@ const Sale = () => {
                             user.user.is_sales_manager) ? (
                                 <Col xs lg="4">
                                     {renderUpdateForm()}
+                                    <div className="mt-5"> 
+                                        {renderSaleCancel()}
+                                    </div>
                                 </Col>
                             ) : (
                                 <></>

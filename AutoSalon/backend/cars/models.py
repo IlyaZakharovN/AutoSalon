@@ -26,6 +26,7 @@ class Status(models.Model):
         TECH_INSPECTION = 'На техосмотре'
         TECH_MAINTENANCE = 'На техоблуживании'
         SOLD = 'Продан'
+        ACCEPTANCE = 'Проходит приемку'
         UNKNOWN = 'Неизвестно'
 
     name = models.CharField(max_length=100, choices=StatusType.choices, default=StatusType.UNKNOWN)
