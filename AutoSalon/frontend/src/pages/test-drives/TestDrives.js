@@ -9,6 +9,7 @@ import { CreateTestDriveClient } from "../../components/testdrive/create/test-dr
 import { CreateTestDriveDirector } from "../../components/testdrive/create/test-drive-dir-create";
 import { CreateTestDriveEmpl } from "../../components/testdrive/create/test-drive-empl-create";
 import { TestDriveClientInfo } from "../../components/testdrive/test-drive-client-info";
+
 import { retriveCars, carsSelector } from "../../slices/carSlice";
 import { getAllCarModels, carModelsSelector } from "../../slices/carModelsSlice";
 import { fetchEmplData, retriveEmplData, employeeSelector } from "../../slices/employeeSlice";
@@ -17,9 +18,10 @@ import { getAllTestDriveStatuses, fetchTestDriveStatus, testDriveStatusSelector 
 import { getAllTestDrives, fetchTestDrive, testDriveSelector } from "../../slices/testDriveSlice";
 import { userSelector, getUserDetails } from "../../slices/userSlice";
 
+// Link to CarModels page ????
+
 const TestDrives = () => {
     const dispatch = useDispatch();
-    // const params = useParams();
 
     const { user, isAuthenticated } = useSelector(userSelector);
     const cars = useSelector(carsSelector);
@@ -59,12 +61,18 @@ const TestDrives = () => {
     };
 
     const renderCreateTestDrive = () => {
-        if (cars && carModels && testDriveStatuses && purposes) {
+        if (
+            cars && carModels && testDriveStatuses &&
+            purposes
+        ) {
             if (isAuthenticated && user) {
                 // console.log('isAuthenticated')
                 if (user.user.is_sales_manager) {
                     return <CreateTestDriveEmpl 
-                        cars={cars} 
+                        cars={
+                            Array.isArray(cars) && cars
+                                .filter(car => car.purpose === 3)
+                        } 
                         carModels={carModels} 
                         testDriveStatuses={testDriveStatuses} 
                         user={user.user} 
@@ -80,24 +88,15 @@ const TestDrives = () => {
                     />;
                 }
             } else {
-                // console.log('not isAuthenticated');
-                // console.log(Array.isArray(testDriveStatuses));
                 return <CreateTestDriveClient
-                    cars={cars} 
+                    cars={
+                        Array.isArray(cars) && cars
+                            .filter(car => car.purpose === 3)
+                    }
                     carModels={carModels}
                     purposes={purposes}
-                    testDriveStatuses={testDriveStatuses}
                 />;
             }
-            // ((is_sales_director || is_superuser) ? (
-            //     return null;
-            // ) : (
-            //     (is_sales_manager ? (
-                    
-            //     ) : (
-
-            //     ))
-            // ))
         } else {
             return <p>Ожидание загрузки формы добавления тест-драйва...</p>
         }
@@ -108,7 +107,9 @@ const TestDrives = () => {
     };
 
     return (
-        (!testdrives && !testDriveStatuses && !cars && !carModels && !empls && !user && !purposes) ? (
+        (!testdrives && !testDriveStatuses && !cars && 
+        !carModels && !empls && !user && 
+        !purposes) ? (
             <div>Ожидание загрузки данных</div>
         ) : (
             <section>
@@ -141,9 +142,3 @@ const TestDrives = () => {
 };
 
 export default TestDrives;
-
-// Link to CarModels page
-
-
-
-// Apply to test-drive form 
