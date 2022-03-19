@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import SaleDetail from "../../components/sale/sale-detail";
+import SaleUpdate from "../../components/sale/sale-patch";
 
 import { fetchAddOption, addOptionSelector, retriveAddOptions } from "../../slices/addOptionSlice";
 import { fetchCar, retriveCars, carsSelector } from "../../slices/carSlice";
@@ -91,6 +92,34 @@ const Sale = () => {
         }
     };
 
+    const renderUpdateForm = () => {
+        if (
+            sale && saleTypes && saleStatuses &&
+            cars && carModels && addOptions &&
+            purchaseTypes && empls && user
+        ) {
+            return <SaleUpdate
+                sale={sale}
+                saleTypes={saleTypes}
+                saleStatuses={saleStatuses}
+                car={
+                    Array.isArray(cars) && cars
+                        .filter(car => car.VIN === sale.VIN)
+                }
+                carModels={carModels}
+                addOpts={addOptions}
+                purch_types={purchaseTypes}
+                empls={
+                    Array.isArray(empls) &&
+                    empls.filter(empl => (empl.is_sales_manager || empl.is_sales_director))
+                }
+                user={user.user}
+            />
+        } else {
+            return <p>Ожидание загрузки формы обновления...</p>
+        }
+    };
+
     return (
         (!sale && !purchaseTypes && !user && 
         !cars && !carModels && !addOptions &&
@@ -106,6 +135,15 @@ const Sale = () => {
                             <Col xs lg="6">
                                 {renderSaleDetail()}
                             </Col> 
+                            {(user.user.is_superuser || 
+                            user.user.is_sales_director ||
+                            user.user.is_sales_manager) ? (
+                                <Col xs lg="4">
+                                    {renderUpdateForm()}
+                                </Col>
+                            ) : (
+                                <></>
+                            )}
                         </Fragment>
                     ) : (
                         <h6>У вас нет прав доступа к этой странице</h6>

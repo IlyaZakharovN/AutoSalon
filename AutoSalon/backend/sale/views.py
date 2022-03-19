@@ -20,8 +20,7 @@ class SalePermission(BasePermission):
             return (request.user.is_authenticated and 
                 (request.user.is_superuser or 
                 request.user.is_sales_director or 
-                request.user.is_sales_manager or
-                request.user.is_purchase_manager))
+                request.user.is_sales_manager)) # or request.user.is_purchase_manager
         elif view.action in ['destroy',]:
             return (request.user.is_authenticated and 
                 (request.user.is_superuser or 

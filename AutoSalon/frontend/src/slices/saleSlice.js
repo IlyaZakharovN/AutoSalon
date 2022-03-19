@@ -29,7 +29,7 @@ export const fetchSaleRecord = createAsyncThunk(
     async (id, { rejectWithValue }) => {
         try {
             const res = await axiosDefault.get(`/sales/sales/${id}/`);
-            console.log(res.data);
+            // console.log(res.data);
             return res.data;
         } catch (err) {
             console.log("Error happened while fetching a sale record.");
@@ -60,7 +60,7 @@ export const updateSale = createAsyncThunk(
     "sale/partial-update",
     async ({ id, data }) => {
         console.log('Initial data - ', data);
-        const res = await axiosDefault.patch(`/sales/sales/${id}/`, data);
+        const res = await axiosMultipart.patch(`/sales/sales/${id}/`, data);
         console.log('Updated data - ', res.data);
         return res.data;
     }

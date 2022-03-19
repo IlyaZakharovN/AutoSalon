@@ -20,7 +20,8 @@ class CustomPermission(BasePermission):
             return (request.user.is_authenticated and 
                 (request.user.is_superuser or 
                 request.user.is_sales_director or 
-                request.user.is_puchase_manager))
+                request.user.is_puchase_manager or 
+                request.user.is_sales_manager))
         elif view.action in ['partial_update',]:
             return (request.user.is_authenticated)
         elif view.action in ['destroy',]:
