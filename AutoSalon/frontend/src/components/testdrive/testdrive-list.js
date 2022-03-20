@@ -34,10 +34,10 @@ export const TestDriveList = ({
                                                         <Card.Subtitle>
                                                             {empl.is_superuser ? (
                                                                 <span className="attention">
-                                                                    Ответсвенный сотрудник - не установлен
+                                                                    Ответственный сотрудник - не установлен
                                                                 </span>
                                                             ) : (
-                                                                `Ответсвенный сотрудник - ${empl.name}`
+                                                                `Ответственный сотрудник - ${empl.name}`
                                                             )}
                                                         </Card.Subtitle>
                                                     ) : (<></>)}

@@ -6,13 +6,28 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import { TestDriveDetail } from "../../components/testdrive/test-drive-detail";
 import { TestDriveUpdate } from "../../components/testdrive/test-drive-patch";
-import { retriveCars, fetchCar, carsSelector } from "../../slices/carSlice";
-import { getAllCarModels, fetchCarModel, carModelsSelector } from "../../slices/carModelsSlice";
-import { fetchEmplData, retriveEmplData, employeeSelector } from "../../slices/employeeSlice";
-import { getAllPurposes, purposeSelector } from "../../slices/purposeSlice";
-import { getAllTestDriveStatuses, fetchTestDriveStatus, testDriveStatusSelector } from "../../slices/testDriveStatusSlice";
-import { getAllTestDrives, fetchTestDrive, testDriveSelector } from "../../slices/testDriveSlice";
-import { userSelector, getUserDetails } from "../../slices/userSlice";
+
+import { 
+    retriveCars, fetchCar, carsSelector 
+} from "../../slices/carSlice";
+import { 
+    getAllCarModels, fetchCarModel, carModelsSelector 
+} from "../../slices/carModelsSlice";
+import { 
+    fetchEmplData, retriveEmplData, employeeSelector 
+} from "../../slices/employeeSlice";
+import { 
+    getAllPurposes, purposeSelector 
+} from "../../slices/purposeSlice";
+import { 
+    getAllTestDrives, fetchTestDrive, testDriveSelector 
+} from "../../slices/testDriveSlice";
+import { 
+    getAllTestDriveStatuses, fetchTestDriveStatus, testDriveStatusSelector 
+} from "../../slices/testDriveStatusSlice";
+import { 
+    userSelector, getUserDetails 
+} from "../../slices/userSlice";
 
 const TestDrive = () => {
     const dispatch = useDispatch();
@@ -26,21 +41,19 @@ const TestDrive = () => {
     const testDriveStatuses = useSelector(testDriveStatusSelector);
     const purposes = useSelector(purposeSelector);
 
-    const [tdCar, setTdCar] = useState();
-    const [tdCarModel, setTdCarModel] = useState();
+    // const [tdCar, setTdCar] = useState();
+    // const [tdCarModel, setTdCarModel] = useState();
 
     const initFetch = useCallback(async() => {
         // const id = params.id;
         await dispatch(fetchTestDrive(params.id));
-        // dispatch(getAllTestDrives());
-        await console.log(testdrives[0]);
-        const carResult = await dispatch(fetchCar(testdrives.VIN));
-        await setTdCar(carResult.payload);
+        // const carResult = await dispatch(fetchCar(testdrives.VIN));
+        // await setTdCar(carResult.payload);
         // const model_id = tdCar[0].model_id;
 
-        await console.log((carResult.payload).model_id);
-        const cmResult = await dispatch(fetchCarModel((carResult.payload).model_id));
-        setTdCarModel(cmResult.payload);
+        // await console.log((carResult.payload).model_id);
+        // const cmResult = await dispatch(fetchCarModel((carResult.payload).model_id));
+        // setTdCarModel(cmResult.payload);
 
         await dispatch(retriveCars());
         // await dispatch(fetchCar(testdrives.VIN));
@@ -51,7 +64,7 @@ const TestDrive = () => {
         // await dispatch(fetchEmplData(testdrives.seller));
         await dispatch(getAllPurposes());
 
-    }, [dispatch, params.id, testdrives.VIN]); // , params.id
+    }, [dispatch, params.id]); // , params.id, testdrives.VIN
 
     useEffect(() => {
         initFetch();
@@ -59,14 +72,22 @@ const TestDrive = () => {
     }, [initFetch]);
 
     const renderTestDriveDetail = () => {
-        if (testdrives, testDriveStatuses, cars, carModels, empls, purposes, user, tdCar, tdCarModel) {
+        if (
+            testdrives && testDriveStatuses && cars && 
+            carModels && empls && user
+        ) {
             return <TestDriveDetail
                 testdrives={testdrives} 
                 testDriveStatuses={testDriveStatuses}
-                cars={tdCar}
-                carModels={tdCarModel}
-                empls={empls.filter(empl => empl.id === testdrives.seller)}
-                // empls={empls}
+                cars={
+                    Array.isArray(cars) && cars
+                        .filter(car => car.VIN === testdrives.VIN)
+                }
+                carModels={carModels}
+                empls={
+                    Array.isArray(empls) && empls
+                        .filter(empl => empl.id === testdrives.seller)
+                }
                 purposes={purposes}
                 user={user.user}
             />
@@ -93,7 +114,9 @@ const TestDrive = () => {
 
     return (
         isAuthenticated ? (
-            (!testdrives && !testDriveStatuses && !cars && !carModels && !empls && !user && !purposes) ? (
+            (!testdrives && !testDriveStatuses && !cars && 
+            !carModels && !empls && !user && 
+            !purposes) ? (
                 <div>Ожидание загрузки данных</div>
             ) : (
                 <section>
@@ -103,7 +126,7 @@ const TestDrive = () => {
                                 {renderTestDriveDetail()}
                             </Col>
                             <Col xs lg="6">
-                                {renderTestDriveUpdate()}
+                                {/* {renderTestDriveUpdate()} */}
                             </Col>
                         </Row>
                     ) : (
