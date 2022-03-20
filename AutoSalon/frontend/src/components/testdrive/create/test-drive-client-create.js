@@ -55,6 +55,7 @@ export const CreateTestDriveClient = ({
                 });
     
                 await alert("Ваша заявка была зарегистрирована. Наш сотрудник свяжится в Вами в ближайшее время.");
+                window.location.reload();
             } else (
                 await alert("Пожайлуйста, выберите удобную Вам дату и время в пределах 9:00 - 21:30.")
             );
@@ -62,8 +63,6 @@ export const CreateTestDriveClient = ({
         else {
             await alert("Пожайлуйста, выберите модель автомобиля, которую Вы хотете протестировать.");
         }
-
-        window.location.reload();
     };
 
     return (

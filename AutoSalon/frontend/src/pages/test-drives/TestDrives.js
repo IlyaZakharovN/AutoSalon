@@ -6,7 +6,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import { TestDriveList } from "../../components/testdrive/testdrive-list";
 import { CreateTestDriveClient } from "../../components/testdrive/create/test-drive-client-create";
-import { CreateTestDriveDirector } from "../../components/testdrive/create/test-drive-dir-create";
 import { CreateTestDriveEmpl } from "../../components/testdrive/create/test-drive-empl-create";
 import { TestDriveClientInfo } from "../../components/testdrive/test-drive-client-info";
 
@@ -45,8 +44,10 @@ const TestDrives = () => {
     }, [initFetch]);
 
     const renderTestDriveList = () => {
-        // console.log('empls - ', empls);
-        if (testdrives && testDriveStatuses && cars && carModels && empls && purposes) {
+        if (
+            testdrives && testDriveStatuses && cars && 
+            carModels && empls && purposes
+        ) {
             return <TestDriveList 
                 testdrives={testdrives} 
                 testDriveStatuses={testDriveStatuses}
@@ -66,25 +67,19 @@ const TestDrives = () => {
             purposes
         ) {
             if (isAuthenticated && user) {
-                // console.log('isAuthenticated')
-                if (user.user.is_sales_manager) {
-                    return <CreateTestDriveEmpl 
+                if (user.user.is_sales_director || user.user.is_superuser || user.user.is_sales_manager) {
+                    return <CreateTestDriveEmpl
                         cars={
                             Array.isArray(cars) && cars
-                                .filter(car => car.purpose === 3)
+                            .filter(car => car.purpose === 3)
                         } 
                         carModels={carModels} 
-                        testDriveStatuses={testDriveStatuses} 
-                        user={user.user} 
-                        purposes={purposes}
-                    />;
-                } else if (user.user.is_sales_director || user.user.is_superuser) {
-                    return <CreateTestDriveDirector
-                        cars={cars} 
-                        carModels={carModels} 
                         testDriveStatuses={testDriveStatuses}
-                        empls={empls}
-                        purposes={purposes}
+                        empls={
+                            Array.isArray(empls) && empls
+                                .filter(empl => empl.is_sales_director || empl.is_sales_manager)
+                        }
+                        user={user.user} 
                     />;
                 }
             } else {
