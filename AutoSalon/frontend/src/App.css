@@ -91,6 +91,6 @@
   font-weight: normal;
 }
 
-.form-required p {
-  color: crimson;
+.form-required p, .attention {
+  color: red;
 }
