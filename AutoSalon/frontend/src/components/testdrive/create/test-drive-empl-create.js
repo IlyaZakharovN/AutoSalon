@@ -45,7 +45,7 @@ export const CreateTestDriveEmpl = ({
         // };
 
         const timeCheckHour = new Date(newTestDrive.date_time).getHours();
-        const timeCheckMinutes = new Date(newTestDrive.date_time).getMinutes()
+        const timeCheckMinutes = new Date(newTestDrive.date_time).getMinutes();
 
         if (
             newTestDrive.VIN !== null && 
@@ -57,11 +57,11 @@ export const CreateTestDriveEmpl = ({
                 (timeCheckHour < 22 && timeCheckMinutes < 31)
             ) {
                 await dispatch(createTestDrive(newTdData))
-                .unwrap()
-                .catch(e => {
-                    console.log('Error happened while running saveTD');
-                    console.log(e);
-                });
+                    .unwrap()
+                    .catch(e => {
+                        console.log('Error happened while running saveTD');
+                        console.log(e);
+                    });
     
                 await alert("Запись тест-драйва была добавлена.");
                 await dispatch(getAllTestDrives());

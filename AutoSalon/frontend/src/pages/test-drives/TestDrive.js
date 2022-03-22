@@ -46,7 +46,8 @@ const TestDrive = () => {
 
     const initFetch = useCallback(async() => {
         // const id = params.id;
-        await dispatch(fetchTestDrive(params.id));
+        // await dispatch(fetchTestDrive(params.id));
+        await dispatch(getAllTestDrives());
         // const carResult = await dispatch(fetchCar(testdrives.VIN));
         // await setTdCar(carResult.payload);
         // const model_id = tdCar[0].model_id;
@@ -68,7 +69,6 @@ const TestDrive = () => {
 
     useEffect(() => {
         initFetch();
-        // fetchTdData();
     }, [initFetch]);
 
     const renderTestDriveDetail = () => {
@@ -77,18 +77,26 @@ const TestDrive = () => {
             carModels && empls && user
         ) {
             return <TestDriveDetail
-                testdrives={testdrives} 
+                testdrives={
+                    Array.isArray(testdrives) && testdrives
+                        .filter(td => td.id == params.id)[0]
+                } 
                 testDriveStatuses={testDriveStatuses}
+                // cars={
+                //     Array.isArray(cars) && cars
+                //         .filter(car => car.VIN === testdrives.VIN)
+                // }
                 cars={
                     Array.isArray(cars) && cars
-                        .filter(car => car.VIN === testdrives.VIN)
+                        .filter(car => car.VIN === (Array.isArray(testdrives) && testdrives
+                        .filter(td => td.id == params.id))[0].VIN)
                 }
                 carModels={carModels}
                 empls={
                     Array.isArray(empls) && empls
-                        .filter(empl => empl.id === testdrives.seller)
+                        .filter(empl => empl.id === (Array.isArray(testdrives) && testdrives
+                        .filter(td => td.id == params.id))[0].seller)
                 }
-                purposes={purposes}
                 user={user.user}
             />
         } else {
@@ -97,14 +105,38 @@ const TestDrive = () => {
     };
 
     const renderTestDriveUpdate = () => {
-        if (testdrives, testDriveStatuses, cars, carModels, empls, purposes, user) {
+        if (
+            testdrives, testDriveStatuses, cars, 
+            carModels, empls, purposes, 
+            user
+        ) {
+            // const d = new Date(testdrives
+            //     .filter(td => td.id == params.id)[0].date_time).getHours();
+            // const d1 = new Date(testdrives
+            //     .filter(td => td.id == params.id)[0].date_time).setUTCHours(d); 
+            // console.log(new Date(d1).toISOString());
+
             return <TestDriveUpdate
-                testdrives={testdrives} 
+                testdrives={
+                    Array.isArray(testdrives) && testdrives
+                        .filter(td => td.id == params.id)
+                }  
                 testDriveStatuses={testDriveStatuses}
-                cars={cars}
+                // cars={cars}
+                cars={
+                    Array.isArray(cars) && cars
+                        .filter(car => car.purpose === 3)
+                }
+                // cars={
+                //     Array.isArray(cars) && cars
+                //         .filter(car => car.VIN === (Array.isArray(testdrives) && testdrives
+                //         .filter(td => td.id == params.id))[0].VIN)
+                // }
                 carModels={carModels}
-                empls={empls.filter(empl => empl.is_sales_manager || empl.is_sales_director)}
-                purposes={purposes}
+                empls={
+                    Array.isArray(empls) &&empls
+                        .filter(empl => empl.is_sales_manager || empl.is_sales_director)
+                }
                 user={user.user}
             />
         } else {
@@ -126,7 +158,7 @@ const TestDrive = () => {
                                 {renderTestDriveDetail()}
                             </Col>
                             <Col xs lg="6">
-                                {/* {renderTestDriveUpdate()} */}
+                                {renderTestDriveUpdate()}
                             </Col>
                         </Row>
                     ) : (
