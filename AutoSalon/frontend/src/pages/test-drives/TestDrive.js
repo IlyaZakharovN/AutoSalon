@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+import { TestDriveDelete } from "../../components/testdrive/test-drive-delete";
 import { TestDriveDetail } from "../../components/testdrive/test-drive-detail";
 import { TestDriveUpdate } from "../../components/testdrive/test-drive-patch";
 
@@ -41,31 +42,15 @@ const TestDrive = () => {
     const testDriveStatuses = useSelector(testDriveStatusSelector);
     const purposes = useSelector(purposeSelector);
 
-    // const [tdCar, setTdCar] = useState();
-    // const [tdCarModel, setTdCarModel] = useState();
-
     const initFetch = useCallback(async() => {
-        // const id = params.id;
-        // await dispatch(fetchTestDrive(params.id));
         await dispatch(getAllTestDrives());
-        // const carResult = await dispatch(fetchCar(testdrives.VIN));
-        // await setTdCar(carResult.payload);
-        // const model_id = tdCar[0].model_id;
-
-        // await console.log((carResult.payload).model_id);
-        // const cmResult = await dispatch(fetchCarModel((carResult.payload).model_id));
-        // setTdCarModel(cmResult.payload);
-
         await dispatch(retriveCars());
-        // await dispatch(fetchCar(testdrives.VIN));
         await dispatch(getAllCarModels());
-        // await dispatch(fetchCarModel(cars.model_id));
         await dispatch(getAllTestDriveStatuses());
         await dispatch(retriveEmplData());
-        // await dispatch(fetchEmplData(testdrives.seller));
         await dispatch(getAllPurposes());
 
-    }, [dispatch, params.id]); // , params.id, testdrives.VIN
+    }, [dispatch]); // , params.id, testdrives.VIN
 
     useEffect(() => {
         initFetch();
@@ -106,32 +91,20 @@ const TestDrive = () => {
 
     const renderTestDriveUpdate = () => {
         if (
-            testdrives, testDriveStatuses, cars, 
-            carModels, empls, purposes, 
+            testdrives && testDriveStatuses && cars && 
+            carModels && empls && purposes &&
             user
         ) {
-            // const d = new Date(testdrives
-            //     .filter(td => td.id == params.id)[0].date_time).getHours();
-            // const d1 = new Date(testdrives
-            //     .filter(td => td.id == params.id)[0].date_time).setUTCHours(d); 
-            // console.log(new Date(d1).toISOString());
-
             return <TestDriveUpdate
                 testdrives={
                     Array.isArray(testdrives) && testdrives
                         .filter(td => td.id == params.id)
                 }  
                 testDriveStatuses={testDriveStatuses}
-                // cars={cars}
                 cars={
                     Array.isArray(cars) && cars
                         .filter(car => car.purpose === 3)
                 }
-                // cars={
-                //     Array.isArray(cars) && cars
-                //         .filter(car => car.VIN === (Array.isArray(testdrives) && testdrives
-                //         .filter(td => td.id == params.id))[0].VIN)
-                // }
                 carModels={carModels}
                 empls={
                     Array.isArray(empls) &&empls
@@ -141,6 +114,19 @@ const TestDrive = () => {
             />
         } else {
             return <p>Ожидание загрузки формы обновления...</p>
+        }
+    };
+
+    const renderDeleteFeature = () => {
+        if (testdrives) {
+            return <TestDriveDelete 
+                testdrive={
+                    Array.isArray(testdrives) && testdrives
+                        .filter(td => td.id == params.id)
+                }
+            />
+        } else {
+            return <p>Ожидание загрузки функции удаления...</p>
         }
     };
 
@@ -159,6 +145,11 @@ const TestDrive = () => {
                             </Col>
                             <Col xs lg="6">
                                 {renderTestDriveUpdate()}
+                                {(user.user.is_superuser || user.user.is_sales_director) ? (
+                                    <div className="mt-3"> 
+                                        {renderDeleteFeature()}
+                                    </div>
+                                ) : (<></>)}
                             </Col>
                         </Row>
                     ) : (
