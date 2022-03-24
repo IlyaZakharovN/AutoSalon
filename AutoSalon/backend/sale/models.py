@@ -46,7 +46,7 @@ class Sale(models.Model):
     VIN = models.ForeignKey(
         Car, 
         on_delete=models.DO_NOTHING, # models.SET_DEFAULT, default='A0000000000000000',
-        validators=[RegexValidator(r'^(?=.*?\d)(?=.*?[A-Z])[A-Z\d]{17}')]
+        validators=[RegexValidator(r'^(?=.*?\d)(?=.*?[A-Z])[A-Z\d]{17}', 'VIN должен состоять из 17 заглавных букв и цифр.')]
     )
 
     seller = models.ForeignKey(
