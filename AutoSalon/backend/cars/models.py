@@ -39,7 +39,8 @@ class Car(models.Model):
         primary_key=True, 
         editable=True, 
         max_length=17,
-        validators=[RegexValidator('^(([(A-Z)*(\d)*]){17}|([(\d)*(A-Z)*]){17})$', 'VIN должен состоять из 17 заглавных букв и цифр.')]
+        validators=[RegexValidator(r'^(?=.*?\d)(?=.*?[A-Z])[A-Z\d]{17}', 'VIN должен состоять из 17 заглавных букв и цифр.')]
+        # validators=[RegexValidator('^(([(A-Z)*(\d)*]){17}|([(\d)*(A-Z)*]){17})$', 'VIN должен состоять из 17 заглавных букв и цифр.')]
     ) # , default=11111111111111111, validators=[MaxValueValidator(99999999999999999)]
 
     model_id = models.ForeignKey(CarModel, on_delete=models.SET_DEFAULT, default=0)
