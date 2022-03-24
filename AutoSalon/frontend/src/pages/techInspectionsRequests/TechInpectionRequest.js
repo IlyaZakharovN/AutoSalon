@@ -5,12 +5,14 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import { TechInpectionRequestDetail } from "../../components/tech-inspection-requests/techInspRequest-detail";
+import { TechInpectionRequestUpdate } from "../../components/tech-inspection-requests/techInspectionRequest-patch";
 
 import { 
     retriveCars, carsSelector 
 } from "../../slices/carSlice";
 import { 
-    getAllCarModels, carModelsSelector } from "../../slices/carModelsSlice";
+    getAllCarModels, carModelsSelector 
+} from "../../slices/carModelsSlice";
 import { 
     fetchEmplData, retriveEmplData, employeeSelector 
 } from "../../slices/employeeSlice";
@@ -83,11 +85,33 @@ const TechInpectionRequest = () => {
             return <p>Ожидание загрузки информации о заявке...</p>
         }
     };
+
+    const renderUpdate = () => {
+        if (
+            techInspectionRequests && user && cars &&
+            carModels && techInspections
+        ) {
+            return <TechInpectionRequestUpdate
+                techInspRequest={techInspectionRequests}
+                techInspection={
+                    Array.isArray(techInspections) && techInspections
+                        .filter(tI => tI.request === techInspectionRequests.id)
+                }
+                cars={
+                    Array.isArray(cars) && cars
+                        .filter(car => car.status === 1)
+                }
+                carModels={carModels}
+            />
+        } else {
+            return <p>Ожидание загрузки формы обновления...</p>
+        }
+    };
     
     return (
         isAuthenticated ? (
             (!techInspectionRequests && !empls && !cars &&
-            !carModels && !techInspections) ? (
+            !carModels && !techInspections && !user) ? (
                 <div>Ожидание загрузки данных</div>
             ) : (
                 <section>
@@ -95,6 +119,13 @@ const TechInpectionRequest = () => {
                         <Col xs lg="6">
                             {renderDetail()}
                         </Col>
+                        {user.user.id === techInspectionRequests.requester ? (
+                            <Col xs lg="4">
+                                {renderUpdate()}
+                            </Col>
+                        ) : (
+                            <></>
+                        )}
                     </Row>
                 </section>
             )

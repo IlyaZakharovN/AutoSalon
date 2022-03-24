@@ -20,7 +20,7 @@ export const TechInpectionRequestDetail = ({
                     .map(carModel => (
                         <Fragment>
                             {techInspection.length ? (
-                                <p>Тех. остмотр
+                                <p>Тех. осмотр
                                     <span>{` - `}
                                         <Link to={`/tech-inspections/${techInspection.id}`}>
                                             {techInspection.end_date ? (

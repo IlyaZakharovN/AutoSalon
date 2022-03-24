@@ -89,7 +89,7 @@ export const CreateTechInpectionRequest = ({
                         }
                     </Form.Select>
                 </Form.Group>
-                {errors.VIN && <p>Выберите модель автомобиля, которую клиент хочет протестировать.</p>}
+                {errors.VIN && <p>Выберите автомобиль, которому требуется тех. осмотр.</p>}
                 
                 <div>
                     <button 
