@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-export const TechInpectionRequestDetail = ({
+export const DetailizeTechInpectionRequest = ({
     techInspRequest, empl, car,
     carModels, techInspection
 }) => {

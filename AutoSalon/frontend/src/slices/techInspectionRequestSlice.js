@@ -72,7 +72,7 @@ export const updateTechInspectionRequest = createAsyncThunk(
 );
 
 ///// Delete tech inspection request /////
-export const deleteTestDrive = createAsyncThunk(
+export const deleteTechInspectionRequest = createAsyncThunk(
     "techInspectionRequest/delete",
     async ({ id }) => {
         try {

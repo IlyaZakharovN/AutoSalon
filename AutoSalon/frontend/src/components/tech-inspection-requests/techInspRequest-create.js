@@ -16,6 +16,7 @@ export const CreateTechInpectionRequest = ({
         requester: user.id,
         date: null,
         VIN: null,
+        reason: "",
     });
 
     const { register, handleSubmit, formState: { errors } } = useForm({reValidateMode: 'onChange',}); 
@@ -23,7 +24,7 @@ export const CreateTechInpectionRequest = ({
     const dispatch = useDispatch(); 
 
     const handleTIRChange = event => {
-        // console.log(event.target.name, " - ", event.target.value);
+        console.log(event.target.name, " - ", event.target.value);
         setNewTIR({ ...newTechInspRequest, [event.target.name]: event.target.value });
         // console.log(newTechInspRequest);
     };
@@ -38,14 +39,25 @@ export const CreateTechInpectionRequest = ({
         newTirData.append('requester', newTechInspRequest.requester);
         newTirData.append('date', today);
         newTirData.append('VIN', newTechInspRequest.VIN);
+        newTirData.append('reason', newTechInspRequest.reason);
 
-        if (newTirData.VIN !== null) {
+        await console.log(newTirData.getAll('VIN'));
+
+        for (var value of newTirData.values()) {
+            await console.log(value);
+        }
+
+        if (newTechInspRequest.VIN !== null) {
+            await console.log(newTechInspRequest.VIN);
             await dispatch(createTechInspectionRequest(newTirData))
                 .unwrap()
                 .catch(e => {
                     console.log('Error happened while running saveTIR');
                     console.log(e);
-                });
+                })
+            //     .then(alert("Заявка на тех. осмотр была добавлена."))
+                // .then(dispatch(getAllTechInspectionRequests()))
+                // .then(window.location.reload());
 
             await alert("Заявка на тех. осмотр была добавлена.");
             await dispatch(getAllTechInspectionRequests());
@@ -90,6 +102,24 @@ export const CreateTechInpectionRequest = ({
                     </Form.Select>
                 </Form.Group>
                 {errors.VIN && <p>Выберите автомобиль, которому требуется тех. осмотр.</p>}
+
+                <Form.Group className='mb-3'> 
+                    <Form.Label className='mb-1' htmlFor="reason">
+                        Причина необходимости в тех. осмотре
+                    </Form.Label>
+                    <textarea
+                        {...register("reason", { required: true })}
+                        className="form-control"
+                        rows="5"
+                        size="md"
+                        type="text"
+                        id="reason"
+                        name="reason"
+                        value={newTechInspRequest.reason}
+                        onChange={handleTIRChange}
+                    />
+                </Form.Group>
+                {errors.reason && <p>Необходимо указать причину необходимости в тех. осмотре</p>}
                 
                 <div>
                     <button 
