@@ -108,11 +108,7 @@ const techInspectionRequestSlice = createSlice({
         [createTechInspectionRequest.fulfilled]: (state, action) => {
             console.log(action.payload);
             state.push(action.payload);
-            // return { ...state };
         },
-        // [createTestDrive.pending]: (state, action) => {
-        //     console.log(action.meta.arg);
-        // },
         [createTechInspectionRequest.rejected]: (state, action) => {
             if (action.payload) {
                 state.error = action.payload.errorMessage;
