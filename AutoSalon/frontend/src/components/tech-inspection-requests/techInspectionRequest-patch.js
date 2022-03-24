@@ -6,12 +6,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import { updateTechInspectionRequest } from "../../slices/techInspectionRequestSlice";
 
-export const TechInpectionRequestUpdate = ({
+export const UpdateTechInpectionRequest = ({
     techInspRequest, techInspection, cars, 
     carModels,
 }) => {
-    // console.log(cars);
-
     const dispatch = useDispatch();
     const { register, handleSubmit, formState: { errors } } = useForm({reValidateMode: 'onChange',}); 
 

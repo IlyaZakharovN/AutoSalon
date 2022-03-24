@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import { TechInpectionRequestDetail } from "../../components/tech-inspection-requests/techInspRequest-detail";
-import { TechInpectionRequestUpdate } from "../../components/tech-inspection-requests/techInspectionRequest-patch";
+import { DetailizeTechInpectionRequest } from "../../components/tech-inspection-requests/techInspRequest-detail";
+import { UpdateTechInpectionRequest } from "../../components/tech-inspection-requests/techInspectionRequest-patch";
+import { DeleteTechInspectionRequest } from "../../components/tech-inspection-requests/techInspectionRequest-delete";
 
 import { 
     retriveCars, carsSelector 
@@ -61,7 +62,7 @@ const TechInpectionRequest = () => {
             // techInspectionRequests
             //     .filter(tir => tir.id == params.id)[0];
 
-            return <TechInpectionRequestDetail
+            return <DetailizeTechInpectionRequest
                 techInspRequest={techInspectionRequests}
                 // empl={
                 //     Array.isArray(empls) && empls
@@ -91,7 +92,7 @@ const TechInpectionRequest = () => {
             techInspectionRequests && user && cars &&
             carModels && techInspections
         ) {
-            return <TechInpectionRequestUpdate
+            return <UpdateTechInpectionRequest
                 techInspRequest={techInspectionRequests}
                 techInspection={
                     Array.isArray(techInspections) && techInspections
@@ -105,6 +106,20 @@ const TechInpectionRequest = () => {
             />
         } else {
             return <p>Ожидание загрузки формы обновления...</p>
+        }
+    };
+
+    const renderDelete = () => {
+        if (techInspectionRequests && techInspections) {
+            return <DeleteTechInspectionRequest
+                techInspRequest={techInspectionRequests}
+                techInspection={
+                    Array.isArray(techInspections) && techInspections
+                        .filter(tI => tI.request === techInspectionRequests.id)
+            }
+            />
+        } else {
+            return <p>Ожидание загрузки функции удаления...</p>
         }
     };
     
@@ -122,6 +137,10 @@ const TechInpectionRequest = () => {
                         {user.user.id === techInspectionRequests.requester ? (
                             <Col xs lg="4">
                                 {renderUpdate()}
+
+                                <div className="mt-3"> 
+                                    {renderDelete()}
+                                </div>
                             </Col>
                         ) : (
                             <></>
