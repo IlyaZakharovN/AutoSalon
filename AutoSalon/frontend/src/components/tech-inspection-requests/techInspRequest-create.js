@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 
 import { 
-    createTechInspectionRequest, getAllTechInspectionRequests 
+    createTechInspectionRequest, 
+    getAllTechInspectionRequests 
 } from "../../slices/techInspectionRequestSlice";
 
 export const CreateTechInpectionRequest = ({
@@ -45,7 +46,7 @@ export const CreateTechInpectionRequest = ({
 
         for (var value of newTirData.values()) {
             await console.log(value);
-        }
+        };
 
         if (newTechInspRequest.VIN !== null) {
             await console.log(newTechInspRequest.VIN);
@@ -55,13 +56,9 @@ export const CreateTechInpectionRequest = ({
                     console.log('Error happened while running saveTIR');
                     console.log(e);
                 })
-            //     .then(alert("Заявка на тех. осмотр была добавлена."))
-                // .then(dispatch(getAllTechInspectionRequests()))
-                // .then(window.location.reload());
-
-            await alert("Заявка на тех. осмотр была добавлена.");
-            await dispatch(getAllTechInspectionRequests());
-            window.location.reload();
+                .then(alert("Заявка на тех. осмотр была добавлена."))
+                .then(dispatch(getAllTechInspectionRequests()))
+                .then(window.location.reload());
         } else {
             await alert("Выберите автомобиль, который нуждается в тех. осмотре.");
         }
