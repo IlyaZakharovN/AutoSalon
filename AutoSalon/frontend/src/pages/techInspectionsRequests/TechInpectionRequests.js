@@ -43,6 +43,7 @@ const TechInspectionRequests = () => {
         await dispatch(getAllTechInspections());
         await dispatch(getAllTechInspectionRequests());
         await dispatch(retriveEmplData());
+        await dispatch(getUserDetails());
     }, [dispatch]);
 
     useEffect(() => {
@@ -104,8 +105,7 @@ const TechInspectionRequests = () => {
                 )
             ) : (
                 <h6>У вас нет прав доступа к этой странице</h6>
-            )}
-            
+            )} 
         </section>
     );
 };
