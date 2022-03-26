@@ -7,6 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { DetailizeTechInpectionRequest } from "../../components/tech-inspection-requests/techInspRequest-detail";
 import { UpdateTechInpectionRequest } from "../../components/tech-inspection-requests/techInspectionRequest-patch";
 import { DeleteTechInspectionRequest } from "../../components/tech-inspection-requests/techInspectionRequest-delete";
+import { CreateTechInpectionFrom } from "../../components/tech-inspection/create/tech-inspection-create-from";
 
 import { 
     retriveCars, carsSelector 
@@ -44,10 +45,9 @@ const TechInpectionRequest = () => {
         await dispatch(getAllCarModels());
         await dispatch(retriveCars());
         await dispatch(getAllTechInspections());
-        // await dispatch(getAllTechInspectionRequests());
         await dispatch(fetchTechInspectionRequest(params.id));
         await dispatch(retriveEmplData());
-    }, [dispatch]);
+    }, [dispatch]); 
 
     useEffect(() => {
         initFetch();
@@ -58,16 +58,8 @@ const TechInpectionRequest = () => {
             techInspectionRequests && empls && cars &&
             carModels && techInspections
         ) {
-            // const theTIR = Array.isArray(techInspectionRequests) &&
-            // techInspectionRequests
-            //     .filter(tir => tir.id == params.id)[0];
-
             return <DetailizeTechInpectionRequest
                 techInspRequest={techInspectionRequests}
-                // empl={
-                //     Array.isArray(empls) && empls
-                //         .filter(empl => empl.id === theTIR.requester)
-                // }
                 empl={
                     Array.isArray(empls) && empls
                         .filter(empl => empl.id === techInspectionRequests.requester)
@@ -77,7 +69,7 @@ const TechInpectionRequest = () => {
                         .filter(car => car.VIN === techInspectionRequests.VIN)
                 }
                 carModels={carModels}
-                techInspection={
+                techInspections={
                     Array.isArray(techInspections) && techInspections
                         .filter(tI => tI.request === techInspectionRequests.id)
                 }
@@ -116,12 +108,26 @@ const TechInpectionRequest = () => {
                 techInspection={
                     Array.isArray(techInspections) && techInspections
                         .filter(tI => tI.request === techInspectionRequests.id)
-            }
+                }
             />
         } else {
             return <p>Ожидание загрузки функции удаления...</p>
         }
     };
+
+    const renderCreate = () => {
+        if (
+            techInspectionRequests && techInspections && user
+        ) {
+            return <CreateTechInpectionFrom
+                techInspRequest={techInspectionRequests}
+                techInspections={techInspections}
+                user={user.user}
+            />
+        } else {
+            return <p>Ожидание загрузки функции создания тех. осмотра...</p>
+        }
+    }
     
     return (
         isAuthenticated ? (
@@ -133,14 +139,27 @@ const TechInpectionRequest = () => {
                     <Row className="mt-3 justify-content-md-center">
                         <Col xs lg="6">
                             {renderDetail()}
+                            {(user.user.is_tech_inspector ||
+                            user.user.is_sales_director ||
+                            user.user.is_superuser) ? (
+                                renderCreate()
+                            ) : (
+                                <></>
+                            )}
+                            {(user.user.is_tech_inspector ||
+                            user.user.is_sales_director ||
+                            user.user.is_superuser ||
+                            user.user.id === techInspectionRequests.requester) ? (
+                                <div className="mt-3"> 
+                                    {renderDelete()}
+                                </div>
+                            ) : (
+                                <></>
+                            )}
                         </Col>
                         {user.user.id === techInspectionRequests.requester ? (
                             <Col xs lg="4">
                                 {renderUpdate()}
-
-                                <div className="mt-3"> 
-                                    {renderDelete()}
-                                </div>
                             </Col>
                         ) : (
                             <></>

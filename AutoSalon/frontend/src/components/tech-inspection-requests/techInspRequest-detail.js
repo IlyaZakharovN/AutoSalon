@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 export const DetailizeTechInpectionRequest = ({
     techInspRequest, empl, car,
-    carModels, techInspection
+    carModels, techInspections
 }) => {
     return (
         <Fragment>
@@ -19,23 +19,25 @@ export const DetailizeTechInpectionRequest = ({
                     .filter(carModel => carModel.id === car.model_id)
                     .map(carModel => (
                         <Fragment>
-                            {techInspection.length ? (
-                                <p>Тех. осмотр
-                                    <span>{` - `}
-                                        <Link to={`/tech-inspections/${techInspection.id}`}>
-                                            {techInspection.end_date ? (
-                                                `закончен ${techInspection.end_date.toLocaleDateString()}`
-                                            ) : (
-                                                `начат ${techInspection.start_date.toLocaleDateString()}`
-                                            )}
-                                        </Link>
-                                    </span>
-                                </p>
-                            ) : (
-                                <p className="attention">
-                                    Тех. осмотр по данной заявке еще не был начат.
-                                </p>
-                            )}
+                            {(Array.isArray(techInspections) && techInspections
+                                .filter(ti => ti.request === techInspRequest.id)).length ? (
+                                    techInspections.map(ti => (
+                                        <p>{`Тех. осмотр `}
+                                            <Link to={`/tech-inspections/${ti.id}`}>   
+                                                {ti.end_date ? (
+                                                    `закончен ${ti.end_date}`
+                                                ) : (
+                                                    `начат ${ti.start_date}`
+                                                )}
+                                            </Link>
+                                        </p>
+                                    ))
+                                ) : (
+                                    <p className="attention">
+                                        Заявка не рассмотрена
+                                    </p>
+                                )
+                            }
                             <p>Автомобиль 
                                 <span>{` - `}
                                     <Link to={`/car/${car.VIN}`}>

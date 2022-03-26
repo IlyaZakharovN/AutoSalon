@@ -60,9 +60,9 @@ export const updateTechInspection = createAsyncThunk(
     "techInspection/partial-update",
     async ({ id, data, rejectWithValue }) => {
         try {
-            console.log('Initial data - ', data);
+            // console.log('Initial data - ', data);
             const res = await axiosMultipart.patch(`/techinspections/tech-inspections/${id}/`, data);
-            console.log('Updated data - ', res.data);
+            // console.log('Updated data - ', res.data);
             return res.data;
         } catch (err) {
             console.log("Error happened while patching a tech inspection record.");

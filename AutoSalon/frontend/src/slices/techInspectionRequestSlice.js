@@ -29,7 +29,7 @@ export const fetchTechInspectionRequest = createAsyncThunk(
     async (id, { rejectWithValue }) => {
         try {
             const res = await axiosDefault.get(`/techinspections/requests/${id}/`);
-            console.log(res.data);
+            // console.log(res.data);
             return res.data;
         } catch (err) {
             console.log("Error happened while fetching a tech inspection request.");
@@ -59,9 +59,9 @@ export const updateTechInspectionRequest = createAsyncThunk(
     "techInspectionRequest/partial-update",
     async ({ id, data, rejectWithValue }) => {
         try {
-            console.log('Initial data - ', data);
+            // console.log('Initial data - ', data);
             const res = await axiosDefault.patch(`/techinspections/requests/${id}/`, data);
-            console.log('Updated data - ', res.data);
+            // console.log('Updated data - ', res.data);
             return res.data;
         } catch (err) {
             console.log("Error happened while patching a tech inspection request.");
