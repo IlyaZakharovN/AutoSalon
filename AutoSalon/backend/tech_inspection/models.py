@@ -19,6 +19,9 @@ class TechInspectionRequest(models.Model):
 
     reason = models.TextField()
 
+    def __str__(self):
+        return f'{self.id} - {self.VIN}, {self.date}'
+
 class TechInspection(models.Model):
     inspector = models.ForeignKey(
         UserAccount, 
@@ -36,7 +39,7 @@ class TechInspection(models.Model):
         validators=[RegexValidator(r'^(?=.*?\d)(?=.*?[A-Z])[A-Z\d]{17}', 'VIN должен состоять из 17 заглавных букв и цифр.')]
     )
 
-    request = models.OneToOneField(TechInspectionRequest, on_delete=models.DO_NOTHING)    
+    request = models.OneToOneField(TechInspectionRequest, on_delete=models.DO_NOTHING, blank=True, null=True)    
     start_date = models.DateField()
     end_date = models.DateField(null=True)
     conclusion_file = models.FileField(upload_to='tech-inspection-conclusion/', null=True)
@@ -47,8 +50,8 @@ class TechInspection(models.Model):
     class Meta:
         constraints = [
             models.CheckConstraint(
-                check=models.Q(end_date__isnull=True, conclusion_file__isnull=True) | 
-                    models.Q(end_date__isnull=False, conclusion_file__isnull=False),
+                check=models.Q(end_date__isnull=False, conclusion_file__isnull=True) | 
+                    models.Q(end_date__isnull=True, conclusion_file__isnull=False),
                 name='if_ended_than_attach_conclusion'
             )
         ]
