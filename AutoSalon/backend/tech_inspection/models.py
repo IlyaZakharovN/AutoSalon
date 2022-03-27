@@ -47,30 +47,13 @@ class TechInspection(models.Model):
     def __str__(self):
         return f'{self.VIN}, {self.start_date} - {self.end_date}, {self.inspector}'
 
-    class Meta:
-        constraints = [
-            models.CheckConstraint(
-                # check=models.Q(end_date__isnull=False, conclusion_file__isnull=True) | 
-                #     models.Q(end_date__isnull=True, conclusion_file__isnull=False),
-                check=models.Q(end_date__isnull=False, conclusion_file__isnull=False) | 
-                    models.Q(end_date__isnull=True, conclusion_file__isnull=True),
-                name='if_ended_than_attach_conclusion'
-            )
-        ]
-
-# class Conclusion(models.Model):
-#     VIN = models.ForeignKey(
-#         Car, 
-#         on_delete=models.DO_NOTHING,
-#         validators=[RegexValidator('^(([(A-Z)*(\d)*]){17}|([(\d)*(A-Z)*]){17})$', 'VIN должен состоять из 17 заглавных букв и цифр.')]
-#     )
-
-#     tech_inspection = models.OneToOneField(TechInspection, on_delete=models.DO_NOTHING)
-
-#     inspector = models.ForeignKey(
-#         UserAccount, 
-#         on_delete=models.DO_NOTHING, 
-#         limit_choices_to=(models.Q(is_sales_director=True) | models.Q(is_tech_inspector=True) | models.Q(is_superuser=True))
-#     )
-
-#     conclusion_file = models.FileField(upload_to='tech-inspection-conclusion/')
+    # class Meta:
+    #     constraints = [
+    #         models.CheckConstraint(
+    #             # check=models.Q(end_date__isnull=False, conclusion_file__isnull=True) | 
+    #             #     models.Q(end_date__isnull=True, conclusion_file__isnull=False),
+    #             check=models.Q(end_date__isnull=False, conclusion_file__isnull=False) | 
+    #                 models.Q(end_date__isnull=True, conclusion_file__isnull=True),
+    #             name='if_ended_than_attach_conclusion'
+    #         )
+    #     ]

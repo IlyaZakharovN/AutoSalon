@@ -45,9 +45,10 @@ export const createTechInspection = createAsyncThunk(
     async (data, { rejectWithValue }) => {
         try {
             const res = axiosMultipart.post("/techinspections/tech-inspections/", data);
-            console.log(data);
+            console.log(res.data);
             return res.data;
         } catch (err) {
+            console.log("Posted data - " + data);
             console.log("Error happened while creating a tech inspection record.");
             console.log(err);
             return rejectWithValue(err.response.data);

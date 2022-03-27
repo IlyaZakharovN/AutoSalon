@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+import { DeleteTechInspection } from "../../components/tech-inspection/tech-inspection-delete";
 import { DetailizeTechInpection } from "../../components/tech-inspection/tech-inspection-detail";
 import { UpdateTechInpection } from "../../components/tech-inspection/tech-inspection-patch";
 
@@ -109,6 +110,28 @@ const TechInspection = () => {
         }
     };
 
+    const renderDelete = () => {
+        if (
+            techInspection && techInspectionRequests && cars
+        ) {
+            return <DeleteTechInspection
+                techInspection={techInspection}
+                techInspectionRequest={
+                    Array.isArray(techInspectionRequests) &&
+                    techInspectionRequests
+                        .filter(tir => tir.id == techInspection.request)
+                }
+                car={
+                    Array.isArray(cars) && cars
+                        .filter(car => car.VIN == techInspection.VIN)
+                }
+
+            />
+        } else {
+            return <p>Ожидание загрузки функции удаления...</p>
+        }
+    };
+
     return (
         isAuthenticated ? (
             (!techInspection && !techInspectionRequests && !user &&
@@ -126,6 +149,10 @@ const TechInspection = () => {
                         user.user.is_superuser) ? (
                             <Col xs lg="4">
                                 {renderUpdate()}
+
+                                <div className="mt-3"> 
+                                    {renderDelete()}
+                                </div>
                             </Col>
                         ) : (
                             <></>

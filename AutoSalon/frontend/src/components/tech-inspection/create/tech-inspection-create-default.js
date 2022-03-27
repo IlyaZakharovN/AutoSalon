@@ -8,6 +8,8 @@ import {
     getAllTechInspections
 } from "../../../slices/techInspectionSlice";
 
+import { updateCar } from "../../../slices/carSlice";
+
 export const CreateTechInpection = ({
     user, cars, carModels,
     requests
@@ -16,9 +18,6 @@ export const CreateTechInpection = ({
         inspector: user.id,
         VIN: null,
         request: null,
-        // start_date: null,
-        // end_date: null,
-        // conclusion_file: "",
     });
 
     const { register, handleSubmit, formState: { errors } } = useForm({reValidateMode: 'onChange',}); 
@@ -28,33 +27,18 @@ export const CreateTechInpection = ({
 
     const handleTiChange = event => {
         // console.log(newTI);
-        console.log(event.target.name, " - ", event.target.value);
+        // console.log(event.target.name, " - ", event.target.value);
         // console.log(typeof(event.target.value));
         setNewTI({ ...newTI, [event.target.name]: event.target.value });
-        // if (event.target.name === 'request') {
-        //     setNewTI({ ...newTI, [event.target.name]: event.target.value });
-
-        //     const theVIN = (Array.isArray(requests) && requests
-        //         .filter(r => r.id === newTI.request));
-        //     // console.log(event.target.value);
-
-        //     setNewTI({ ...newTI, [newTI.VIN]: theVIN });
-        // }
-        // else if (event.target.name === 'VIN') {
-        //     setNewTI({ ...newTI, [event.target.name]: event.target.value });
-        //     setNewTI({ ...newTI, [newTI.request]: '' });
-        // }
-        // console.log(newTI);
     };
 
-    // const handleDoc = event => {
-    //     // console.log(event.target.name, " - ", event.target.files);
-    //     setConclFile(event.target.files[0]);
-    //     // console.log(saleDoc);
-    // };
+    const saveData = async (data, event) => {
+        if (event && event.preventDefault) { 
+            event.preventDefault(); 
+        };
 
-    const saveTI = async (data, event) => {
-        event.preventDefault(); 
+        let carPatchData = new FormData();
+        carPatchData.append('status', 2);
 
         const date = new Date();
         const today = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
@@ -67,14 +51,6 @@ export const CreateTechInpection = ({
         };
         newTiData.append('start_date', today);
 
-        // newTiData.append('end_date', newTI.end_date);
-        // newTiData.append('conclusion_file', conclFile);
-
-        // console.log(' ----- ');
-        // for (var pair of newTiData.entries()) {
-        //     console.log(pair[0]+ ' - '+ pair[1]);
-        // }
-
         if (newTI.VIN !== null || newTI.request !== null) {
             if (
                 newTI.VIN === null || 
@@ -84,21 +60,36 @@ export const CreateTechInpection = ({
             ) {
                 const theVIN = Array.isArray(requests) && requests
                     .filter(r => r.id == newTI.request)[0].VIN;
-                console.log('theVIN', theVIN);
+                // console.log('theVIN', theVIN);
                 newTiData.delete('VIN');
                 newTiData.append('VIN', theVIN);
             };
-            
+
+            // for (var pair of newTiData.entries()) {
+            //     await console.log(pair[0]+ ' - '+ pair[1]);
+            // };
+
             await dispatch(createTechInspection(newTiData))
                 .unwrap()
                 .catch(e => {
-                    console.log('Error happened while running saveTI');
+                    console.log('Error happened while dispatching createTechInspection');
                     console.log(e);
                 })
+                .then(
+                    dispatch(updateCar({ 
+                        id: newTiData.get('VIN'), 
+                        data: carPatchData 
+                    }))
+                    .unwrap()
+                    .then(alert('Статус автомобиля изменен на "На техосмотре".'))
+                    .catch(e => {
+                        console.log("Error happened while dispatching updateCar.");
+                        console.log(e);
+                    })
+                )
                 .then(alert("Запись тех. осмотра была добавлена."))
                 .then(dispatch(getAllTechInspections()))
                 .then(window.location.reload());
-            
         } else {
             await alert("Выберите автомобиль, который нуждается в тех. осмотре.");
         };
@@ -108,7 +99,7 @@ export const CreateTechInpection = ({
         <Fragment>
             <h4>Создать тех. осмотр</h4>
 
-            <Form onSubmit={handleSubmit(saveTI)} className="form-required">
+            <Form onSubmit={handleSubmit(saveData)} className="form-required">
                 <Form.Group className='mb-3'>
                     <Form.Label className='mb-1' htmlFor="request">
                         Заявка на тех. осмотр.
