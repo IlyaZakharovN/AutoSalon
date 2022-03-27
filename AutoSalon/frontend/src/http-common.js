@@ -21,3 +21,15 @@ export const axiosMultipart = axios.create({
         accept: "application/json",
     },
 });
+
+export const handlePDFDownload = ({filename}) => {
+    let fileDownload = require('js-file-download');
+    axios.get('http://127.0.0.1:8000/download/', { 
+        responseType: 'blob',
+    }).then(res => {
+        fileDownload(res.data, `${filename}.pdf`);
+        console.log(res);
+    }).catch(err => {
+        console.log(err);
+    })
+}

@@ -50,8 +50,10 @@ class TechInspection(models.Model):
     class Meta:
         constraints = [
             models.CheckConstraint(
-                check=models.Q(end_date__isnull=False, conclusion_file__isnull=True) | 
-                    models.Q(end_date__isnull=True, conclusion_file__isnull=False),
+                # check=models.Q(end_date__isnull=False, conclusion_file__isnull=True) | 
+                #     models.Q(end_date__isnull=True, conclusion_file__isnull=False),
+                check=models.Q(end_date__isnull=False, conclusion_file__isnull=False) | 
+                    models.Q(end_date__isnull=True, conclusion_file__isnull=True),
                 name='if_ended_than_attach_conclusion'
             )
         ]
