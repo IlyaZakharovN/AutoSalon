@@ -13,7 +13,8 @@ export const ListTechInspections = ({
 
             {Array.isArray(techInspections) && 
             techInspections.map(ti => (
-                Array.isArray(cars) && cars.filter(car => car.VIN === ti.VIN)
+                ti ? (
+                    Array.isArray(cars) && cars.filter(car => car.VIN === ti.VIN)
                     .map(car => (
                         Array.isArray(carModels) && 
                         carModels.filter(carModel => carModel.id === car.model_id)
@@ -71,7 +72,7 @@ export const ListTechInspections = ({
                                     </Col>
                                 </Row>
                             ))
-                    ))
+                    ))) : (<></>)
             ))}
         </Fragment>
     );

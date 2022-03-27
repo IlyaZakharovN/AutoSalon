@@ -107,7 +107,7 @@ export const CreateTechInpection = ({
     return (
         <Fragment>
             <h4>Создать тех. осмотр</h4>
-            {/* if request is selected disable VIN selector */}
+
             <Form onSubmit={handleSubmit(saveTI)} className="form-required">
                 <Form.Group className='mb-3'>
                     <Form.Label className='mb-1' htmlFor="request">
@@ -153,7 +153,6 @@ export const CreateTechInpection = ({
                                             ))
                                     )) 
                             ))
-                            
                         }
                     </Form.Select>
                 </Form.Group>
@@ -176,9 +175,6 @@ export const CreateTechInpection = ({
                         onChange={handleTiChange}
                     >
                         <option key='blankChoice' value />
-                        {/* <option key='blankChoice1' value>
-                            VIN соотвествует заявке
-                        </option> */}
                         {Array.isArray(carModels) && carModels
                             .map((carModel, index) => (
                             Array.isArray(cars) && cars

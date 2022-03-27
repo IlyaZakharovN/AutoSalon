@@ -23,6 +23,8 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
+from tech_inspection.views import DownloadPDF
+
 urlpatterns = [
     # simple jwt
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
@@ -44,3 +46,5 @@ urlpatterns = [
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 
+urlpatterns += path('download/', DownloadPDF),
+

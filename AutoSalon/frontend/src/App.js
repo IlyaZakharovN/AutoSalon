@@ -17,6 +17,7 @@ import Sales from './pages/sale/Sales';
 import TestDrives from './pages/test-drives/TestDrives';
 import TestDrive from './pages/test-drives/TestDrive';
 import TechInspections from './pages/techInspections/TechInspections';
+import TechInspection from './pages/techInspections/TechInspection';
 import TechInspectionRequests from './pages/techInspectionsRequests/TechInpectionRequests';
 import TechInpectionRequest from './pages/techInspectionsRequests/TechInpectionRequest';
 // import { UserLogout } from './slices/userSlice';
@@ -43,7 +44,7 @@ function App() {
                     <Route path="/testdrives" element={<TestDrives/>} />
                     <Route path="/testdrives/:id" element={<TestDrive/>} />
                     <Route path="/tech-inspections" element={<TechInspections/>} />
-                    {/* <Route path="/tech-inspections/:id" element={<TechInspection/>} /> */}
+                    <Route path="/tech-inspections/:id" element={<TechInspection/>} />
                     <Route path="/tech-inspection-requests" element={<TechInspectionRequests/>} />
                     <Route path="/tech-inspection-requests/:id" element={<TechInpectionRequest/>} />
                 </Routes>
