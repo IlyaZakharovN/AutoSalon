@@ -1,5 +1,6 @@
 from rest_framework.permissions import BasePermission, AllowAny, DjangoModelPermissionsOrAnonReadOnly, SAFE_METHODS
 from rest_framework.viewsets import ModelViewSet
+from rest_framework import filters
 
 from .models import CarModel, CarModelPhoto
 from .serializers import CarModelSerializer, CarModelPhotoSerializer
@@ -26,6 +27,12 @@ class CarModelsViewSet(ModelViewSet):
     queryset = CarModel.objects.all()
     serializer_class = CarModelSerializer
     permission_classes = (CustomPermission,)
+    filter_backends = (filters.SearchFilter,)
+    search_fields = [
+        'brand', 
+        'model',
+        'package_name'
+    ]
 
 class CarModelPhotoViewSet(ModelViewSet):
     queryset = CarModelPhoto.objects.all()

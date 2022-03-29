@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework.permissions import BasePermission
 from rest_framework.viewsets import ModelViewSet
 
@@ -20,7 +19,7 @@ class SalePermission(BasePermission):
             return (request.user.is_authenticated and 
                 (request.user.is_superuser or 
                 request.user.is_sales_director or 
-                request.user.is_sales_manager)) # or request.user.is_purchase_manager
+                request.user.is_sales_manager))
         elif view.action in ['destroy',]:
             return (request.user.is_authenticated and 
                 (request.user.is_superuser or 
@@ -47,7 +46,7 @@ class PurchaseTypeViewSet(ModelViewSet):
 
 class SaleTypeViewSet(ModelViewSet):
     queryset = SaleType.objects.all()
-    serializer_class = SaleStatusSerializer
+    serializer_class = SaleTypeSerializer
     permission_classes = (CustomPermission,)
 
 class SaleStatusViewSet(ModelViewSet):

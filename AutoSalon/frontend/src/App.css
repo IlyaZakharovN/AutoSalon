@@ -94,3 +94,11 @@
 .form-required p, .attention {
   color: red;
 }
+
+.card-col {
+  max-width: max-content;
+  height: max-content;
+  margin-bottom: 30px;
+  /* width: 200px;
+  height: 340px; */
+}
