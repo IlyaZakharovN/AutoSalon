@@ -6,14 +6,18 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 // Add Card styles...
 const CarModels = ({ carModels }) => {
-    console.log(carModels);
+    // console.log(carModels);
 
     return (
         <Fragment>
-            <h4>Модели автомобилей</h4>
+            {/* <h4>Модели автомобилей</h4> */}
             <Row>
                 {Array.isArray(carModels) && carModels.map((carModel, index) =>(
-                    <Col sm key={carModel.id}>
+                    <Col 
+                        key={carModel.id} 
+                        sm="4" 
+                        className="card-col"
+                    >
                         <Card key={carModel.id}>
                             <Card.Img variant="top" src={carModel.main_photo}/>
                             <Card.Title>

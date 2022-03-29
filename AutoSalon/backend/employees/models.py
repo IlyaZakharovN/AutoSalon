@@ -3,7 +3,8 @@ from django.db import models
 
 # Create your models here.
 
-class UserAccountManager(BaseUserManager): # class for creating users
+class UserAccountManager(BaseUserManager): 
+    # базовый метод создания учетной записи
     def create_user(self, email, name, password):
         if not email:
             raise ValueError('Users must have an email.')
@@ -15,10 +16,11 @@ class UserAccountManager(BaseUserManager): # class for creating users
             name=name
         )
 
-        user.set_password(password) # to hash the password
+        user.set_password(password) # хеширование пароля
         user.save(using=self._db)
         return user
 
+    # метод создания суперпользователя:
     def create_superuser(self, email, name, password):
         user = self.create_user(email, name, password)
         user.is_superuser = True
@@ -26,7 +28,8 @@ class UserAccountManager(BaseUserManager): # class for creating users
         user.save(using=self._db)
         return user
 
-    # methods for creating user roles:
+    # методы для создания учетных записей 
+    # в зависимости от должностей сотрудников:
     def create_sales_director(self, email, name, password):
         user = self.create_user(email, name, password)
         user.is_sales_director = True
@@ -52,9 +55,10 @@ class UserAccountManager(BaseUserManager): # class for creating users
         return user
 
 class UserAccount(AbstractBaseUser, PermissionsMixin):
-    # basic:
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
+
+    # поля административной панели Django:
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
