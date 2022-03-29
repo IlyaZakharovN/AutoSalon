@@ -80,7 +80,24 @@ export const deleteCarModel = createAsyncThunk(
     }
 );
 
-///// Find by Brand, Model, Year, Body (...) /////
+
+///// Search car model by query /////
+export const searchCarModels = createAsyncThunk(
+    "carModels/filter",
+    async (term, { rejectWithValue }) => {
+        try {
+            const res = await axiosDefault.get(`/carmodels/models/?search=${term}`);
+            console.log(res);
+            console.log(res.data);
+            return res.data;
+        } catch (err) {
+            console.log("Error happened while getting searched car models.");
+            console.log(err);
+            return rejectWithValue(err.response.data);
+        }
+    }
+);
+
 
 const carModelSlice = createSlice({
     name: "carModel",
@@ -93,6 +110,15 @@ const carModelSlice = createSlice({
             // state.carModels.push(action.payload);
         },
         [getAllCarModels.rejected]: (state, action) => {
+            return {
+                ...initialState
+            }
+        },
+
+        [searchCarModels.fulfilled]: (state, action) => {
+            return [...action.payload];
+        },
+        [searchCarModels.rejected]: (state, action) => {
             return {
                 ...initialState
             }
