@@ -44,12 +44,15 @@ const CarPage = () => {
         await dispatch(getAllCarModels());
         await dispatch(getAllPurposes());
         await dispatch(getAllCarStatuses());
-        await dispatch(retriveEmplData());
         await dispatch(retriveStock());
         await dispatch(retriveArrivalTypes());
         await dispatch(getAllCarStatuses());
         await dispatch(getAllCarPhotos());
         await dispatch(getAllCarModelPhotos());
+        
+        if (isAuthenticated) {
+            await dispatch(retriveEmplData());
+        };
     }, [dispatch, params.vin]); 
 
     useEffect(() => {

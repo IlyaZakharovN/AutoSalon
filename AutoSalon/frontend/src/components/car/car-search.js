@@ -5,31 +5,30 @@ import { Link, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import { 
-    getAllCarModels,
-    searchCarModels, 
-    carModelsSelector 
-} from "../../slices/carModelsSlice";
+    retriveCars, 
+    searchCars 
+} from "../../slices/carSlice";
 
-export const SearchCarModels = () => {
+export const SearchCars = () => {
     const [term, setTerm] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleInputChange = event => { 
-        console.log(event.target.value);
+        // console.log(event.target.value);
         setTerm(event.target.value);
     };
 
     const submitHandler = (e) => {
         e.preventDefault();
         if (term === "") return alert("Введите критерий поиска");
-        dispatch(searchCarModels(term));
+        dispatch(searchCars(term));
     };
 
     const clear = () => {
-        dispatch(getAllCarModels())
+        dispatch(retriveCars())
             .then(setTerm(""))
-            .then(navigate("/carmodels/"));
+            .then(navigate("/cars/"));
     };
 
     return (

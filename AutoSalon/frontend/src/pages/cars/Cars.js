@@ -6,6 +6,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import { CreateCar } from "../../components/car/car-create";
 import { CarList } from "../../components/car/car-list";
+import { SearchCars } from "../../components/car/car-search";
+
 import { retriveArrivalTypes, fetchArrivalType, arrivalTypesSelector } from "../../slices/arrivalTypesSlice";
 import { retriveCars, carsSelector } from "../../slices/carSlice";
 import { getAllCarModels, carModelsSelector } from "../../slices/carModelsSlice";
@@ -29,19 +31,33 @@ const Cars = () => {
     // console.log(purposes);
     
     useEffect(() => {
-        dispatch(getUserDetails())
         dispatch(getAllPurposes());
         dispatch(getAllCarModels());
         dispatch(retriveCars());
         dispatch(retriveArrivalTypes());
         dispatch(getAllCarStatuses());
-        dispatch(retriveEmplData());
+
+        if (isAuthenticated) {
+            dispatch(getUserDetails());
+            dispatch(retriveEmplData());
+        };
     }, [dispatch]);
 
     const renderCarList = () => {
         if (cars && carModels && carStatuses) {
             return <CarList 
-                cars={cars} 
+                // cars={cars} 
+                cars={
+                    isAuthenticated ? (
+                        cars
+                    ) : (
+                        Array.isArray(cars) &&
+                        cars.filter(car => 
+                            car.status === 1 && 
+                            car.purpose === 1
+                        )
+                    )
+                } 
                 carModels={carModels}
                 carStatuses={carStatuses}
                 isAuthenticated={isAuthenticated}
@@ -53,7 +69,10 @@ const Cars = () => {
     };
 
     const renderCreateCar = () => {
-        if (cars && carModels && arrivalTypes && carStatuses) {
+        if (
+            cars && carModels && arrivalTypes && 
+            carStatuses
+        ) {
             return <CreateCar 
                 carModels={carModels} 
                 arrivalTypes={arrivalTypes}
@@ -73,24 +92,42 @@ const Cars = () => {
         }
     };
 
+    const renderSearch = () => {
+        if (cars) {
+            return <SearchCars/>
+        }
+    };
+
     return (
-        (!cars && !carModels && !purposes && !carStatuses) ? (
+        (!cars && !carModels && !purposes && 
+        !carStatuses) ? (
             <div>Ожидание загрузки данных</div>
         ) : (
             <section>
                 <Row className="mt-3 justify-content-md-center">
-                { isAuthenticated && (user.user.is_superuser || user.user.is_sales_director || user.user.is_puchase_manager) ? (
+                { isAuthenticated && (
+                    user.user.is_superuser || 
+                    user.user.is_sales_director || 
+                    user.user.is_puchase_manager
+                ) ? (
                         <Fragment>
-                            <Col xs lg="6">
+                            <Col xs="5">
+                                <h4>Автомобили в наличии</h4>
+                                {renderSearch()}
                                 {renderCarList()}
                             </Col> 
-                            <Col xs lg="4">
+
+                            <Col xs="3">
                                 {renderCreateCar()}
                             </Col>
                         </Fragment>
                         ):(
                             <Fragment>
-                                {renderCarList()}
+                                <Col xs="5">
+                                    <h4>Автомобили в наличии</h4>
+                                    {renderSearch()}
+                                    {renderCarList()}
+                                </Col> 
                             </Fragment>
                         )   
                     }
