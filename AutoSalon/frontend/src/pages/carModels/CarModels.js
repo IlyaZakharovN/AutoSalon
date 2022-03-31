@@ -9,7 +9,6 @@ import { SearchCarModels } from "../../components/carModels/carModel-search";
 
 import { 
     getAllCarModels, 
-    searchCarModels,
     carModelsSelector 
 } from "../../slices/carModelsSlice";
 import { 
@@ -21,7 +20,6 @@ import {
     retriveUserData 
 } from "../../slices/userSlice";
 
-// Add availability
 const CarModelsList = () => {
     const carModels = useSelector(carModelsSelector);
     const cars = useSelector(carsSelector);
@@ -39,25 +37,12 @@ const CarModelsList = () => {
     }, [initFetch]);
 
     const renderCarModelsList = () => {
-        // console.log(carModels);
         if (carModels) {
             return <CarModels 
                 carModels={
                     carModels
-                    // isAuthenticated ? (
-                    //     carModels
-                    // ) : (
-                    //     Array.isArray(carModels) && 
-                    //     Array.isArray(cars) &&
-                    //     carModels.filter(carModel => 
-                    //         carModel.id === (cars.filter(car => 
-                    //             carModel.id === car.model_id &&
-                    //             car.status === 1 && 
-                    //             (car.puprose === 1 || car.puprose === 3)
-                    //        ).model_id)
-                    //     )
-                    // )
                 }
+                isAuthenticated={isAuthenticated}
             />
         } else {
             return <p>Ожидание загрузки каталога автомобилей...</p>
@@ -91,7 +76,7 @@ const CarModelsList = () => {
                                 {renderSearch()}
                                 {renderCarModelsList()}
                             </Col> 
-                            
+
                             <Col xs="3">
                                 {renderCreateCarModel()}
                             </Col>

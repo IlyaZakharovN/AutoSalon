@@ -80,7 +80,6 @@ export const deleteCarModel = createAsyncThunk(
     }
 );
 
-
 ///// Search car model by query /////
 export const searchCarModels = createAsyncThunk(
     "carModels/filter",

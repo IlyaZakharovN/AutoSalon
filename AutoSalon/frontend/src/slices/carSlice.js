@@ -82,6 +82,23 @@ export const deleteCar = createAsyncThunk(
     }
 );
 
+///// Search car by query /////
+export const searchCars = createAsyncThunk(
+    "car/filter",
+    async (term, { rejectWithValue }) => {
+        try {
+            const res = await axiosDefault.get(`/cars/cars/?search=${term}`);
+            console.log(res);
+            console.log(res.data);
+            return res.data;
+        } catch (err) {
+            console.log("Error happened while getting searched car models.");
+            console.log(err);
+            return rejectWithValue(err.response.data);
+        }
+    }
+);
+
 
 const carSlice = createSlice({
     name: "car",
@@ -99,6 +116,13 @@ const carSlice = createSlice({
             return [...action.payload];
         },
         [retriveCars.rejected]: (state, action) => {
+            return { ...initialState };
+        },
+
+        [searchCars.fulfilled]: (state, action) => {
+            return [...action.payload];
+        },
+        [searchCars.rejected]: (state, action) => {
             return { ...initialState };
         },
 

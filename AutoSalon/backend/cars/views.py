@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from rest_framework import filters
 from rest_framework.permissions import BasePermission
 from rest_framework.viewsets import ModelViewSet
 
@@ -44,6 +44,12 @@ class CarsViewSet(ModelViewSet):
     queryset = Car.objects.all()
     serializer_class = CarSerializer
     permission_classes = (CustomPermission,)
+    filter_backends = (filters.SearchFilter,)
+    search_fields = [
+        'model_id_id__brand', 
+        'model_id_id__model',
+        'model_id_id__package_name'
+    ]
 
 class PurposeViewSet(ModelViewSet):
     queryset = Purpose.objects.all()
