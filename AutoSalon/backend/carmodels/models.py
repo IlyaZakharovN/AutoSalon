@@ -52,7 +52,6 @@ class CarModel(models.Model):
     package_descr = models.TextField(default='Подробное описание комплектации не найдено.')
     base_price = models.DecimalField(max_digits=11, decimal_places=2)
     main_photo = models.ImageField(upload_to='car_models-main/')
-    # add multiple images later
     model_descr = models.TextField(default='Подробное описание модели не найдено.')
 
     def __str__(self):

@@ -16,7 +16,8 @@ export const SearchCarModels = () => {
     const navigate = useNavigate();
 
     const handleInputChange = event => { 
-        console.log(event.target.value);
+        // console.log(event.target.name);
+        // console.log(event.target.value);
         setTerm(event.target.value);
     };
 
@@ -36,9 +37,10 @@ export const SearchCarModels = () => {
         <Fragment>
             <Row>
                 <p>Поиск по производителю, модели и комплектации</p>
-                <Col xs="8">
-                    <Form onSubmit={submitHandler}  className="mb-3">
-                        <Col xs="12">
+
+                <Form onSubmit={submitHandler}  className="mb-3">
+                    <Row>
+                        <Col xs="10">
                             <FormControl
                                 type="search"
                                 value={term}
@@ -47,29 +49,33 @@ export const SearchCarModels = () => {
                                 aria-label="Поиск"
                                 onChange={handleInputChange}
                             />
+                        </Col>
 
+                        <Col xs="1">
                             <Button 
                                 variant="outline-success"
                                 type="submit" 
                                 size="sm"    
                             >
-                                Поиск
+                               Поиск
                             </Button>
                         </Col>
-                    </Form>
-                </Col>
+                    </Row>
 
-                <Col xs="4">
-                    <Button
-                        type="submit"
-                        className="mb-3"
-                        variant="outline-primary"
-                        size="sm"
-                        onClick={clear}
-                    >
-                        Сбросить критерий поиска
-                    </Button>
-                </Col>   
+                    <Row className="mt-2">
+                        <Col xs="8"></Col>
+                        <Col xs="4">
+                            <Button
+                                className="mb-3"
+                                variant="outline-primary"
+                                size="sm"
+                                onClick={clear}
+                            >
+                                Сбросить критерий поиска
+                            </Button>
+                        </Col>                            
+                    </Row>
+                </Form>
             </Row>
         </Fragment>
     );

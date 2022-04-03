@@ -33,10 +33,13 @@ const TestDrives = () => {
     const initFetch = useCallback(async() => {
         await dispatch(getAllCarModels());
         await dispatch(retriveCars());
-        await dispatch(getAllTestDrives());
-        await dispatch(getAllTestDriveStatuses());
-        await dispatch(retriveEmplData());
-        await dispatch(getAllPurposes());
+        
+        if (isAuthenticated) {
+            await dispatch(getAllTestDrives());
+            await dispatch(getAllTestDriveStatuses());
+            await dispatch(retriveEmplData());
+            await dispatch(getAllPurposes());
+        };
     }, [dispatch]);
 
     useEffect(() => {
@@ -63,8 +66,7 @@ const TestDrives = () => {
 
     const renderCreateTestDrive = () => {
         if (
-            cars && carModels && testDriveStatuses &&
-            purposes
+            cars && carModels && testDriveStatuses
         ) {
             if (isAuthenticated && user) {
                 if (user.user.is_sales_director || user.user.is_superuser || user.user.is_sales_manager) {
@@ -89,7 +91,6 @@ const TestDrives = () => {
                             .filter(car => car.purpose === 3)
                     }
                     carModels={carModels}
-                    purposes={purposes}
                 />;
             }
         } else {

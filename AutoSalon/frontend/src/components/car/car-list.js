@@ -8,7 +8,6 @@ export const CarList = ({
     cars, carModels, carStatuses, 
     isAuthenticated, purposes 
 }) => {
-    // console.log(cars);
 
     return (
         <Fragment>
@@ -64,7 +63,7 @@ export const CarList = ({
                                             <></>
                                         )}
                                         <Card.Subtitle>
-                                            Цена - {car.price}
+                                            Цена - {car.price} руб.
                                         </Card.Subtitle>
                                     </Fragment>
                                 ))}

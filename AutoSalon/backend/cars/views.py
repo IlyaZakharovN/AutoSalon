@@ -1,3 +1,4 @@
+from django_filters import rest_framework as django_filters
 from rest_framework import filters
 from rest_framework.permissions import BasePermission
 from rest_framework.viewsets import ModelViewSet
@@ -44,12 +45,18 @@ class CarsViewSet(ModelViewSet):
     queryset = Car.objects.all()
     serializer_class = CarSerializer
     permission_classes = (CustomPermission,)
-    filter_backends = (filters.SearchFilter,)
+    filter_backends = (filters.SearchFilter, django_filters.DjangoFilterBackend,)
     search_fields = [
         'model_id_id__brand', 
         'model_id_id__model',
         'model_id_id__package_name'
     ]
+    filterset_fields = (
+        'model_id_id__transmission_type',
+        'model_id_id__drive_unit',
+        'model_id_id__fuel_type', 
+        'model_id_id__body'
+    )
 
 class PurposeViewSet(ModelViewSet):
     queryset = Purpose.objects.all()

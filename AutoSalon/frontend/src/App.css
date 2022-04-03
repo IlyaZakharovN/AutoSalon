@@ -97,7 +97,7 @@
 .card-col-empl {
   height:22em;
   width: 15em;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   display:-webkit-box;
   display:-ms-flexbox;
   display:flex;
@@ -107,7 +107,7 @@
 .card-col-visitor {
   height: 18em;
   width: 15em;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   display:-webkit-box;
   display:-ms-flexbox;
   display:flex;
@@ -117,7 +117,7 @@
 .model-card-col-empl {
   height: 20em;
   width: 15em;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   display:-webkit-box;
   display:-ms-flexbox;
   display:flex;
@@ -127,7 +127,7 @@
 .model-card-col-visitor {
   height: 20em;
   width: 15em;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -147,4 +147,8 @@
   display: flex;
   top: 0px;
   background-size: cover;
+}
+
+.p-caption {
+  font-size: 20px;
 }
