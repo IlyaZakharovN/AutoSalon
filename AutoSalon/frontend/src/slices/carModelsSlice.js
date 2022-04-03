@@ -82,7 +82,7 @@ export const deleteCarModel = createAsyncThunk(
 
 ///// Search car model by query /////
 export const searchCarModels = createAsyncThunk(
-    "carModels/filter",
+    "carModels/search",
     async (term, { rejectWithValue }) => {
         try {
             const res = await axiosDefault.get(`/carmodels/models/?search=${term}`);
@@ -93,6 +93,35 @@ export const searchCarModels = createAsyncThunk(
             console.log("Error happened while getting searched car models.");
             console.log(err);
             return rejectWithValue(err.response.data);
+        }
+    }
+);
+
+///// Filter car model  /////
+export const filterCarModels = createAsyncThunk(
+    "carModels/filter",
+    async (query_string) => { //parameter, term,
+        // const { p, ...term } = parameter;{parameter, term} : {parameter: string, term: string}
+        try {
+            // const reducedString = query_string.reduce((accumulator, item) => `${item}`, '');
+            // const reducedString = Object.entries(query_string).reduce((accumulator, item) => `=${item}`, '');
+            // const reducedString = Object.values(query_string)
+            //     .reduce((accumulator, item) => accumulator.concat(`=${item}`), '');
+            // await console.log(reducedString);
+            // const res = await axiosDefault.get(`/carmodels/models/?${reducedString}`);
+
+            Object.entries(query_string).forEach(([key, value]) => console.log(`${key}: ${value}`));
+
+            const res = await axiosDefault.get(`/carmodels/models/?drive_unit=${query_string.drive_unit}&transmission_type=${query_string.transmission_type}&fuel_type=${query_string.fuel_type}&body=${query_string.body}`);
+            console.log(res);
+            console.log(res.data);
+            if (res.data) {
+                return res.data;
+            };
+        } catch (err) {
+            console.log("Error happened while getting searched car models.");
+            console.log(err);
+            // return rejectWithValue(err.response.data);
         }
     }
 );
@@ -118,6 +147,15 @@ const carModelSlice = createSlice({
             return [...action.payload];
         },
         [searchCarModels.rejected]: (state, action) => {
+            return {
+                ...initialState
+            }
+        },
+
+        [filterCarModels.fulfilled]: (state, action) => {
+            return [...action.payload];
+        },
+        [filterCarModels.rejected]: (state, action) => {
             return {
                 ...initialState
             }

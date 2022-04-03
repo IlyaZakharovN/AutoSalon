@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { createTestDrive, getAllTestDrives } from "../../../slices/testDriveSlice";
 
 export const CreateTestDriveClient = ({
-    cars, carModels, puproses 
+    cars, carModels
 }) => {
     const initialTDState = Object.freeze({
         VIN: null,

@@ -6,6 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import CreateCarModel from "../../components/carModels/carModel-create";
 import CarModels from "../../components/carModels/carModel-list";
 import { SearchCarModels } from "../../components/carModels/carModel-search";
+import { FilterCarModels } from "../../components/carModels/carModel-filter";
 
 import { 
     getAllCarModels, 
@@ -63,6 +64,14 @@ const CarModelsList = () => {
         }
     };
 
+    const renderFilter = () => {
+        if (carModels) {
+            return <FilterCarModels
+                carModels={carModels}
+            />
+        }
+    };
+
     return (
         (!carModels) ? (
             <div>Ожидание загрузки данных</div>
@@ -74,6 +83,7 @@ const CarModelsList = () => {
                             <Col xs="5">
                                 <h4>Модели автомобилей</h4>
                                 {renderSearch()}
+                                {renderFilter()}
                                 {renderCarModelsList()}
                             </Col> 
 
@@ -85,6 +95,7 @@ const CarModelsList = () => {
                             <Fragment>
                                 <Col xs="5">
                                     <h4>Модели автомобилей</h4>
+                                    {renderFilter()}
                                     {renderSearch()}
                                     {renderCarModelsList()}
                                 </Col> 

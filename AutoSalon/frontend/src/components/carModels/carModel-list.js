@@ -34,6 +34,7 @@ const CarModels = ({
                                 variant="top" 
                                 className="card-img"
                             />
+
                             <Card.Title>
                                 <Link 
                                     to={"/carmodels/" + carModel.id}
@@ -42,6 +43,7 @@ const CarModels = ({
                                     {carModel.brand + " " + carModel.model + " " + carModel.year + " в комплектации " + carModel.package_name}
                                 </Link>
                             </Card.Title>
+                            
                             <Card.Subtitle>
                                 От {carModel.base_price} руб.
                             </Card.Subtitle>
