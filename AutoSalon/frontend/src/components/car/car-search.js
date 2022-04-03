@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from "react";
-import { Card, Col, Row, Form, FormControl, Button } from "react-bootstrap";
+import { Col, Row, Form, FormControl, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import { 
@@ -34,10 +34,13 @@ export const SearchCars = () => {
     return (
         <Fragment>
             <Row>
-                <p>Поиск по производителю, модели и комплектации</p>
-                <Col xs="8">
-                    <Form onSubmit={submitHandler}  className="mb-3">
-                        <Col xs="12">
+                <p className="p-caption">
+                    Поиск по производителю, модели и комплектации
+                </p>
+
+                <Form onSubmit={submitHandler}  className="mb-3">
+                    <Row>
+                        <Col xs="10">
                             <FormControl
                                 type="search"
                                 value={term}
@@ -46,7 +49,9 @@ export const SearchCars = () => {
                                 aria-label="Поиск"
                                 onChange={handleInputChange}
                             />
+                        </Col>
 
+                        <Col xs="1">
                             <Button 
                                 variant="outline-success"
                                 type="submit" 
@@ -55,20 +60,22 @@ export const SearchCars = () => {
                                 Поиск
                             </Button>
                         </Col>
-                    </Form>
-                </Col>
+                    </Row>
 
-                <Col xs="4">
-                    <Button
-                        type="submit"
-                        className="mb-3"
-                        variant="outline-primary"
-                        size="sm"
-                        onClick={clear}
-                    >
-                        Сбросить критерий поиска
-                    </Button>
-                </Col>   
+                    <Row className="mt-2">
+                        <Col xs="8"></Col>
+                        <Col xs="4">
+                            <Button
+                                className="mb-3"
+                                variant="outline-primary"
+                                size="sm"
+                                onClick={clear}
+                            >
+                                Сбросить критерий поиска
+                            </Button>
+                        </Col>                            
+                    </Row>
+                </Form>
             </Row>
         </Fragment>
     );

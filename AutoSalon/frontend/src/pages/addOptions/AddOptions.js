@@ -42,16 +42,18 @@ const AddOptions = () => {
             <Row className="mt-3 justify-content-md-center">
             { isAuthenticated && (user.user.is_superuser || user.user.is_sales_director || user.user.is_sales_manager) ? (
                <Fragment>
-                    <Col xs lg="6">
+                    <Col xs="6">
                         {renderAddOptionList()}
                     </Col> 
-                    <Col xs lg="4">
+                    <Col xs="4">
                         {renderCreateAddOption()}
                     </Col>
                 </Fragment> 
             ):(
                 <Fragment>
-                    {renderAddOptionList()}
+                    <Col xs="6">
+                        {renderAddOptionList()}
+                    </Col>
                 </Fragment>
             )}
             </Row>

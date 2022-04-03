@@ -110,27 +110,27 @@ const TestDrives = () => {
         ) : (
             <section>
                 <Row className="mt-3 justify-content-md-center">
-                { isAuthenticated ? (
-                <Fragment>
-                        <Col xs lg="6">
-                            {renderTestDriveList()}
-                        </Col>
-                        <Col xs lg="4">
-                            {renderCreateTestDrive()}
-                        </Col>
-                    </Fragment> 
-                ):(
-                    <Fragment>
-                        {renderTestDriveClientInfo()}
-                        <Row className="mt-3 justify-content-md-center">
-                            <Col xs lg="4"></Col>
-                            <Col xs lg="4">
+                    {isAuthenticated ? (
+                        <Fragment>
+                            <Col xs="5">
+                                {renderTestDriveList()}
+                            </Col>
+                            <Col xs="3">
                                 {renderCreateTestDrive()}
-                            </Col> 
-                            <Col xs lg="4"></Col>
-                        </Row>
-                    </Fragment>
-                )}
+                            </Col>
+                        </Fragment> 
+                    ):(
+                        <Fragment>
+                            <Col xs="4">
+                                {renderTestDriveClientInfo()}
+                            </Col>
+                            <Row className="mt-3 justify-content-md-center">
+                                <Col xs="4">
+                                    {renderCreateTestDrive()}
+                                </Col> 
+                            </Row>
+                        </Fragment>
+                    )}
                 </Row>
             </section>
         )

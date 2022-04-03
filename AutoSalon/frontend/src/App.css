@@ -120,7 +120,7 @@
   margin-bottom: 20px;
   display:-webkit-box;
   display:-ms-flexbox;
-  display:flex;
+  display: flex;
   overflow: hidden;
 }
 
@@ -130,6 +130,16 @@
   margin-bottom: 20px;
   display: -webkit-box;
   display: -ms-flexbox;
+  display: flex;
+  overflow: hidden;
+}
+
+.te-card-col {
+  height: 24em;
+  width: 15em;
+  margin-bottom: 20px;
+  display:-webkit-box;
+  display:-ms-flexbox;
   display: flex;
   overflow: hidden;
 }
@@ -150,5 +160,38 @@
 }
 
 .p-caption {
-  font-size: 20px;
+  font-size: 18px;
+}
+
+.add-opt-card {
+  height: 8em;
+  width: 12em;
+  margin-bottom: 20px;
+  display: flex;
+  display:-webkit-box;
+  display:-ms-flexbox
+}
+
+.td-card {
+  height: 8em;
+  width: 15em;
+  margin-bottom: 20px;
+  margin: 20px;
+  display: flex;
+  display:-webkit-box;
+  display:-ms-flexbox
+}
+
+.sale-card {
+  height: 14em;
+  width: 15em;
+  margin-bottom: 20px;
+  margin: 20px;
+  display: flex;
+  display:-webkit-box;
+  display:-ms-flexbox
+}
+
+.card-sub {
+  padding-bottom: 10px;
 }

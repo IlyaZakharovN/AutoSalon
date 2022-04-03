@@ -99,6 +99,28 @@ export const searchCars = createAsyncThunk(
     }
 );
 
+///// Filter cars  /////
+export const filterCars = createAsyncThunk(
+    "car/filter",
+    async (query_obj) => { 
+        try {
+            // Object.entries(query_string).forEach(([key, value]) => console.log(`${key}: ${value}`));
+
+            const res = await axiosDefault.get(`/cars/cars/?drive_unit=${query_obj.drive_unit}&transmission_type=${query_obj.transmission_type}&fuel_type=${query_obj.fuel_type}&body=${query_obj.body}&purpose=${query_obj.purpose}&status=${query_obj.status}`);
+            console.log(res);
+            console.log(res.data);
+
+            if (res.data) {
+                return res.data;
+            };
+        } catch (err) {
+            console.log("Error happened while getting filtered cars.");
+            console.log(err);
+            // return rejectWithValue(err.response.data);
+        }
+    }
+);
+
 
 const carSlice = createSlice({
     name: "car",
@@ -124,6 +146,15 @@ const carSlice = createSlice({
         },
         [searchCars.rejected]: (state, action) => {
             return { ...initialState };
+        },
+
+        [filterCars.fulfilled]: (state, action) => {
+            return [...action.payload];
+        },
+        [filterCars.rejected]: (state, action) => {
+            return {
+                ...initialState
+            }
         },
 
         [createCar.fulfilled]: (state, action) => {

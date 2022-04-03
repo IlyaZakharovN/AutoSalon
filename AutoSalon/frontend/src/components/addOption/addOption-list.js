@@ -11,8 +11,13 @@ export const AddOptionList = ({ addOptions }) => {
             <Row>
                 {Array.isArray(addOptions) && addOptions
                     .map((addOption, index) =>(
-                    <Col className="col-6" key={addOption.id}> 
-                        <Card>
+                    <Col 
+                        key={addOption.id}
+                    > 
+                        <Card
+                            sm="2" 
+                            className="add-opt-card"
+                        >
                             <Card.Title>
                                 <Link to={`/add-options/${addOption.id}`}>
                                     {`${addOption.name}`}
