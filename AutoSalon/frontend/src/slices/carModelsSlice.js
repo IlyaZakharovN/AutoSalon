@@ -97,7 +97,7 @@ export const searchCarModels = createAsyncThunk(
     }
 );
 
-///// Filter car model  /////
+///// Filter car models  /////
 export const filterCarModels = createAsyncThunk(
     "carModels/filter",
     async (query_string) => { //parameter, term,
@@ -115,11 +115,12 @@ export const filterCarModels = createAsyncThunk(
             const res = await axiosDefault.get(`/carmodels/models/?drive_unit=${query_string.drive_unit}&transmission_type=${query_string.transmission_type}&fuel_type=${query_string.fuel_type}&body=${query_string.body}`);
             console.log(res);
             console.log(res.data);
+            
             if (res.data) {
                 return res.data;
             };
         } catch (err) {
-            console.log("Error happened while getting searched car models.");
+            console.log("Error happened while getting filtered car models.");
             console.log(err);
             // return rejectWithValue(err.response.data);
         }

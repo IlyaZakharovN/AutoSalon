@@ -8,10 +8,10 @@ export const SaleList = ({
         saleTypes, empls
     }) => {
     return (
-        // get final sale price by multipling sale_price by coefficient
-        // show price including add options
         <Fragment>
             <h4>Записи продаж</h4>
+
+            <Row>
                 {Array.isArray(sales) && sales
                     .map((sale, index) => (
                         Array.isArray(saleTypes) && saleTypes
@@ -20,37 +20,38 @@ export const SaleList = ({
                                 Array.isArray(empls) && empls
                                     .filter(empl => empl.id === sale.seller)
                                     .map((empl, index) => (
-                                        <Row>
-                                            <Col>
-                                                <Card sm key={sale.id} className="mb-3">
+                                            <Col xs="4">
+                                                <Card sm key={sale.id} className="sale-card">
                                                     <Card.Title>
                                                         <Link to={`/sales/${sale.id}`}>
                                                             {`${sale.id} - ${sale.date}, ${sale.VIN}`}
                                                         </Link>
                                                     </Card.Title>
-                                                    <Card.Subtitle>
+
+                                                    <Card.Subtitle className="card-sub">
                                                         {`Стоимость продажи автомобиля - ${sale.sale_price} руб.`}
                                                     </Card.Subtitle>
-                                                    <Card.Subtitle>
+
+                                                    <Card.Subtitle className="card-sub">
                                                         {`Продавец - ${empl.name}`}
                                                     </Card.Subtitle>
-                                                    <Card.Subtitle>
+
+                                                    <Card.Subtitle className="card-sub">
                                                         {`Вид продажи - ${sType.name}`}
                                                     </Card.Subtitle>
+
                                                     {(sale.add_option_id.length) ? (
-                                                        <Card.Subtitle>
+                                                        <Card.Subtitle className="card-sub">
                                                             {`Доп. оборудование установлено`}
                                                         </Card.Subtitle>
-                                                    ) : (
-                                                        <></>
-                                                    )}
+                                                    ) : (<></>)}
                                                 </Card>
                                             </Col>
-                                        </Row>
                                     ))
                             ))
-                    )
-                )}
+                    ))
+                }
+            </Row>
         </Fragment>
     );
 };

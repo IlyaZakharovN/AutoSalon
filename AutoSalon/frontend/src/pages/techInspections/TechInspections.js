@@ -98,13 +98,13 @@ const TechInspections = () => {
                 <section>
                   <Row className="mt-3 justify-content-md-center">
                         <Fragment>
-                            <Col xs lg="6">
+                            <Col xs="5">
                                 {renderList()}
                             </Col>
                             {(user.user.is_tech_inspector ||
                             user.user.is_sales_director ||
                             user.user.is_superuser) ? (
-                                <Col xs lg="4">
+                                <Col xs="3">
                                     {renderCreate()}
                                 </Col>
                             ) : (

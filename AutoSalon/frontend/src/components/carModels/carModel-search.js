@@ -36,7 +36,9 @@ export const SearchCarModels = () => {
     return (
         <Fragment>
             <Row>
-                <p>Поиск по производителю, модели и комплектации</p>
+                <p className="p-caption">
+                    Поиск по производителю, модели и комплектации
+                </p>
 
                 <Form onSubmit={submitHandler}  className="mb-3">
                     <Row>

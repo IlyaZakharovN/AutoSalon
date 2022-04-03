@@ -52,6 +52,8 @@ class CarsViewSet(ModelViewSet):
         'model_id_id__package_name'
     ]
     filterset_fields = (
+        'purpose',
+        'status',
         'model_id_id__transmission_type',
         'model_id_id__drive_unit',
         'model_id_id__fuel_type', 

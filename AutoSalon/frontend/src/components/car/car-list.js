@@ -13,10 +13,9 @@ export const CarList = ({
         <Fragment>
             <Row>
                 {Array.isArray(cars) && cars.map((car, index) => (
-                    <Col>
+                    <Col xs="4">
                         <Card 
                             key={car.VIN}
-                            sm="4"
                             className={isAuthenticated ? (
                                 "card-col-empl"
                             ) : (
@@ -38,6 +37,7 @@ export const CarList = ({
                                             variant="top" 
                                             className="card-img"
                                         />
+
                                         <Card.Title>
                                             <Link
                                                 to={"/car/" + car.VIN}
@@ -50,6 +50,7 @@ export const CarList = ({
                                                 )}
                                             </Link>
                                         </Card.Title>
+
                                         {isAuthenticated ? (
                                             Array.isArray(purposes) && 
                                             purposes
@@ -62,6 +63,7 @@ export const CarList = ({
                                         ) : (
                                             <></>
                                         )}
+                                        
                                         <Card.Subtitle>
                                             Цена - {car.price} руб.
                                         </Card.Subtitle>

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import { CreateCar } from "../../components/car/car-create";
+import { FilterCars } from "../../components/car/car-filter";
 import { CarList } from "../../components/car/car-list";
 import { SearchCars } from "../../components/car/car-search";
 
@@ -98,6 +99,14 @@ const Cars = () => {
         }
     };
 
+    const renderFilter = () => {
+        if (carModels) {
+            return <FilterCars
+                isAuthenticated={isAuthenticated}
+            />
+        }
+    };
+
     return (
         (!cars && !carModels && !purposes && 
         !carStatuses) ? (
@@ -114,6 +123,7 @@ const Cars = () => {
                             <Col xs="5">
                                 <h4>Автомобили в наличии</h4>
                                 {renderSearch()}
+                                {renderFilter()}
                                 {renderCarList()}
                             </Col> 
 
@@ -126,6 +136,7 @@ const Cars = () => {
                                 <Col xs="5">
                                     <h4>Автомобили в наличии</h4>
                                     {renderSearch()}
+                                    {renderFilter()}
                                     {renderCarList()}
                                 </Col> 
                             </Fragment>
